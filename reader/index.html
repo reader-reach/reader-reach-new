@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reader Reach — Reader Area</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    :root {
+      --brown: #4b2d20;
+      --dark: #2f1d16;
+      --soft: #725b4e;
+      --cream: #fffdf8;
+      --butter: #f3df9b;
+      --white: #ffffff;
+      --border: #eadfd6;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--cream);
+      color: var(--dark);
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    header {
+      background: white;
+      border-bottom: 1px solid var(--border);
+      padding: 18px 6%;
+    }
+
+    nav {
+      max-width: 1200px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .logo {
+      color: var(--brown);
+      text-decoration: none;
+      font-size: 25px;
+      font-weight: bold;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: Arial, sans-serif;
+    }
+
+    .email {
+      color: var(--soft);
+      font-size: 13px;
+    }
+
+    button {
+      font: inherit;
+      cursor: pointer;
+    }
+
+    .logout {
+      border: 1px solid var(--border);
+      background: white;
+      color: var(--brown);
+      padding: 9px 14px;
+      border-radius: 9px;
+    }
+
+    .hero {
+      background:
+        linear-gradient(135deg, rgba(75,45,32,.96), rgba(47,29,22,.93));
+      color: white;
+      padding: 75px 6%;
+    }
+
+    .hero-inner {
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .eyebrow {
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-family: Arial, sans-serif;
+      font-size: 11px;
+      color: var(--butter);
+      margin-bottom: 15px;
+    }
+
+    h1 {
+      font-size: clamp(40px, 6vw, 68px);
+      line-height: 1;
+      margin: 0 0 18px;
+    }
+
+    .hero p {
+      max-width: 650px;
+      line-height: 1.7;
+      color: #f5eee8;
+      font-size: 17px;
+    }
+
+    main {
+      max-width: 1200px;
+      margin: auto;
+      padding: 60px 6%;
+    }
+
+    .section-heading {
+      margin-bottom: 28px;
+    }
+
+    .section-heading h2 {
+      color: var(--brown);
+      font-size: 35px;
+      margin: 0 0 8px;
+    }
+
+    .section-heading p {
+      color: var(--soft);
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .books {
+      display: grid;
+      grid-template-columns:
