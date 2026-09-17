@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reader Reach — Sign In</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+    font-family:Georgia,"Times New Roman",serif;
+    background:#f8f2e9;
+    color:#3d2b22;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+.card{
+    width:100%;
+    max-width:430px;
+    background:#fff;
+    padding:40px;
+    border-radius:16px;
+    box-shadow:0 8px 30px rgba(61,43,34,.10);
+}
+
+.logo{
+    font-size:27px;
+    font-weight:bold;
+    margin-bottom:30px;
+}
+
+.logo span{
+    color:#9a7655;
+}
+
+h1{
+    font-size:31px;
+    margin-bottom:10px;
+}
+
+.intro{
+    color:#766257;
+    line-height:1.6;
+    margin-bottom:25px;
+}
+
+label{
+    display:block;
+    font-weight:bold;
+    font-size:14px;
+    margin:16px 0 7px;
+}
+
+input{
+    width:100%;
+    padding:14px;
+    border:1px solid #d8cabc;
+    border-radius:8px;
+    font-family:inherit;
+    font-size:15px;
+}
+
+button{
+    width:100%;
+    margin-top:23px;
+    padding:14px;
+    border:0;
+    border-radius:8px;
+    background:#3d2b22;
+    color:white;
+    font-family:inherit;
+    font-size:16px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#594238;
+}
+
+.message{
+    margin-top:18px;
+    padding:13px;
+    border-radius:8px;
+    line-height:1.5;
+    display:none;
+    font-size:14px;
+}
+
+.error{
+    display:block;
+    background:#f8e9e5;
+    color:#8b3d35;
+}
+
+.success{
+    display:block;
+    background:#edf5eb;
+    color:#315a35;
+}
+
+.links{
+    text-align:center;
+    margin-top:22px;
+    color:#766257;
+    line-height:1.9;
+}
+
+.links a{
+    color:#6d4b35;
+    font-weight:bold;
+    text-decoration:none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+    <div class="logo">
+        Reader <span>Reach</span>
+    </div>
+
+    <h1>Welcome Back</h1>
+
+    <p class="intro">
+        Sign in to access your approved Reader Reach account.
+    </p>
+
+    <form id="loginForm">
+
+        <label for="email">
+            Email Address
+        </label>
+
+        <input
+            type="email"
+            id="email"
+            placeholder="you@example.com"
+            required
+        >
+
+        <label for="password">
+            Password
+        </label>
+
+        <input
+            type="password"
+            id="password"
+            placeholder="Your password"
+            required
+        >
+
+        <button type="submit">
+            Sign In →
+        </button>
+
+    </form>
+
+    <div id="message" class="message"></div>
+
+    <div class="links">
+        Don't have an account?
+        <a href="./">Join Reader Reach</a>
+        <br>
+        <a href="../">← Back to Website</a>
+    </div>
+
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+const SUPABASE_URL =
+    "https://xeoxlgkfgukcxwwcndqt.supabase.co";
+
+const SUPABASE_KEY =
+    "sb_publishable_bMm3mNKrb0szy2Wm3rQWSw_ZVcdjRmV";
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+
+document
+.getElementById("loginForm")
+.addEventListener("submit", async function(e){
+
+    e.preventDefault();
+
+    const email =
+        document.getElementById("email")
+        .value
+        .trim()
+        .toLowerCase();
+
+    const password =
+        document.getElementById("password")
+        .value;
+
+    showMessage(
+        "Signing you in...",
+        "success"
+    );
+
+
+    const {
+        data,
+        error
+    } = await supabaseClient.auth.signInWithPassword({
+        email,
+        password
+    });
+
+
+    if(error){
+
+        showMessage(
+            error.message,
+            "error"
+        );
+
+        return;
+    }
+
+
+    if(!data.user){
+
+        showMessage(
+            "We could not find your account.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    /*
+       Get the user's Reader Reach profile.
+    */
+
+    const {
+        data: profile,
+        error: profileError
+    } = await supabaseClient
+        .from("profiles")
+        .select("role,access_status")
+        .eq("id",data.user.id)
+        .maybeSingle();
+
+
+    if(profileError){
+
+        await supabaseClient.auth.signOut();
+
+        showMessage(
+            "We could not check your Reader Reach access status.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    if(!profile){
+
+        await supabaseClient.auth.signOut();
+
+        showMessage(
+            "Your account profile has not been created yet. Please contact Reader Reach.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    if(profile.access_status !== "approved"){
+
+        await supabaseClient.auth.signOut();
+
+        if(profile.access_status === "denied"){
+
+            showMessage(
+                "Your Reader Reach access request was denied.",
+                "error"
+            );
+
+        }else{
+
+            showMessage(
+                "Your account is waiting for Reader Reach approval.",
+                "error"
+            );
+
+        }
+
+        return;
+    }
+
+
+    /*
+       Approved account:
+       send the user to the correct area.
+    */
+
+    if(profile.role === "author"){
+
+        window.location.href =
+            "../author/";
+
+    }else{
+
+        window.location.href =
+            "../reader/";
+
+    }
+
+});
+
+
+function showMessage(text,type){
+
+    const box =
+        document.getElementById("message");
+
+    box.className =
+        "message " + type;
+
+    box.style.display =
+        "block";
+
+    box.textContent =
+        text;
+
+}
+
+</script>
+
+</body>
+</html>
