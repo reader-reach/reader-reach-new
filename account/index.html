@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Reader Reach — Account</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    :root {
+      --brown: #4b2d20;
+      --brown-dark: #2f1d16;
+      --brown-soft: #725b4e;
+      --cream: #fffdf8;
+      --butter: #f3df9b;
+      --white: #ffffff;
+      --border: #eadfd6;
+      --success: #356b4a;
+      --danger: #9b3d32;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      background: var(--cream);
+      color: var(--brown-dark);
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    header {
+      padding: 20px 6%;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,.94);
+    }
+
+    .nav {
+      max-width: 1200px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .logo {
+      color: var(--brown);
+      text-decoration: none;
+      font-size: 25px;
+      font-weight: bold;
+    }
+
+    .back {
+      color: var(--brown-soft);
+      text-decoration: none;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+    }
+
+    main {
+      min-height: calc(100vh - 80px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 60px 20px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 560px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 42px;
+      box-shadow: 0 18px 50px rgba(75,45,32,.10);
+    }
+
+    .eyebrow {
+      font-family: Arial, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: 12px;
+      color: var(--brown-soft);
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      color: var(--brown);
+      font-size: 42px;
+      line-height: 1.05;
+    }
+
+    .intro {
+      color: var(--brown-soft);
+      line-height: 1.7;
+      margin-bottom: 28px;
+    }
+
+    .role-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 25px;
+    }
+
+    .role-btn {
+      padding: 15px;
+      border: 1px solid var(--border);
+      background: var(--cream);
+      color: var(--brown);
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .role-btn.active {
+      background: var(--butter);
+      border-color: var(--brown);
+    }
+
+    label {
+      display: block;
+      margin: 16px 0 7px;
+      color: var(--brown);
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: var(--brown);
+    }
+
+    .primary {
+      width: 100%;
+      margin-top: 22px;
+      padding: 15px;
+      border: 0;
+      border-radius: 12px;
+      background: var(--brown);
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .secondary {
+      width: 100%;
+      margin-top: 10px;
+      padding: 13px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: white;
+      color: var(--brown);
+      cursor: pointer;
+    }
+
+    .message {
+      display: none;
+      margin-top: 20px;
+      padding: 14px;
+      border-radius: 10px;
+      line-height: 1.5;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+    }
+
+    .message.success {
+      display: block;
+      background: #edf7f0;
+      color: var(--success);
+    }
+
+    .message.error {
+      display: block;
+      background: #fceeed;
+      color: var(--danger);
+    }
+
+    .divider {
+      text-align: center;
+      margin: 25px 0 5px;
+      color: #9b887d;
+      font-family: Arial, sans-serif;
+      font-size: 13px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .account-box {
+      padding: 20px;
+      border-radius: 15px;
+      background: var(--cream);
+      border: 1px solid var(--border);
+      margin-top: 20px;
+    }
+
+    .account-box strong {
+      color: var(--brown);
+    }
+
+    @media (max-width: 600px) {
+      .card {
+        padding: 28px 22px;
+      }
+
+      h1 {
+        font-size: 34px;
+      }
+
+      .role-buttons {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="nav">
+    <a class="logo" href="../index.html">Reader Reach</a>
+    <a class="back" href="../index.html">← Back to website</a>
+  </div>
+</header>
+
+<main>
+
+  <section class="card">
+
+    <!-- SIGN UP / LOGIN -->
+    <div id="authSection">
+
+      <div class="eyebrow">Reader Reach Account</div>
+
+      <h1 id="pageTitle">Create Your Account</h1>
+
+      <p class="intro" id="introText">
+        Choose whether you are joining Reader Reach as a reader or an author.
+        Your access will be checked before you can enter the private areas.
+      </p>
+
+      <div class="role-buttons">
+        <button class="role-btn active" id="readerRole" onclick="chooseRole('reader')">
+          I'm a Reader
+        </button>
+
+        <button class="role-btn" id="authorRole" onclick="chooseRole('author')">
+          I'm an Author
+        </button>
+      </div>
+
+      <label for="email">Email Address</label>
+
+      <input
+        type="email"
+        id="email"
+        placeholder="you@example.com"
+        autocomplete="email"
+      >
+
+      <label for="password">Password</label>
+
+      <input
+        type="password"
+        id="password"
+        placeholder="Create a password"
+        autocomplete="new-password"
+      >
+
+      <button class="primary" onclick="signUp()">
+        Create My Account
+      </button>
+
+      <button class="secondary" onclick="showLogin()">
+        Already have an account? Sign in
+      </button>
+
+      <div id="message" class="message"></div>
+
+    </div>
+
+    <!-- LOGIN -->
+    <div id="loginSection" class="hidden">
+
+      <div class="eyebrow">Welcome Back</div>
+
+      <h1>Sign In</h1>
+
+      <p class="intro">
+        Sign in to check your Reader Reach access.
+      </p>
+
+      <label for="loginEmail">Email Address</label>
+
+      <input
+        type="email"
+        id="loginEmail"
+        placeholder="you@example.com"
+        autocomplete="email"
+      >
+
+      <label for="loginPassword">Password</label>
+
+      <input
+        type="password"
+        id="loginPassword"
+        placeholder="Your password"
+        autocomplete="current-password"
+      >
+
+      <button class="primary" onclick="signIn()">
+        Sign In
+      </button>
+
+      <button class="secondary" onclick="showSignup()">
+        Create a new account
+      </button>
+
+      <div id="loginMessage" class="message"></div>
+
+    </div>
+
+    <!-- ACCOUNT STATUS -->
+    <div id="statusSection" class="hidden">
+
+      <div class="eyebrow">Your Reader Reach Access</div>
+
+      <h1 id="statusTitle">Checking your access...</h1>
+
+      <div id="statusBox" class="account-box"></div>
+
+      <button class="primary hidden" id="enterButton" onclick="enterArea()">
+        Enter Reader Reach
+      </button>
+
+      <button class="secondary" onclick="signOut()">
+        Sign Out
+      </button>
+
+    </div>
+
+  </section>
+
+</main>
+
+<script>
+  const SUPABASE_URL = "https://xeoxlgkfgukcxwwcndqt.supabase.co";
+
+  const SUPABASE_PUBLISHABLE_KEY =
+    "sb_publishable_bMm3mNKrb0szy2Wm3rQWSw_ZVcdjRmV";
+
+  const supabaseClient =
+    window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY
+    );
+
+  let selectedRole = "reader";
+  let currentProfile = null;
+
+  function chooseRole(role) {
+    selectedRole = role;
+
+    document
+      .getElementById("readerRole")
+      .classList.toggle("active", role === "reader");
+
+    document
+      .getElementById("authorRole")
+      .classList.toggle("active", role === "author");
+  }
+
+  function showMessage(text, type = "success") {
+    const box = document.getElementById("message");
+
+    box.textContent = text;
+    box.className = "message " + type;
+  }
+
+  function showLoginMessage(text, type = "success") {
+    const box = document.getElementById("loginMessage");
+
+    box.textContent = text;
+    box.className = "message " + type;
+  }
+
+  function showLogin() {
+    document.getElementById("authSection").classList.add("hidden");
+    document.getElementById("loginSection").classList.remove("hidden");
+  }
+
+  function showSignup() {
+    document.getElementById("loginSection").classList.add("hidden");
+    document.getElementById("authSection").classList.remove("hidden");
+  }
+
+  async function signUp() {
+
+    const email =
+      document.getElementById("email").value.trim().toLowerCase();
+
+    const password =
+      document.getElementById("password").value;
+
+    if (!email || !password) {
+      showMessage("Please enter your email and password.", "error");
+      return;
+    }
+
+    if (password.length < 6) {
+      showMessage(
+        "Your password must be at least 6 characters.",
+        "error"
+      );
+      return;
+    }
+
+    showMessage("Creating your account...", "success");
+
+    const { data, error } =
+      await supabaseClient.auth.signUp({
+        email,
+        password
+      });
+
+    if (error) {
+      showMessage(error.message, "error");
+      return;
+    }
+
+    /*
+      We intentionally do NOT automatically approve the account.
+
+      The user must have an approved Reader Reach access request.
+    */
+
+    showMessage(
+      "Your account has been created. Please check your email to confirm your account. Your Reader Reach access will still need to be approved.",
+      "success"
+    );
+  }
+
+  async function signIn() {
+
+    const email =
+      document.getElementById("loginEmail").value.trim().toLowerCase();
+
+    const password =
+      document.getElementById("loginPassword").value;
+
+    if (!email || !password) {
+      showLoginMessage(
+        "Please enter your email and password.",
+        "error"
+      );
+      return;
+    }
+
+    showLoginMessage("Signing you in...", "success");
+
+    const { data, error } =
+      await supabaseClient.auth.signInWithPassword({
+        email,
+        password
+      });
+
+    if (error) {
+      showLoginMessage(error.message, "error");
+      return;
+    }
+
+    await checkAccess(data.user);
+  }
+
+  async function checkAccess(user) {
+
+    document.getElementById("authSection").classList.add("hidden");
+    document.getElementById("loginSection").classList.add("hidden");
+    document.getElementById("statusSection").classList.remove("hidden");
+
+    document.getElementById("statusTitle").textContent =
+      "Checking your access...";
+
+    const { data: profile, error } =
+      await supabaseClient
+        .from("profiles")
+        .select("*")
+        .eq("id", user.id)
+        .single();
+
+    if (error || !profile) {
+
+      document.getElementById("statusTitle").textContent =
+        "Account found";
+
+      document.getElementById("statusBox").innerHTML =
+        "<strong>We couldn't find your Reader Reach profile yet.</strong><br><br>" +
+        "Please make sure your email has been approved or contact Reader Reach.";
+
+      return;
+    }
+
+    currentProfile = profile;
+
+    const box = document.getElementById("statusBox");
+
+    if (profile.access_status === "approved") {
+
+      document.getElementById("statusTitle").textContent =
+        "You're approved!";
+
+      box.innerHTML =
+        "<strong>Email:</strong> " + escapeHtml(profile.email) +
+        "<br><br>" +
+        "<strong>Role:</strong> " + escapeHtml(profile.role) +
+        "<br><br>" +
+        "<strong>Access:</strong> Approved";
+
+      document
+        .getElementById("enterButton")
+        .classList.remove("hidden");
+
+    } else if (profile.access_status === "denied") {
+
+      document.getElementById("statusTitle").textContent =
+        "Access is not available";
+
+      box.innerHTML =
+        "Your Reader Reach access request has not been approved.";
+
+    } else {
+
+      document.getElementById("statusTitle").textContent =
+        "Your access is still pending";
+
+      box.innerHTML =
+        "<strong>Email:</strong> " + escapeHtml(profile.email) +
+        "<br><br>" +
+        "Your account exists, but Reader Reach access is still waiting for approval.";
+    }
+  }
+
+  function enterArea() {
+
+    if (!currentProfile) return;
+
+    if (currentProfile.role === "author") {
+      window.location.href = "../author/";
+    } else {
+      window.location.href = "../reader/";
+    }
+  }
+
+  async function signOut() {
+
+    await supabaseClient.auth.signOut();
+
+    currentProfile = null;
+
+    document
+      .getElementById("statusSection")
+      .classList.add("hidden");
+
+    document
+      .getElementById("authSection")
+      .classList.remove("hidden");
+
+    document.getElementById("email").value = "";
+    document.getElementById("password").value = "";
+  }
+
+  function escapeHtml(value) {
+
+    return String(value)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+  }
+
+  async function checkExistingSession() {
+
+    const {
+      data: { session }
+    } = await supabaseClient.auth.getSession();
+
+    if (session && session.user) {
+      await checkAccess(session.user);
+    }
+  }
+
+  checkExistingSession();
+</script>
+
+</body>
+</html>
