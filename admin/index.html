@@ -3,295 +3,123 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Reader Reach — Admin Dashboard</title>
+<title>Reader Reach — Admin</title>
 
 <style>
-:root{
-    --cream:#fffdf8;
-    --paper:#f7f0e5;
-    --paper-dark:#eee2d1;
-    --brown:#3d2b22;
-    --brown-2:#5b4032;
-    --brown-3:#806555;
-    --butter:#e8d39a;
-    --butter-light:#f5e9bd;
-    --white:#ffffff;
-    --green:#3f7655;
-    --green-light:#e7f2ea;
-    --red:#9a4c42;
-    --red-light:#f7e8e5;
-    --blue:#536f82;
-    --blue-light:#e8eef2;
-    --border:rgba(61,43,34,.13);
-    --shadow:0 20px 60px rgba(61,43,34,.10);
-    --shadow-small:0 10px 30px rgba(61,43,34,.08);
-    --radius:18px;
-    --max-width:1400px;
-}
-
 *{
     box-sizing:border-box;
     margin:0;
     padding:0;
 }
 
-html{
-    scroll-behavior:smooth;
-}
-
 body{
     font-family:Georgia,"Times New Roman",serif;
-    background:var(--cream);
-    color:var(--brown);
-    line-height:1.6;
-}
-
-button,
-input,
-select{
-    font:inherit;
+    background:#f7f1e8;
+    color:#3d2b22;
 }
 
 button{
+    font-family:inherit;
     cursor:pointer;
 }
 
-/* =========================
-   TOP BAR
-========================= */
-
-.topbar{
-    height:76px;
-    background:var(--brown);
-    color:var(--white);
+.admin-layout{
     display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:0 32px;
-    position:sticky;
-    top:0;
-    z-index:1000;
-    box-shadow:0 5px 20px rgba(0,0,0,.15);
+    min-height:100vh;
 }
 
-.brand{
-    display:flex;
-    align-items:center;
-    gap:14px;
-}
-
-.brand-mark{
-    width:42px;
-    height:42px;
-    border:1px solid rgba(255,255,255,.35);
-    display:grid;
-    place-items:center;
-    border-radius:10px;
-    color:var(--butter);
-    font-size:20px;
-}
-
-.brand-text strong{
-    display:block;
-    font-size:18px;
-    letter-spacing:.12em;
-}
-
-.brand-text span{
-    display:block;
-    color:#dbcfc6;
-    font-size:11px;
-    letter-spacing:.16em;
-    text-transform:uppercase;
-}
-
-.admin-user{
-    display:flex;
-    align-items:center;
-    gap:15px;
-}
-
-.admin-avatar{
-    width:40px;
-    height:40px;
-    border-radius:50%;
-    background:var(--butter);
-    color:var(--brown);
-    display:grid;
-    place-items:center;
-    font-weight:bold;
-}
-
-.admin-label{
-    font-size:13px;
-}
-
-.admin-label span{
-    display:block;
-    color:#cbbeb5;
-    font-size:11px;
-}
-
-/* =========================
-   LAYOUT
-========================= */
-
-.layout{
-    display:flex;
-    min-height:calc(100vh - 76px);
-}
+/* SIDEBAR */
 
 .sidebar{
     width:250px;
-    background:var(--white);
-    border-right:1px solid var(--border);
-    padding:30px 18px;
-    position:sticky;
-    top:76px;
-    height:calc(100vh - 76px);
-    overflow-y:auto;
+    background:#3d2b22;
+    color:white;
+    padding:28px 18px;
+    position:fixed;
+    left:0;
+    top:0;
+    bottom:0;
 }
 
-.sidebar-title{
-    font-size:10px;
-    text-transform:uppercase;
-    letter-spacing:.18em;
-    color:var(--brown-3);
-    padding:0 13px 12px;
-}
-
-.nav-item{
-    width:100%;
-    border:0;
-    background:transparent;
-    color:var(--brown-2);
-    padding:13px 14px;
-    border-radius:12px;
-    text-align:left;
-    display:flex;
-    align-items:center;
-    gap:12px;
+.logo{
+    font-size:26px;
+    font-weight:bold;
     margin-bottom:5px;
-    transition:.2s;
 }
 
-.nav-item:hover{
-    background:var(--paper);
+.logo-sub{
+    color:#d9c5a5;
+    font-size:13px;
+    margin-bottom:40px;
 }
 
-.nav-item.active{
-    background:var(--brown);
-    color:var(--white);
+.nav-btn{
+    display:block;
+    width:100%;
+    padding:13px 15px;
+    margin-bottom:7px;
+    border:0;
+    border-radius:8px;
+    background:transparent;
+    color:#f8f2e9;
+    text-align:left;
+    font-size:15px;
 }
 
-.nav-icon{
-    width:25px;
-    text-align:center;
+.nav-btn:hover,
+.nav-btn.active{
+    background:#695044;
 }
 
-.sidebar-divider{
-    height:1px;
-    background:var(--border);
-    margin:22px 10px;
+.sidebar-bottom{
+    position:absolute;
+    left:18px;
+    right:18px;
+    bottom:25px;
 }
+
+.signout{
+    width:100%;
+    padding:12px;
+    border:1px solid #8b7568;
+    border-radius:8px;
+    background:transparent;
+    color:white;
+}
+
+/* MAIN */
 
 .main{
-    flex:1;
-    padding:38px;
-    max-width:calc(100% - 250px);
+    margin-left:250px;
+    width:calc(100% - 250px);
+    padding:35px;
 }
 
-.container{
-    max-width:var(--max-width);
-    margin:auto;
-}
-
-/* =========================
-   PAGE HEADER
-========================= */
-
-.page-header{
+.topbar{
     display:flex;
     justify-content:space-between;
-    align-items:flex-start;
-    gap:20px;
+    align-items:center;
     margin-bottom:30px;
 }
 
-.eyebrow{
-    font-size:11px;
-    text-transform:uppercase;
-    letter-spacing:.18em;
-    color:var(--brown-3);
-    margin-bottom:7px;
+.topbar h1{
+    font-size:32px;
 }
 
-.page-header h1{
-    font-size:38px;
-    line-height:1.15;
-    margin-bottom:8px;
+.topbar p{
+    color:#7b665b;
+    margin-top:5px;
 }
 
-.page-header p{
-    color:var(--brown-3);
-    max-width:650px;
+.refresh{
+    background:#3d2b22;
+    color:white;
+    border:0;
+    padding:11px 18px;
+    border-radius:8px;
 }
 
-.header-actions{
-    display:flex;
-    gap:10px;
-}
-
-.btn{
-    border:1px solid var(--border);
-    background:var(--white);
-    color:var(--brown);
-    padding:11px 17px;
-    border-radius:10px;
-    transition:.2s;
-}
-
-.btn:hover{
-    transform:translateY(-1px);
-    box-shadow:var(--shadow-small);
-}
-
-.btn-primary{
-    background:var(--brown);
-    color:var(--white);
-    border-color:var(--brown);
-}
-
-.btn-primary:hover{
-    background:var(--brown-2);
-}
-
-.btn-butter{
-    background:var(--butter);
-    border-color:var(--butter);
-}
-
-.btn-danger{
-    color:var(--red);
-    background:var(--red-light);
-    border-color:transparent;
-}
-
-.btn-success{
-    color:var(--green);
-    background:var(--green-light);
-    border-color:transparent;
-}
-
-.btn-small{
-    padding:8px 11px;
-    font-size:12px;
-}
-
-/* =========================
-   STATS
-========================= */
+/* STATS */
 
 .stats{
     display:grid;
@@ -300,2030 +128,178 @@ button{
     margin-bottom:30px;
 }
 
-.stat-card{
-    background:var(--white);
-    border:1px solid var(--border);
-    border-radius:var(--radius);
-    padding:22px;
-    box-shadow:var(--shadow-small);
-    position:relative;
-    overflow:hidden;
-}
-
-.stat-card::after{
-    content:"";
-    position:absolute;
-    right:-30px;
-    top:-30px;
-    width:100px;
-    height:100px;
-    border-radius:50%;
-    background:var(--paper);
+.stat{
+    background:white;
+    padding:23px;
+    border-radius:12px;
+    box-shadow:0 4px 15px rgba(61,43,34,.08);
 }
 
 .stat-label{
-    font-size:12px;
-    color:var(--brown-3);
-    text-transform:uppercase;
-    letter-spacing:.08em;
+    color:#806b5e;
+    font-size:13px;
+    margin-bottom:10px;
 }
 
 .stat-number{
-    font-size:35px;
+    font-size:30px;
     font-weight:bold;
-    margin-top:7px;
 }
 
-.stat-note{
-    color:var(--brown-3);
-    font-size:12px;
-    margin-top:5px;
-}
+/* SECTIONS */
 
-/* =========================
-   PANELS
-========================= */
-
-.panel{
-    background:var(--white);
-    border:1px solid var(--border);
-    border-radius:var(--radius);
-    box-shadow:var(--shadow-small);
+.section{
+    background:white;
+    border-radius:12px;
+    padding:25px;
     margin-bottom:25px;
-    overflow:hidden;
+    box-shadow:0 4px 15px rgba(61,43,34,.07);
 }
 
-.panel-header{
-    padding:22px 24px;
-    border-bottom:1px solid var(--border);
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:20px;
-}
-
-.panel-header h2{
-    font-size:21px;
-}
-
-.panel-header p{
-    color:var(--brown-3);
-    font-size:13px;
-    margin-top:3px;
-}
-
-.panel-body{
-    padding:24px;
-}
-
-/* =========================
-   SEARCH
-========================= */
-
-.toolbar{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    flex-wrap:wrap;
-}
-
-.search{
-    min-width:260px;
-    border:1px solid var(--border);
-    background:var(--cream);
-    padding:11px 14px;
-    border-radius:10px;
-    outline:none;
-}
-
-.search:focus{
-    border-color:var(--brown-3);
-}
-
-.filter{
-    border:1px solid var(--border);
-    background:var(--white);
-    padding:11px 14px;
-    border-radius:10px;
-    color:var(--brown);
-}
-
-/* =========================
-   REQUEST CARDS
-========================= */
-
-.request-list{
-    display:grid;
-    gap:13px;
-}
-
-.request-card{
-    border:1px solid var(--border);
-    border-radius:14px;
-    padding:18px;
-    background:var(--cream);
-}
-
-.request-top{
+.section-header{
     display:flex;
     justify-content:space-between;
-    gap:15px;
-    align-items:flex-start;
-}
-
-.request-person{
-    display:flex;
-    gap:13px;
     align-items:center;
+    margin-bottom:20px;
 }
 
-.request-avatar{
-    width:45px;
-    height:45px;
-    border-radius:50%;
-    background:var(--butter-light);
-    display:grid;
-    place-items:center;
-    font-weight:bold;
-}
-
-.request-name{
-    font-weight:bold;
-}
-
-.request-email{
-    color:var(--brown-3);
-    font-size:13px;
-}
-
-.badge{
-    display:inline-flex;
-    align-items:center;
-    padding:5px 9px;
-    border-radius:50px;
-    font-size:11px;
-    font-weight:bold;
-    text-transform:uppercase;
-    letter-spacing:.06em;
-}
-
-.badge-pending{
-    background:var(--butter-light);
-    color:#765e28;
-}
-
-.badge-approved{
-    background:var(--green-light);
-    color:var(--green);
-}
-
-.badge-denied{
-    background:var(--red-light);
-    color:var(--red);
-}
-
-.badge-author{
-    background:#eee7f4;
-    color:#6a4b77;
-}
-
-.badge-reader{
-    background:var(--blue-light);
-    color:var(--blue);
-}
-
-.request-meta{
-    display:flex;
-    flex-wrap:wrap;
-    gap:15px;
-    margin:14px 0;
-    color:var(--brown-3);
-    font-size:12px;
-}
-
-.request-actions{
-    display:flex;
-    gap:8px;
-    flex-wrap:wrap;
-}
-
-/* =========================
-   TABLE
-========================= */
-
-.table-wrap{
-    overflow-x:auto;
+.section-header h2{
+    font-size:23px;
 }
 
 table{
     width:100%;
     border-collapse:collapse;
-    min-width:850px;
 }
 
-th{
-    text-align:left;
-    padding:13px 15px;
-    background:var(--paper);
-    color:var(--brown-3);
-    font-size:11px;
-    text-transform:uppercase;
-    letter-spacing:.08em;
-}
-
+th,
 td{
-    padding:16px 15px;
-    border-bottom:1px solid var(--border);
-    font-size:13px;
-    vertical-align:middle;
-}
-
-tr:last-child td{
-    border-bottom:0;
-}
-
-.book-cell{
-    display:flex;
-    gap:12px;
-    align-items:center;
-}
-
-.book-cover{
-    width:45px;
-    height:60px;
-    border-radius:5px;
-    background:var(--brown);
-    color:var(--butter);
-    display:grid;
-    place-items:center;
-    text-align:center;
-    font-size:8px;
-    padding:4px;
-}
-
-.book-title{
-    font-weight:bold;
-}
-
-.book-author{
-    color:var(--brown-3);
-    font-size:11px;
-    margin-top:2px;
-}
-
-/* =========================
-   ACTIVITY
-========================= */
-
-.activity{
-    display:grid;
-    gap:15px;
-}
-
-.activity-item{
-    display:flex;
-    gap:13px;
-    align-items:flex-start;
-}
-
-.activity-dot{
-    width:10px;
-    height:10px;
-    border-radius:50%;
-    background:var(--butter);
-    margin-top:7px;
-    flex-shrink:0;
-}
-
-.activity-content strong{
-    display:block;
-    font-size:13px;
-}
-
-.activity-content span{
-    color:var(--brown-3);
-    font-size:12px;
-}
-
-/* =========================
-   EMPTY
-========================= */
-
-.empty{
-    text-align:center;
-    padding:45px 20px;
-    color:var(--brown-3);
-}
-
-.empty-icon{
-    font-size:38px;
-    margin-bottom:10px;
-}
-
-/* =========================
-   MODAL
-========================= */
-
-.modal-overlay{
-    position:fixed;
-    inset:0;
-    background:rgba(38,25,19,.58);
-    display:none;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
-    z-index:3000;
-}
-
-.modal-overlay.show{
-    display:flex;
-}
-
-.modal{
-    width:min(620px,100%);
-    max-height:90vh;
-    overflow-y:auto;
-    background:var(--white);
-    border-radius:20px;
-    box-shadow:0 30px 100px rgba(0,0,0,.25);
-}
-
-.modal-header{
-    padding:22px 25px;
-    border-bottom:1px solid var(--border);
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
-
-.modal-header h2{
-    font-size:22px;
-}
-
-.modal-close{
-    border:0;
-    background:transparent;
-    font-size:25px;
-    color:var(--brown-3);
-}
-
-.modal-body{
-    padding:25px;
-}
-
-.detail-row{
-    padding:14px 0;
-    border-bottom:1px solid var(--border);
-}
-
-.detail-row:last-child{
-    border-bottom:0;
-}
-
-.detail-label{
-    font-size:10px;
-    text-transform:uppercase;
-    letter-spacing:.12em;
-    color:var(--brown-3);
-    margin-bottom:4px;
-}
-
-.detail-value{
+    text-align:left;
+    padding:14px 10px;
+    border-bottom:1px solid #eee5da;
     font-size:14px;
 }
 
-.modal-actions{
+th{
+    color:#806b5e;
+    font-size:12px;
+    text-transform:uppercase;
+}
+
+.status{
+    display:inline-block;
+    padding:5px 9px;
+    border-radius:20px;
+    font-size:12px;
+    background:#f2e9dc;
+}
+
+.status.approved{
+    background:#e5f0e5;
+    color:#386238;
+}
+
+.status.denied,
+.status.rejected{
+    background:#f4e2df;
+    color:#8a3d34;
+}
+
+.actions{
     display:flex;
-    gap:10px;
+    gap:7px;
     flex-wrap:wrap;
-    margin-top:22px;
 }
 
-/* =========================
-   MOBILE
-========================= */
+.action-btn{
+    border:0;
+    border-radius:6px;
+    padding:7px 10px;
+    font-size:12px;
+}
 
-.mobile-menu{
+.approve{
+    background:#405b40;
+    color:white;
+}
+
+.deny,
+.reject{
+    background:#8a4339;
+    color:white;
+}
+
+.view{
+    background:#e9dfd2;
+    color:#3d2b22;
+}
+
+.empty{
+    text-align:center;
+    padding:35px 15px;
+    color:#88766a;
+}
+
+/* LOGIN */
+
+.login-screen{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    background:#f7f1e8;
+}
+
+.login-box{
+    background:white;
+    width:100%;
+    max-width:420px;
+    padding:40px;
+    border-radius:14px;
+    box-shadow:0 8px 35px rgba(61,43,34,.12);
+}
+
+.login-box h1{
+    margin-bottom:7px;
+}
+
+.login-box p{
+    color:#806b5e;
+    margin-bottom:25px;
+}
+
+.login-box input{
+    width:100%;
+    padding:13px;
+    border:1px solid #d9cabc;
+    border-radius:8px;
+    margin-bottom:14px;
+    font-family:inherit;
+}
+
+.login-btn{
+    width:100%;
+    padding:13px;
+    border:0;
+    border-radius:8px;
+    background:#3d2b22;
+    color:white;
+    font-size:15px;
+}
+
+.error{
+    color:#a0443a;
+    font-size:13px;
+    margin-top:12px;
+}
+
+/* MODAL */
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(30,20,15,.55);
     display:none;
-}
-
-@media(max-width:1050px){
-
-    .stats{
-        grid-template-columns:repeat(2,1fr);
-    }
-
-    .sidebar{
-        width:210px;
-    }
-
-    .main{
-        max-width:calc(100% - 210px);
-        padding:25px;
-    }
-}
-
-@media(max-width:760px){
-
-    .topbar{
-        padding:0 17px;
-    }
-
-    .admin-label{
-        display:none;
-    }
-
-    .layout{
-        display:block;
-    }
-
-    .sidebar{
-        width:100%;
-        height:auto;
-        position:static;
-        border-right:0;
-        border-bottom:1px solid var(--border);
-        padding:12px;
-        display:flex;
-        overflow-x:auto;
-        gap:5px;
-    }
-
-    .sidebar-title,
-    .sidebar-divider{
-        display:none;
-    }
-
-    .nav-item{
-        min-width:max-content;
-        width:auto;
-        margin:0;
-    }
-
-    .main{
-        max-width:100%;
-        padding:20px 15px;
-    }
-
-    .page-header{
-        display:block;
-    }
-
-    .header-actions{
-        margin-top:15px;
-    }
-
-    .stats{
-        grid-template-columns:1fr 1fr;
-        gap:10px;
-    }
-
-    .stat-card{
-        padding:17px;
-    }
-
-    .stat-number{
-        font-size:28px;
-    }
-
-    .panel-header{
-        display:block;
-    }
-
-    .toolbar{
-        margin-top:15px;
-    }
-
-    .search{
-        width:100%;
-        min-width:0;
-    }
-}
-
-@media(max-width:470px){
-
-    .stats{
-        grid-template-columns:1fr;
-    }
-
-    .page-header h1{
-        font-size:30px;
-    }
-}
-</style>
-</head>
-
-<body>
-
-<!-- =========================
-     TOP BAR
-========================= -->
-
-<header class="topbar">
-
-    <div class="brand">
-        <div class="brand-mark">R</div>
-
-        <div class="brand-text">
-            <strong>READER REACH</strong>
-            <span>Administration</span>
-        </div>
-    </div>
-
-    <div class="admin-user">
-        <div class="admin-label">
-            Reader Reach Admin
-            <span>Administrator</span>
-        </div>
-
-        <div class="admin-avatar">A</div>
-    </div>
-
-</header>
-
-
-<div class="layout">
-
-<!-- =========================
-     SIDEBAR
-========================= -->
-
-<aside class="sidebar">
-
-    <div class="sidebar-title">Management</div>
-
-    <button class="nav-item active" onclick="showSection('dashboard',this)">
-        <span class="nav-icon">⌂</span>
-        Dashboard
-    </button>
-
-    <button class="nav-item" onclick="showSection('access',this)">
-        <span class="nav-icon">♙</span>
-        Access Requests
-    </button>
-
-    <button class="nav-item" onclick="showSection('books',this)">
-        <span class="nav-icon">▤</span>
-        Book Submissions
-    </button>
-
-    <button class="nav-item" onclick="showSection('activity',this)">
-        <span class="nav-icon">◷</span>
-        Activity
-    </button>
-
-    <div class="sidebar-divider"></div>
-
-    <div class="sidebar-title">Website</div>
-
-    <button class="nav-item" onclick="openWebsite()">
-        <span class="nav-icon">↗</span>
-        View Website
-    </button>
-
-</aside>
-
-
-<!-- =========================
-     MAIN
-========================= -->
-
-<main class="main">
-
-<div class="container">
-
-
-<!-- =========================
-     DASHBOARD
-========================= -->
-
-<section id="dashboard" class="admin-section">
-
-    <div class="page-header">
-
-        <div>
-            <div class="eyebrow">Reader Reach Administration</div>
-
-            <h1>Dashboard</h1>
-
-            <p>
-                Review access requests, manage author submissions,
-                and keep the Reader Reach community organized.
-            </p>
-        </div>
-
-        <div class="header-actions">
-
-            <button class="btn" onclick="refreshDashboard()">
-                ↻ Refresh
-            </button>
-
-            <button class="btn btn-butter" onclick="showSection('access')">
-                Review Requests
-            </button>
-
-        </div>
-
-    </div>
-
-
-    <!-- STATS -->
-
-    <div class="stats">
-
-        <div class="stat-card">
-            <div class="stat-label">Pending Requests</div>
-            <div class="stat-number" id="pendingCount">4</div>
-            <div class="stat-note">Need your review</div>
-        </div>
-
-        <div class="stat-card">
-            <div class="stat-label">Readers</div>
-            <div class="stat-number" id="readerCount">347</div>
-            <div class="stat-note">Reader interest</div>
-        </div>
-
-        <div class="stat-card">
-            <div class="stat-label">Authors</div>
-            <div class="stat-number" id="authorCount">12</div>
-            <div class="stat-note">Approved authors</div>
-        </div>
-
-        <div class="stat-card">
-            <div class="stat-label">Books</div>
-            <div class="stat-number" id="bookCount">8</div>
-            <div class="stat-note">Published submissions</div>
-        </div>
-
-    </div>
-
-
-    <!-- RECENT REQUESTS -->
-
-    <div class="panel">
-
-        <div class="panel-header">
-
-            <div>
-                <h2>Recent Access Requests</h2>
-                <p>Requests waiting for your attention.</p>
-            </div>
-
-            <button class="btn btn-small" onclick="showSection('access')">
-                View All
-            </button>
-
-        </div>
-
-        <div class="panel-body">
-
-            <div class="request-list" id="recentRequests">
-
-                <div class="request-card">
-
-                    <div class="request-top">
-
-                        <div class="request-person">
-
-                            <div class="request-avatar">
-                                R
-                            </div>
-
-                            <div>
-                                <div class="request-name">
-                                    Reader Request
-                                </div>
-
-                                <div class="request-email">
-                                    reader@example.com
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <span class="badge badge-reader">
-                            Reader
-                        </span>
-
-                    </div>
-
-                    <div class="request-meta">
-                        <span>Requested recently</span>
-                        <span>● Pending</span>
-                    </div>
-
-                    <div class="request-actions">
-
-                        <button
-                            class="btn btn-small btn-success"
-                            onclick="approveRequest(this,'Reader')">
-                            Approve
-                        </button>
-
-                        <button
-                            class="btn btn-small btn-danger"
-                            onclick="denyRequest(this,'Reader')">
-                            Deny
-                        </button>
-
-                        <button
-                            class="btn btn-small"
-                            onclick="openDetails('Reader Request','reader@example.com','Reader access request')">
-                            View Details
-                        </button>
-
-                    </div>
-
-                </div>
-
-
-                <div class="request-card">
-
-                    <div class="request-top">
-
-                        <div class="request-person">
-
-                            <div class="request-avatar">
-                                A
-                            </div>
-
-                            <div>
-                                <div class="request-name">
-                                    Author Request
-                                </div>
-
-                                <div class="request-email">
-                                    author@example.com
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                        <span class="badge badge-author">
-                            Author
-                        </span>
-
-                    </div>
-
-                    <div class="request-meta">
-                        <span>Requested recently</span>
-                        <span>● Pending</span>
-                    </div>
-
-                    <div class="request-actions">
-
-                        <button
-                            class="btn btn-small btn-success"
-                            onclick="approveRequest(this,'Author')">
-                            Approve
-                        </button>
-
-                        <button
-                            class="btn btn-small btn-danger"
-                            onclick="denyRequest(this,'Author')">
-                            Deny
-                        </button>
-
-                        <button
-                            class="btn btn-small"
-                            onclick="openDetails('Author Request','author@example.com','Author access request')">
-                            View Details
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- QUICK ACTIONS -->
-
-    <div class="panel">
-
-        <div class="panel-header">
-
-            <div>
-                <h2>Quick Actions</h2>
-                <p>Common administration tasks.</p>
-            </div>
-
-        </div>
-
-        <div class="panel-body">
-
-            <div style="
-                display:grid;
-                grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-                gap:12px;
-            ">
-
-                <button
-                    class="btn"
-                    onclick="showSection('access')"
-                    style="text-align:left;padding:18px;">
-
-                    <strong>Review Access</strong><br>
-
-                    <small style="color:var(--brown-3)">
-                        Approve or deny Reader and Author requests.
-                    </small>
-
-                </button>
-
-
-                <button
-                    class="btn"
-                    onclick="showSection('books')"
-                    style="text-align:left;padding:18px;">
-
-                    <strong>Review Books</strong><br>
-
-                    <small style="color:var(--brown-3)">
-                        Review submitted books and Flipper Guides.
-                    </small>
-
-                </button>
-
-
-                <button
-                    class="btn"
-                    onclick="openWebsite()"
-                    style="text-align:left;padding:18px;">
-
-                    <strong>View Website</strong><br>
-
-                    <small style="color:var(--brown-3)">
-                        Open the public Reader Reach website.
-                    </small>
-
-                </button>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- =========================
-     ACCESS REQUESTS
-========================= -->
-
-<section
-    id="access"
-    class="admin-section"
-    style="display:none;">
-
-    <div class="page-header">
-
-        <div>
-
-            <div class="eyebrow">
-                Community Management
-            </div>
-
-            <h1>Access Requests</h1>
-
-            <p>
-                Review people who have requested Reader or Author access.
-            </p>
-
-        </div>
-
-    </div>
-
-
-    <div class="panel">
-
-        <div class="panel-header">
-
-            <div>
-                <h2>Requests</h2>
-                <p>Approve or deny access.</p>
-            </div>
-
-            <div class="toolbar">
-
-                <input
-                    class="search"
-                    id="requestSearch"
-                    placeholder="Search email..."
-                    oninput="filterRequests()">
-
-                <select
-                    class="filter"
-                    id="requestFilter"
-                    onchange="filterRequests()">
-
-                    <option value="all">All</option>
-                    <option value="reader">Readers</option>
-                    <option value="author">Authors</option>
-                    <option value="pending">Pending</option>
-                    <option value="approved">Approved</option>
-                    <option value="denied">Denied</option>
-
-                </select>
-
-            </div>
-
-        </div>
-
-
-        <div class="panel-body">
-
-            <div class="request-list" id="allRequests">
-
-                <div
-                    class="request-card"
-                    data-role="reader"
-                    data-status="pending"
-                    data-email="reader@example.com">
-
-                    <div class="request-top">
-
-                        <div class="request-person">
-
-                            <div class="request-avatar">
-                                R
-                            </div>
-
-                            <div>
-
-                                <div class="request-name">
-                                    Reader Request
-                                </div>
-
-                                <div class="request-email">
-                                    reader@example.com
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                        <div>
-                            <span class="badge badge-reader">
-                                Reader
-                            </span>
-
-                            <span class="badge badge-pending">
-                                Pending
-                            </span>
-                        </div>
-
-                    </div>
-
-                    <div class="request-meta">
-                        <span>Access type: Reader</span>
-                        <span>Status: Pending</span>
-                    </div>
-
-                    <div class="request-actions">
-
-                        <button
-                            class="btn btn-small btn-success"
-                            onclick="approveRequest(this,'Reader')">
-                            Approve
-                        </button>
-
-                        <button
-                            class="btn btn-small btn-danger"
-                            onclick="denyRequest(this,'Reader')">
-                            Deny
-                        </button>
-
-                        <button
-                            class="btn btn-small"
-                            onclick="openDetails('Reader Request','reader@example.com','Reader access request')">
-                            View Details
-                        </button>
-
-                    </div>
-
-                </div>
-
-
-                <div
-                    class="request-card"
-                    data-role="author"
-                    data-status="pending"
-                    data-email="author@example.com">
-
-                    <div class="request-top">
-
-                        <div class="request-person">
-
-                            <div class="request-avatar">
-                                A
-                            </div>
-
-                            <div>
-
-                                <div class="request-name">
-                                    Author Request
-                                </div>
-
-                                <div class="request-email">
-                                    author@example.com
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                        <div>
-
-                            <span class="badge badge-author">
-                                Author
-                            </span>
-
-                            <span class="badge badge-pending">
-                                Pending
-                            </span>
-
-                        </div>
-
-                    </div>
-
-                    <div class="request-meta">
-                        <span>Access type: Author</span>
-                        <span>Status: Pending</span>
-                    </div>
-
-                    <div class="request-actions">
-
-                        <button
-                            class="btn btn-small btn-success"
-                            onclick="approveRequest(this,'Author')">
-                            Approve
-                        </button>
-
-                        <button
-                            class="btn btn-small btn-danger"
-                            onclick="denyRequest(this,'Author')">
-                            Deny
-                        </button>
-
-                        <button
-                            class="btn btn-small"
-                            onclick="openDetails('Author Request','author@example.com','Author access request')">
-                            View Details
-                        </button>
-
-                    </div>
-
-                </div>
-
-
-                <div
-                    class="request-card"
-                    data-role="reader"
-                    data-status="approved"
-                    data-email="approved.reader@example.com">
-
-                    <div class="request-top">
-
-                        <div class="request-person">
-
-                            <div class="request-avatar">
-                                R
-                            </div>
-
-                            <div>
-
-                                <div class="request-name">
-                                    Approved Reader
-                                </div>
-
-                                <div class="request-email">
-                                    approved.reader@example.com
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                        <span class="badge badge-approved">
-                            Approved
-                        </span>
-
-                    </div>
-
-                    <div class="request-meta">
-                        <span>Access type: Reader</span>
-                        <span>Status: Approved</span>
-                    </div>
-
-                    <div class="request-actions">
-
-                        <button
-                            class="btn btn-small"
-                            onclick="openDetails('Approved Reader','approved.reader@example.com','Reader access approved')">
-                            View Details
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- =========================
-     BOOK SUBMISSIONS
-========================= -->
-
-<section
-    id="books"
-    class="admin-section"
-    style="display:none;">
-
-    <div class="page-header">
-
-        <div>
-
-            <div class="eyebrow">
-                Author Management
-            </div>
-
-            <h1>Book Submissions</h1>
-
-            <p>
-                Review author information, books, links, covers,
-                and Flipper Guide submissions.
-            </p>
-
-        </div>
-
-    </div>
-
-
-    <div class="panel">
-
-        <div class="panel-header">
-
-            <div>
-                <h2>Submitted Books</h2>
-                <p>Review before publishing to Reader Reach.</p>
-            </div>
-
-            <div class="toolbar">
-
-                <input
-                    class="search"
-                    id="bookSearch"
-                    placeholder="Search books..."
-                    oninput="filterBooks()">
-
-                <select
-                    class="filter"
-                    id="bookFilter"
-                    onchange="filterBooks()">
-
-                    <option value="all">All</option>
-                    <option value="pending">Pending</option>
-                    <option value="approved">Approved</option>
-                    <option value="changes">Changes Requested</option>
-                    <option value="rejected">Rejected</option>
-
-                </select>
-
-            </div>
-
-        </div>
-
-
-        <div class="panel-body">
-
-            <div class="table-wrap">
-
-                <table>
-
-                    <thead>
-
-                    <tr>
-
-                        <th>Book</th>
-
-                        <th>Genre</th>
-
-                        <th>Flipper Guide</th>
-
-                        <th>Status</th>
-
-                        <th>Action</th>
-
-                    </tr>
-
-                    </thead>
-
-                    <tbody id="bookTable">
-
-                    <tr
-                        data-status="pending"
-                        data-search="Book Title Author Name">
-
-                        <td>
-
-                            <div class="book-cell">
-
-                                <div class="book-cover">
-                                    BOOK
-                                </div>
-
-                                <div>
-
-                                    <div class="book-title">
-                                        Book Title
-                                    </div>
-
-                                    <div class="book-author">
-                                        Author Name
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                        </td>
-
-                        <td>
-                            Genre / Topic
-                        </td>
-
-                        <td>
-                            <span class="badge badge-pending">
-                                Pending Review
-                            </span>
-                        </td>
-
-                        <td>
-                            <span class="badge badge-pending">
-                                Pending
-                            </span>
-                        </td>
-
-                        <td>
-
-                            <button
-                                class="btn btn-small btn-butter"
-                                onclick="reviewBook()">
-                                Review
-                            </button>
-
-                        </td>
-
-                    </tr>
-
-
-                    <tr
-                        data-status="approved"
-                        data-search="Demo How To Kill A Man Emily B">
-
-                        <td>
-
-                            <div class="book-cell">
-
-                                <div class="book-cover">
-                                    FLIPPER
-                                </div>
-
-                                <div>
-
-                                    <div class="book-title">
-                                        How To Kill A Man
-                                    </div>
-
-                                    <div class="book-author">
-                                        Emily B. — Demo
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                        </td>
-
-                        <td>
-                            Demo
-                        </td>
-
-                        <td>
-                            <span class="badge badge-approved">
-                                Available
-                            </span>
-                        </td>
-
-                        <td>
-                            <span class="badge badge-approved">
-                                Demo
-                            </span>
-                        </td>
-
-                        <td>
-
-                            <button
-                                class="btn btn-small"
-                                onclick="reviewDemoBook()">
-                                View
-                            </button>
-
-                        </td>
-
-                    </tr>
-
-                    </tbody>
-
-                </table>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- =========================
-     ACTIVITY
-========================= -->
-
-<section
-    id="activity"
-    class="admin-section"
-    style="display:none;">
-
-    <div class="page-header">
-
-        <div>
-
-            <div class="eyebrow">
-                Administration History
-            </div>
-
-            <h1>Activity</h1>
-
-            <p>
-                A record of recent actions on the platform.
-            </p>
-
-        </div>
-
-    </div>
-
-
-    <div class="panel">
-
-        <div class="panel-header">
-
-            <div>
-                <h2>Recent Activity</h2>
-            </div>
-
-        </div>
-
-        <div class="panel-body">
-
-            <div class="activity">
-
-                <div class="activity-item">
-
-                    <div class="activity-dot"></div>
-
-                    <div class="activity-content">
-
-                        <strong>
-                            Demo Flipper Guide prepared for Reader Reach
-                        </strong>
-
-                        <span>
-                            Emily B. — How To Kill A Man
-                        </span>
-
-                    </div>
-
-                </div>
-
-
-                <div class="activity-item">
-
-                    <div class="activity-dot"></div>
-
-                    <div class="activity-content">
-
-                        <strong>
-                            Reader Reach platform initialized
-                        </strong>
-
-                        <span>
-                            Administration dashboard created
-                        </span>
-
-                    </div>
-
-                </div>
-
-
-                <div class="activity-item">
-
-                    <div class="activity-dot"></div>
-
-                    <div class="activity-content">
-
-                        <strong>
-                            Author submission workflow prepared
-                        </strong>
-
-                        <span>
-                            Waiting for database connection
-                        </span>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-</div>
-
-</main>
-
-</div>
-
-
-<!-- =========================
-     DETAILS MODAL
-========================= -->
-
-<div
-    class="modal-overlay"
-    id="detailsModal"
-    onclick="closeModal(event)">
-
-    <div class="modal">
-
-        <div class="modal-header">
-
-            <h2 id="modalTitle">
-                Request Details
-            </h2>
-
-            <button
-                class="modal-close"
-                onclick="closeDetails()">
-                ×
-            </button>
-
-        </div>
-
-        <div class="modal-body">
-
-            <div class="detail-row">
-
-                <div class="detail-label">
-                    Name
-                </div>
-
-                <div
-                    class="detail-value"
-                    id="modalName">
-                </div>
-
-            </div>
-
-
-            <div class="detail-row">
-
-                <div class="detail-label">
-                    Email
-                </div>
-
-                <div
-                    class="detail-value"
-                    id="modalEmail">
-                </div>
-
-            </div>
-
-
-            <div class="detail-row">
-
-                <div class="detail-label">
-                    Request
-                </div>
-
-                <div
-                    class="detail-value"
-                    id="modalDescription">
-                </div>
-
-            </div>
-
-
-            <div class="modal-actions">
-
-                <button
-                    class="btn btn-success"
-                    onclick="modalApprove()">
-                    ✓ Approve
-                </button>
-
-                <button
-                    class="btn btn-danger"
-                    onclick="modalDeny()">
-                    × Deny
-                </button>
-
-                <button
-                    class="btn"
-                    onclick="closeDetails()">
-                    Close
-                </button>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
-
-
-<script>
-
-/* =========================
-   SECTION NAVIGATION
-========================= */
-
-function showSection(sectionId, button){
-
-    document.querySelectorAll('.admin-section')
-        .forEach(section=>{
-            section.style.display='none';
-        });
-
-    const section=document.getElementById(sectionId);
-
-    if(section){
-        section.style.display='block';
-    }
-
-    document.querySelectorAll('.nav-item')
-        .forEach(item=>{
-            item.classList.remove('active');
-        });
-
-    if(button){
-        button.classList.add('active');
-    }
-
-    window.scrollTo({
-        top:0,
-        behavior:'smooth'
-    });
-}
-
-
-/* =========================
-   APPROVE REQUEST
-========================= */
-
-function approveRequest(button,role){
-
-    const card=button.closest('.request-card');
-
-    if(!card) return;
-
-    card.dataset.status='approved';
-
-    const badges=card.querySelectorAll('.badge');
-
-    badges.forEach(badge=>{
-
-        if(
-            badge.textContent.trim().toLowerCase()==='pending'
-        ){
-
-            badge.textContent='Approved';
-
-            badge.className='badge badge-approved';
-
-        }
-
-    });
-
-    const actions=card.querySelector('.request-actions');
-
-    if(actions){
-
-        actions.innerHTML=`
-
-            <button
-                class="btn btn-small"
-                onclick="openDetails(
-                    'Approved ${role}',
-                    '${card.dataset.email || 'user@example.com'}',
-                    '${role} access approved'
-                )">
-
-                View Details
-
-            </button>
-
-        `;
-
-    }
-
-    updatePendingCount();
-
-    showToast(
-        role + ' access approved.'
-    );
-}
-
-
-/* =========================
-   DENY REQUEST
-========================= */
-
-function denyRequest(button,role){
-
-    const card=button.closest('.request-card');
-
-    if(!card) return;
-
-    const confirmed=confirm(
-        'Are you sure you want to deny this ' +
-        role +
-        ' access request?'
-    );
-
-    if(!confirmed) return;
-
-    card.dataset.status='denied';
-
-    const badges=card.querySelectorAll('.badge');
-
-    badges.forEach(badge=>{
-
-        if(
-            badge.textContent.trim().toLowerCase()==='pending'
-        ){
-
-            badge.textContent='Denied';
-
-            badge.className='badge badge-denied';
-
-        }
-
-    });
-
-    const actions=card.querySelector('.request-actions');
-
-    if(actions){
-
-        actions.innerHTML=`
-
-            <button
-                class="btn btn-small"
-                onclick="openDetails(
-                    'Denied ${role}',
-                    '${card.dataset.email || 'user@example.com'}',
-                    '${role} access denied'
-                )">
-
-                View Details
-
-            </button>
-
-        `;
-
-    }
-
-    updatePendingCount();
-
-    showToast(
-        role + ' access request denied.'
-    );
-}
-
-
-/* =========================
-   PENDING COUNT
-========================= */
-
-function updatePendingCount(){
-
-    const cards=
-        document.querySelectorAll(
-            '#allRequests .request-card'
-        );
-
-    let count=0;
-
-    cards.forEach(card=>{
-
-        if(card.dataset.status==='pending'){
-            count++;
-        }
-
-    });
-
-    document.getElementById(
-        'pendingCount'
-    ).textContent=count;
-}
-
-
-/* =========================
-   SEARCH REQUESTS
-========================= */
-
-function filterRequests(){
-
-    const search=
-        document.getElementById(
-            'requestSearch'
-        ).value
-        .toLowerCase();
-
-    const filter=
-        document.getElementById(
-            'requestFilter'
-        ).value;
-
-    document
-        .querySelectorAll(
-            '#allRequests .request-card'
-        )
-        .forEach(card=>{
-
-            const email=
-                card.dataset.email
-                .toLowerCase();
-
-            const role=
-                card.dataset.role;
-
-            const status=
-                card.dataset.status;
-
-            const matchesSearch=
-                email.includes(search);
-
-            const matchesFilter=
-                filter==='all'
-                ||
-                filter===role
-                ||
-                filter===status;
-
-            card.style.display=
-                matchesSearch &&
-                matchesFilter
-                ? ''
-                : 'none';
-
-        });
-
-}
-
-
-/* =========================
-   SEARCH BOOKS
-========================= */
-
-function filterBooks(){
-
-    const search=
-        document.getElementById(
-            'bookSearch'
-        ).value
-        .toLowerCase();
-
-    const filter=
-        document.getElementById(
-            'bookFilter'
-        ).value;
-
-    document
-        .querySelectorAll(
-            '#bookTable tr'
-        )
-        .forEach(row=>{
-
-            const text=
-                row.dataset.search
-                .toLowerCase();
-
-            const status=
-                row.dataset.status;
-
-            const matchesSearch=
-                text.includes(search);
-
-            const matchesFilter=
-                filter==='all'
-                ||
-                filter===status;
-
-            row.style.display=
-                matchesSearch &&
-                matchesFilter
-                ? ''
-                : 'none';
-
-        });
-
-}
-
-
-/* =========================
-   MODAL
-========================= */
-
-let currentModalEmail='';
-
-function openDetails(name,email,description){
-
-    currentModalEmail=email;
-
-    document.getElementById(
-        'modalTitle'
-    ).textContent='Request Details';
-
-    document.getElementById(
-        'modalName'
-    ).textContent=name;
-
-    document.getElementById(
-        'modalEmail'
-    ).textContent=email;
-
-    document.getElementById(
-        'modalDescription'
-    ).textContent=description;
-
-    document
-        .getElementById(
-            'detailsModal'
-        )
-        .classList.add('show');
-
-}
-
-function closeDetails(){
-
-    document
-        .getElementById(
-            'detailsModal'
-        )
-        .classList.remove('show');
-
-}
-
-function closeModal(event){
-
-    if(
-        event.target.id==='detailsModal'
-    ){
-
-        closeDetails();
-
-    }
-
-}
-
-function modalApprove(){
-
-    closeDetails();
-
-    showToast(
-        'Approval recorded in this demo dashboard.'
-    );
-
-}
-
-function modalDeny(){
-
-    closeDetails();
-
-    showToast(
-        'Denial recorded in this demo dashboard.'
-    );
-
-}
-
-
-/* =========================
-   BOOK REVIEW
-========================= */
-
-function reviewBook(){
-
-    openDetails(
-        'Book Submission',
-        'author@example.com',
-        'Book Title — Author Name. Review the book information, cover, book link, and Flipper Guide before approving publication.'
-    );
-
-}
-
-function reviewDemoBook(){
-
-    openDetails(
-        'How To Kill A Man',
-        'Emily B. — Demo',
-        'This is the approved Reader Reach Flipper Guide demonstration book.'
-    );
-
-}
-
-
-/* =========================
-   REFRESH
-========================= */
-
-function refreshDashboard(){
-
-    showToast(
-        'Dashboard refreshed.'
-    );
-
-}
-
-
-/* =========================
-   WEBSITE
-========================= */
-
-function openWebsite(){
-
-    window.location.href='../index.html';
-
-}
-
-
-/* =========================
-   TOAST
-========================= */
-
-function showToast(message){
-
-    const toast=document.createElement('div');
-
-    toast.textContent=message;
-
-    toast.style.position='fixed';
-    toast.style.bottom='25px';
-    toast.style.right='25px';
-    toast.style.background='var(--brown)';
-    toast.style.color='white';
-    toast.style.padding='13px 18px';
-    toast.style.borderRadius='10px';
-    toast.style.boxShadow=
-        '0 15px 40px rgba(0,0,0,.2)';
-    toast.style.zIndex='5000';
-    toast.style.fontSize='13px';
-
-    document.body.appendChild(toast);
-
-    setTimeout(()=>{
-
-        toast.style.opacity='0';
-        toast.style.transition='.3s';
-
-        setTimeout(()=>{
-            toast.remove();
-        },300);
-
-    },2200);
-
-}
-
-</script>
-
-</body>
-</html>
+    align-items:center;
+    justify-content:center;
