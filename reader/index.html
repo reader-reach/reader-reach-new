@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Reader Reach — Reader Area</title>
+
+  <title>Reader Reach | Reader Area</title>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -16,9 +17,13 @@
       --butter: #f3df9b;
       --white: #ffffff;
       --border: #eadfd6;
+      --green: #356b4a;
+      --red: #9b3d32;
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
@@ -28,7 +33,7 @@
     }
 
     header {
-      background: white;
+      background: #fff;
       border-bottom: 1px solid var(--border);
       padding: 18px 6%;
     }
@@ -52,7 +57,7 @@
     .nav-right {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 14px;
       font-family: Arial, sans-serif;
     }
 
@@ -70,15 +75,19 @@
       border: 1px solid var(--border);
       background: white;
       color: var(--brown);
-      padding: 9px 14px;
+      padding: 9px 15px;
       border-radius: 9px;
     }
 
     .hero {
       background:
-        linear-gradient(135deg, rgba(75,45,32,.96), rgba(47,29,22,.93));
+        linear-gradient(
+          135deg,
+          rgba(75,45,32,.98),
+          rgba(47,29,22,.94)
+        );
       color: white;
-      padding: 75px 6%;
+      padding: 80px 6%;
     }
 
     .hero-inner {
@@ -92,35 +101,36 @@
       font-family: Arial, sans-serif;
       font-size: 11px;
       color: var(--butter);
-      margin-bottom: 15px;
+      margin-bottom: 16px;
     }
 
     h1 {
-      font-size: clamp(40px, 6vw, 68px);
-      line-height: 1;
       margin: 0 0 18px;
+      font-size: clamp(42px, 6vw, 70px);
+      line-height: 1;
     }
 
     .hero p {
-      max-width: 650px;
-      line-height: 1.7;
-      color: #f5eee8;
+      max-width: 700px;
+      color: #f6eee8;
       font-size: 17px;
+      line-height: 1.75;
+      margin: 0;
     }
 
     main {
       max-width: 1200px;
       margin: auto;
-      padding: 60px 6%;
+      padding: 65px 6%;
     }
 
     .section-heading {
-      margin-bottom: 28px;
+      margin-bottom: 30px;
     }
 
     .section-heading h2 {
       color: var(--brown);
-      font-size: 35px;
+      font-size: 36px;
       margin: 0 0 8px;
     }
 
@@ -132,4 +142,147 @@
 
     .books {
       display: grid;
-      grid-template-columns:
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .book {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 22px;
+      box-shadow: 0 12px 35px rgba(75,45,32,.07);
+    }
+
+    .cover {
+      height: 190px;
+      border-radius: 13px;
+      background:
+        linear-gradient(135deg, var(--butter), #eadfd6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: var(--brown);
+      font-weight: bold;
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+
+    .book h3 {
+      color: var(--brown);
+      font-size: 23px;
+      margin: 0 0 7px;
+    }
+
+    .book .author {
+      color: var(--soft);
+      font-family: Arial, sans-serif;
+      font-size: 13px;
+      margin-bottom: 12px;
+    }
+
+    .book p {
+      color: var(--soft);
+      line-height: 1.6;
+      margin: 0 0 20px;
+    }
+
+    .book-btn {
+      width: 100%;
+      border: 0;
+      border-radius: 10px;
+      padding: 14px;
+      background: var(--brown);
+      color: white;
+    }
+
+    .empty {
+      background: white;
+      border: 1px dashed var(--border);
+      border-radius: 18px;
+      padding: 45px;
+      text-align: center;
+      color: var(--soft);
+      line-height: 1.7;
+    }
+
+    .notice {
+      margin-top: 35px;
+      padding: 22px;
+      background: #fff7dc;
+      border: 1px solid #ead9a3;
+      border-radius: 15px;
+      color: var(--brown);
+      line-height: 1.7;
+    }
+
+    .status {
+      max-width: 1200px;
+      margin: 30px auto 0;
+      padding: 0 6%;
+    }
+
+    .status-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      padding: 18px 20px;
+      color: var(--soft);
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+    }
+
+    .success {
+      color: var(--green);
+    }
+
+    .error {
+      color: var(--red);
+    }
+
+    footer {
+      margin-top: 50px;
+      padding: 32px 6%;
+      background: var(--brown);
+      color: white;
+      text-align: center;
+      font-family: Arial, sans-serif;
+      font-size: 13px;
+    }
+
+    @media (max-width: 850px) {
+      .books {
+        grid-template-columns: 1fr;
+      }
+
+      .email {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <nav>
+
+    <a class="logo" href="../index.html">
+      Reader Reach
+    </a>
+
+    <div class="nav-right">
+
+      <span class="email" id="userEmail"></span>
+
+      <button class="logout" onclick="logout()">
+        Sign Out
+      </button>
+
+    </div>
+
+  </nav>
+</header>
+
+<section class="hero">
