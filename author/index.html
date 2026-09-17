@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Author Area | Reader Reach</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Georgia, "Times New Roman", serif;
+      background: #fffdf8;
+      color: #3d2b22;
+      line-height: 1.6;
+    }
+
+    header {
+      background: #4b2d20;
+      color: white;
+      padding: 20px 7%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+
+    .logo {
+      font-size: 25px;
+      font-weight: bold;
+      letter-spacing: .5px;
+    }
+
+    .logo span {
+      color: #f2dfaa;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      font-family: Arial, sans-serif;
+    }
+
+    .author-label {
+      color: #f2dfaa;
+      font-size: 14px;
+    }
+
+    .logout-btn {
+      border: 1px solid rgba(255,255,255,.5);
+      background: transparent;
+      color: white;
+      padding: 9px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .logout-btn:hover {
+      background: white;
+      color: #4b2d20;
+    }
+
+    .hero {
+      background:
+        linear-gradient(rgba(75,45,32,.94), rgba(75,45,32,.94));
+      color: white;
+      padding: 75px 7% 70px;
+    }
+
+    .hero-inner {
+      max-width: 1050px;
+      margin: auto;
+    }
+
+    .eyebrow {
+      color: #f2dfaa;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-family: Arial, sans-serif;
+      font-size: 13px;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+
+    h1 {
+      font-size: clamp(38px, 6vw, 64px);
+      line-height: 1.08;
+      margin-bottom: 20px;
+    }
+
+    .hero p {
+      max-width: 720px;
+      color: #f8eee3;
+      font-size: 18px;
+    }
+
+    main {
+      max-width: 1050px;
+      margin: 0 auto;
+      padding: 55px 22px 90px;
+    }
+
+    .welcome-card {
+      background: #f7efdf;
+      border: 1px solid #eadbc1;
+      border-radius: 14px;
+      padding: 25px;
+      margin-bottom: 35px;
+    }
+
+    .welcome-card h2 {
+      margin-bottom: 8px;
+      font-size: 25px;
+    }
+
+    #accountEmail {
+      color: #725b4e;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+    }
+
+    .section-heading {
+      margin-bottom: 25px;
+    }
+
+    .section-heading h2 {
+      font-size: 34px;
+      margin-bottom: 8px;
+    }
+
+    .section-heading p {
+      color: #725b4e;
+      max-width: 720px;
+    }
+
+    .form-card {
+      background: white;
+      border: 1px solid #eadbc1;
+      border-radius: 14px;
+      padding: 35px;
+      box-shadow: 0 12px 35px rgba(61,43,34,.07);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+    }
+
+    .full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 8px;
+      font-size: 15px;
+    }
+
+    .required {
+      color: #9a4b35;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      border: 1px solid #d8c7ae;
+      border-radius: 8px;
+      padding: 13px 14px;
+      font-family: Arial, sans-serif;
+      font-size: 15px;
+      color: #3d2b22;
+      background: #fffdf9;
+      outline: none;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: #8b624d;
+      box-shadow: 0 0 0 3px rgba(139,98,77,.1);
+    }
+
+    textarea {
+      min-height: 130px;
+      resize: vertical;
+    }
+
+    .help-text {
+      display: block;
+      margin-top: 7px;
+      color: #806b5e;
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+    }
+
+    .submit-area {
+      margin-top: 30px;
+      padding-top: 25px;
+      border-top: 1px solid #eee2d2;
+    }
+
+    .submit-btn {
+      background: #4b2d20;
+      color: white;
+      border: none;
+      padding: 15px 27px;
+      border-radius: 7px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    .submit-btn:hover {
+      background: #65402e;
+    }
+
+    .submit-btn:disabled {
+      opacity: .6;
+      cursor: wait;
+    }
+
+    #message {
+      margin-top: 18px;
+      padding: 14px 16px;
+      border-radius: 8px;
+      display: none;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+    }
+
+    #message.success {
+      display: block;
+      background: #edf6ed;
+      border: 1px solid #bdd8bd;
+      color: #315b31;
+    }
+
+    #message.error {
+      display: block;
+      background: #fff0ed;
+      border: 1px solid #e2b8ad;
+      color: #7a3022;
+    }
+
+    .info-section {
+      margin-top: 50px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .info-card {
+      background: #f8f1e5;
+      border: 1px solid #eadbc1;
+      border-radius: 12px;
+      padding: 23px;
+    }
+
+    .info-card strong {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 17px;
+    }
+
+    .info-card p {
+      color: #725b4e;
+      font-family: Arial, sans-serif;
+      font-size: 13px;
+    }
+
+    footer {
+      background: #3d2b22;
+      color: #e9dccd;
+      text-align: center;
+      padding: 30px 20px;
+      font-family: Arial, sans-serif;
+      font-size: 13px;
+    }
+
+    footer a {
+      color: #f2dfaa;
+      text-decoration: none;
+    }
+
+    .loading-screen {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 30px;
+      font-family: Arial, sans-serif;
+    }
+
+    .loading-box {
+      max-width: 500px;
+    }
+
+    .loading-box h2 {
+      font-family: Georgia, "Times New Roman", serif;
+      margin-bottom: 10px;
+    }
+
+    @media (max-width: 760px) {
+      header {
+        padding: 17px 5%;
+      }
+
+      .header-right {
+        gap: 9px;
+      }
+
+      .author-label {
+        display: none;
+      }
+
+      .hero {
+        padding: 55px 5%;
+      }
+
+      main {
+        padding: 40px 15px 70px;
+      }
+
+      .form-card {
+        padding: 22px;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .full {
+        grid-column: auto;
+      }
+
+      .info-section {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="loadingScreen" class="loading-screen">
+    <div class="loading-box">
+      <h2>Opening your Author Area...</h2>
+      <p>Please wait.</p>
+    </div>
+  </div>
+
+  <div id="app" style="display:none;">
+
+    <header>
+      <div class="logo">
+        Reader <span>Reach</span>
+      </div>
+
+      <div class="header-right">
+        <span class="author-label">AUTHOR AREA</span>
+        <button class="logout-btn" onclick="logout()">Sign Out</button>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="hero-inner">
+        <div class="eyebrow">Reader Reach • Authors</div>
+
+        <h1>Tell Us About Your Book.</h1>
+
+        <p>
+          This is where you introduce your book to Reader Reach.
+          Give us the information we need to understand your work,
+          your intended readers, and where readers can find your book.
+        </p>
+      </div>
+    </section>
+
+    <main>
+
+      <div class="welcome-card">
+        <h2>Welcome, Author.</h2>
+        <div id="accountEmail">Checking your account...</div>
+      </div>
+
+      <div class="section-heading">
+        <h2>Book Submission</h2>
+        <p>
+          Complete the form below. Your submission will go to the Reader Reach
+          team for review before your book appears on the platform.
+        </p>
+      </div>
+
+      <form id="bookForm" class="form-card">
+
+        <div class="form-grid">
+
+          <div>
+            <label>
+              Author Name <span class="required">*</span>
+            </label>
+            <input
+              type="text"
+              id="authorName"
+              placeholder="Your name"
+              required
+            >
+          </div>
+
+          <div>
+            <label>
+              Email Address <span class="required">*</span>
+            </label>
+            <input
+              type="email"
+              id="email"
+              placeholder="Your email address"
+              required
+            >
+          </div>
+
+          <div class="full">
+            <label>
+              About the Author <span class="required">*</span>
+            </label>
+            <textarea
+              id="aboutAuthor"
+              placeholder="Tell readers a little about yourself..."
+              required
+            ></textarea>
+          </div>
+
+          <div class="full">
+            <label>
+              Book Title <span class="required">*</span>
+            </label>
+            <input
+              type="text"
+              id="bookTitle"
+              placeholder="Your book title"
+              required
+            >
+          </div>
+
+          <div class="full">
+            <label>
+              Book Description <span class="required">*</span>
+            </label>
+            <textarea
+              id="bookDescription"
+              placeholder="Tell us about the book..."
+              required
+            ></textarea>
+          </div>
+
+          <div>
+            <label>
+              Genre / Topic <span class="required">*</span>
+            </label>
+            <input
+              type="text"
+              id="genre"
+              placeholder="Example: Fiction, Romance, Business..."
+              required
+            >
+          </div>
+
+          <div>
+            <label>
+              Who Is the Book For? <span class="required">*</span>
+            </label>
+            <input
+              type="text"
+              id="intendedReaders"
+              placeholder="Who do you believe will enjoy this book?"
+              required
+            >
+          </div>
+
+          <div class="full">
+            <label>
+              Where Is the Book Currently Available? <span class="required">*</span>
+            </label>
+            <textarea
+              id="availability"
+              placeholder="Tell us where readers can currently get your book..."
+              required
+            ></textarea>
+          </div>
+
+          <div class="full">
+            <label>
+              Book Link <span class="required">*</span>
+            </label>
+            <input
+              type="url"
+              id="bookLink"
+              placeholder="https://..."
+              required
+            >
+
+            <span class="help-text">
+              Your book link is important. Readers will use this link
+              to find your book and learn more about it.
+            </span>
+          </div>
+
+          <div class="full">
+            <label>
+              Book Cover Image
+            </label>
+
+            <input
+              type="url"
+              id="bookCoverUrl"
+              placeholder="Paste your book cover image URL"
+            >
+
+            <span class="help-text">
+              For now, paste the direct URL of your book cover image.
+              We can add direct image uploading later.
+            </span>
+          </div>
+
+          <div class="full">
+            <label>
+              Flipper Guide Link
+            </label>
+
+            <input
+              type="url"
+              id="flipperGuideLink"
+              placeholder="https://..."
+            >
+
+            <span class="help-text">
+              If you have a Reader Reach Flipper Guide for this book,
+              add its link here. The guide will still require approval
+              before readers can access it.
+            </span>
+          </div>
+
+        </div>
+
+        <div class="submit-area">
+          <button
+            type="submit"
+            id="submitBtn"
+            class="submit-btn"
+          >
+            Submit My Book →
+          </button>
+
+          <div id="message"></div>
+        </div>
+
+      </form>
+
+      <section class="info-section">
+
+        <div class="info-card">
+          <strong>01 — Submit</strong>
+          <p>
+            Give Reader Reach the information about your book and yourself.
+          </p>
+        </div>
+
+        <div class="info-card">
+          <strong>02 — Review</strong>
+          <p>
+            Your submission is reviewed before anything is published.
+          </p>
+        </div>
+
+        <div class="info-card">
+          <strong>03 — Reach Readers</strong>
+          <p>
+            Once approved, your book can become part of the Reader Reach
+            discovery experience.
+          </p>
+        </div>
+
+      </section>
+
+    </main>
+
+    <footer>
+      <p>
+        Reader Reach • Every Book Has Its Readers.
+      </p>
+
+      <p style="margin-top:8px;">
+        <a href="mailto:mailreaderreach@gmail.com">
+          mailreaderreach@gmail.com
+        </a>
+      </p>
+    </footer>
+
+  </div>
+
+  <script>
+
+    const SUPABASE_URL =
+      "https://xeoxlgkfgukcxwwcndqt.supabase.co";
+
+    const SUPABASE_KEY =
+      "sb_publishable_bMm3mNKrb0szy2Wm3rQWSw_ZVcdjRmV";
+
+    const supabaseClient =
+      supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
+
+    let currentUser = null;
+
+    async function initializeAuthorArea() {
+
+      try {
+
+        const {
+          data: sessionData,
+          error: sessionError
+        } = await supabaseClient.auth.getSession();
+
+        if (sessionError) {
+          throw sessionError;
+        }
+
+        const session = sessionData.session;
+
+        if (!session) {
+          window.location.href = "../account/login.html";
+          return;
+        }
+
+        currentUser = session.user;
+
+        const {
+          data: profile,
+          error: profileError
+        } = await supabaseClient
+          .from("profiles")
+          .select("email, role, access_status")
+          .eq("id", currentUser.id)
+          .single();
+
+        if (profileError) {
+          console.error(profileError);
+          showBlocked(
+            "We could not load your Reader Reach account."
+          );
+          return;
+        }
+
+        if (profile.role !== "author") {
+          await supabaseClient.auth.signOut();
+
+          showBlocked(
+            "This area is only available to approved authors."
+          );
+
+          return;
+        }
+
+        if (profile.access_status !== "approved") {
+
+          await supabaseClient.auth.signOut();
+
+          if (profile.access_status === "pending") {
+            showBlocked(
+              "Your author access is still waiting for approval."
+            );
+          } else {
+            showBlocked(
+              "Your author access has not been approved."
+            );
+          }
+
+          return;
+        }
+
+        document.getElementById("accountEmail").textContent =
+          profile.email || currentUser.email;
+
+        document.getElementById("loadingScreen").style.display =
+          "none";
+
+        document.getElementById("app").style.display =
+          "block";
+
+      } catch (error) {
+
+        console.error(error);
+
+        showBlocked(
+          "Something went wrong while opening your Author Area."
+        );
+      }
+    }
+
+
+    function showBlocked(message) {
+
+      document.getElementById("loadingScreen").innerHTML = `
+        <div class="loading-box">
+          <h2>Reader Reach</h2>
+          <p>${message}</p>
+          <br>
+          <a href="../"
+             style="
+               color:#4b2d20;
+               font-weight:bold;
+               text-decoration:none;
+             ">
+             Return to Reader Reach
+          </a>
+        </div>
+      `;
+    }
+
+
+    document
+      .getElementById("bookForm")
+      .addEventListener("submit", async function(event) {
+
+        event.preventDefault();
+
+        if (!currentUser) {
+          showMessage(
+            "Your session has expired. Please sign in again.",
+            "error"
+          );
+          return;
+        }
+
+        const submitBtn =
+          document.getElementById("submitBtn");
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Submitting...";
+
+        clearMessage();
+
+        const submission = {
+
+          author_id: currentUser.id,
+
+          author_name:
+            document.getElementById("authorName").value.trim(),
+
+          email:
+            document.getElementById("email").value.trim(),
+
+          about_author:
+            document.getElementById("aboutAuthor").value.trim(),
+
+          book_title:
+            document.getElementById("bookTitle").value.trim(),
+
+          book_description:
+            document.getElementById("bookDescription").value.trim(),
+
+          genre:
+            document.getElementById("genre").value.trim(),
+
+          intended_readers:
+            document.getElementById("intendedReaders").value.trim(),
+
+          availability:
+            document.getElementById("availability").value.trim(),
+
+          book_link:
+            document.getElementById("bookLink").value.trim(),
+
+          book_cover_url:
+            document.getElementById("bookCoverUrl").value.trim() || null,
+
+          flipper_guide_link:
+            document.getElementById("flipperGuideLink").value.trim() || null,
+
+          status: "pending"
+        };
+
+
+        const {
+          data,
+          error
+        } = await supabaseClient
+          .from("book_submissions")
+          .insert([submission])
+          .select()
+          .single();
+
+
+        if (error) {
+
+          console.error(error);
+
+          showMessage(
+            "We could not submit your book yet. Please check the information and try again.",
+            "error"
+          );
+
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Submit My Book →";
+
+          return;
+        }
+
+
+        showMessage(
+          "Your book has been submitted successfully. Reader Reach will review it before it appears on the platform.",
+          "success"
+        );
+
+        document.getElementById("bookForm").reset();
+
+        document.getElementById("email").value =
+          currentUser.email || "";
+
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Submit My Book →";
+
+      });
+
+
+    function showMessage(text, type) {
+
+      const message =
+        document.getElementById("message");
+
+      message.textContent = text;
+
+      message.className = type;
+    }
+
+
+    function clearMessage() {
+
+      const message =
+        document.getElementById("message");
+
+      message.textContent = "";
+
+      message.className = "";
+    }
+
+
+    async function logout() {
+
+      await supabaseClient.auth.signOut();
+
+      window.location.href =
+        "../account/login.html";
+    }
+
+
+    initializeAuthorArea();
+
+  </script>
+
+</body>
+</html>
