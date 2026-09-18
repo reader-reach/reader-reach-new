@@ -1,528 +1,1555 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Reader Reach — Join</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
+  <title>Create Account | Reader Reach</title>
 
-body{
-    font-family:Georgia,"Times New Roman",serif;
-    background:#f8f2e9;
-    color:#3d2b22;
-    min-height:100vh;
-}
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-header{
-    padding:22px 7%;
-    background:#fffdf8;
-    border-bottom:1px solid #eadfd2;
-}
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-.logo{
-    font-size:25px;
-    font-weight:bold;
-}
+    :root {
+      --brown-dark: #3d2b22;
+      --brown: #5a3b2e;
+      --brown-light: #8b6b5a;
+      --butter: #ead9a6;
+      --cream: #fffdf8;
+      --white: #ffffff;
+      --border: #eadfd5;
+      --muted: #806f65;
+      --success: #3e7655;
+      --danger: #a44b45;
+    }
 
-.logo span{color:#9a7655}
+    body {
+      font-family: Georgia, "Times New Roman", serif;
+      background: var(--cream);
+      color: var(--brown-dark);
+      min-height: 100vh;
+    }
 
-main{
-    max-width:850px;
-    margin:50px auto;
-    padding:0 20px;
-}
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
 
-.card{
-    background:white;
-    padding:40px;
-    border-radius:16px;
-    box-shadow:0 8px 30px rgba(61,43,34,.09);
-}
+    button,
+    input,
+    textarea {
+      font: inherit;
+    }
 
-h1{
-    font-size:36px;
-    margin-bottom:10px;
-}
+    /* =========================
+       PAGE
+    ========================= */
 
-.intro{
-    color:#766257;
-    line-height:1.7;
-    margin-bottom:30px;
-}
+    .page {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+    }
 
-.role-title{
-    font-size:18px;
-    margin-bottom:15px;
-}
+    /* =========================
+       LEFT
+    ========================= */
 
-.roles{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:15px;
-    margin-bottom:30px;
-}
+    .welcome-panel {
+      position: relative;
+      min-height: 100vh;
+      padding: 50px;
+      overflow: hidden;
 
-.role{
-    padding:22px;
-    border:2px solid #e4d7c9;
-    border-radius:12px;
-    background:#fffdf8;
-    cursor:pointer;
-    text-align:left;
-    transition:.2s;
-}
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
 
-.role:hover,
-.role.selected{
-    border-color:#8b684d;
-    background:#f8f0e5;
-}
+      color: white;
 
-.role strong{
-    display:block;
-    font-size:19px;
-    margin-bottom:7px;
-}
+      background:
+        linear-gradient(
+          135deg,
+          rgba(61, 43, 34, 0.98),
+          rgba(91, 61, 46, 0.94)
+        );
+    }
 
-.role small{
-    color:#79665a;
-    line-height:1.5;
-}
+    .welcome-panel::before {
+      content: "";
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      background: rgba(234, 217, 166, 0.10);
+      top: -200px;
+      right: -200px;
+    }
 
-form{
-    display:none;
-}
+    .welcome-panel::after {
+      content: "";
+      position: absolute;
+      width: 420px;
+      height: 420px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.05);
+      bottom: -210px;
+      left: -180px;
+    }
 
-label{
-    display:block;
-    margin:17px 0 7px;
-    font-size:14px;
-    font-weight:bold;
-}
+    .brand {
+      position: relative;
+      z-index: 2;
 
-input{
-    width:100%;
-    padding:14px;
-    border:1px solid #d8cabc;
-    border-radius:8px;
-    font-family:inherit;
-    font-size:15px;
-}
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
 
-button{
-    font-family:inherit;
-    cursor:pointer;
-}
+    .brand-mark {
+      width: 44px;
+      height: 44px;
 
-.submit{
-    width:100%;
-    margin-top:25px;
-    padding:14px;
-    border:0;
-    border-radius:8px;
-    background:#3d2b22;
-    color:white;
-    font-size:16px;
-}
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.45);
 
-.submit:hover{
-    background:#594238;
-}
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
-.message{
-    display:none;
-    margin-top:20px;
-    padding:15px;
-    border-radius:9px;
-    line-height:1.6;
-}
+      background: rgba(255,255,255,0.08);
 
-.success{
-    display:block;
-    background:#edf5eb;
-    color:#315a35;
-}
+      font-size: 21px;
+      font-weight: bold;
+    }
 
-.error{
-    display:block;
-    background:#f8e9e5;
-    color:#8b3d35;
-}
+    .brand-name {
+      font-size: 24px;
+      font-weight: bold;
+    }
 
-.switch{
-    text-align:center;
-    margin-top:22px;
-    color:#77665c;
-}
+    .welcome-content {
+      position: relative;
+      z-index: 2;
+      max-width: 560px;
+    }
 
-.switch a{
-    color:#6d4b35;
-    font-weight:bold;
-    text-decoration:none;
-}
+    .eyebrow {
+      color: var(--butter);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      font-family: Arial, sans-serif;
+      font-size: 11px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
 
-.back{
-    display:inline-block;
-    margin-top:25px;
-    color:#6d4b35;
-    text-decoration:none;
-}
+    .welcome-content h1 {
+      font-size: clamp(40px, 5vw, 67px);
+      line-height: 1.04;
+      font-weight: 500;
+      margin-bottom: 24px;
+    }
 
-@media(max-width:650px){
-    .roles{grid-template-columns:1fr}
-    .card{padding:25px}
-    h1{font-size:29px}
-}
-</style>
+    .welcome-content p {
+      max-width: 480px;
+      color: rgba(255,255,255,0.78);
+
+      font-family: Arial, sans-serif;
+      font-size: 15px;
+      line-height: 1.8;
+    }
+
+    .bottom-note {
+      position: relative;
+      z-index: 2;
+
+      max-width: 450px;
+
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+      line-height: 1.7;
+
+      color: rgba(255,255,255,0.62);
+    }
+
+    /* =========================
+       RIGHT
+    ========================= */
+
+    .form-panel {
+      min-height: 100vh;
+
+      padding: 45px 55px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background: var(--cream);
+    }
+
+    .form-box {
+      width: 100%;
+      max-width: 570px;
+    }
+
+    .mobile-brand {
+      display: none;
+    }
+
+    .heading {
+      margin-bottom: 28px;
+    }
+
+    .heading .small-title {
+      color: var(--brown-light);
+
+      font-family: Arial, sans-serif;
+      font-size: 11px;
+      font-weight: bold;
+
+      text-transform: uppercase;
+      letter-spacing: 2px;
+
+      margin-bottom: 12px;
+    }
+
+    .heading h2 {
+      font-size: 39px;
+      font-weight: 500;
+      line-height: 1.1;
+
+      margin-bottom: 10px;
+    }
+
+    .heading p {
+      color: var(--muted);
+
+      font-family: Arial, sans-serif;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    /* =========================
+       ACCOUNT TYPE
+    ========================= */
+
+    .account-type-title {
+      font-family: Arial, sans-serif;
+      font-size: 13px;
+      font-weight: bold;
+
+      margin-bottom: 10px;
+    }
+
+    .role-options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+
+      margin-bottom: 22px;
+    }
+
+    .role-option {
+      position: relative;
+    }
+
+    .role-option input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .role-card {
+      display: block;
+
+      border: 1px solid var(--border);
+      border-radius: 13px;
+
+      padding: 17px;
+
+      background: white;
+
+      cursor: pointer;
+
+      transition: 0.2s ease;
+    }
+
+    .role-card:hover {
+      border-color: var(--brown-light);
+    }
+
+    .role-option input:checked + .role-card {
+      border-color: var(--brown);
+      background: #f9f3e8;
+      box-shadow: 0 0 0 2px rgba(90,59,46,0.08);
+    }
+
+    .role-icon {
+      width: 35px;
+      height: 35px;
+
+      border-radius: 9px;
+
+      background: #f1e9dc;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      margin-bottom: 10px;
+
+      font-family: Arial, sans-serif;
+      font-weight: bold;
+      color: var(--brown);
+    }
+
+    .role-card strong {
+      display: block;
+
+      font-family: Arial, sans-serif;
+      font-size: 13px;
+
+      margin-bottom: 5px;
+    }
+
+    .role-card span {
+      display: block;
+
+      font-family: Arial, sans-serif;
+      font-size: 11px;
+      line-height: 1.5;
+
+      color: var(--muted);
+    }
+
+    /* =========================
+       FORM
+    ========================= */
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      display: block;
+
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+      font-weight: bold;
+
+      margin-bottom: 7px;
+    }
+
+    .input-wrap {
+      position: relative;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+
+      border: 1px solid var(--border);
+      border-radius: 10px;
+
+      background: white;
+
+      color: var(--brown-dark);
+
+      outline: none;
+
+      transition: 0.2s ease;
+
+      font-family: Arial, sans-serif;
+      font-size: 13px;
+    }
+
+    input {
+      height: 49px;
+      padding: 0 14px;
+    }
+
+    textarea {
+      min-height: 95px;
+      padding: 13px 14px;
+      resize: vertical;
+    }
+
+    input:focus,
+    textarea:focus {
+      border-color: var(--brown-light);
+
+      box-shadow:
+        0 0 0 4px rgba(139,107,90,0.07);
+    }
+
+    .password-wrap input {
+      padding-right: 70px;
+    }
+
+    .show-password {
+      position: absolute;
+
+      right: 11px;
+      top: 50%;
+
+      transform: translateY(-50%);
+
+      border: none;
+      background: none;
+
+      color: var(--brown-light);
+
+      font-family: Arial, sans-serif;
+      font-size: 11px;
+      font-weight: bold;
+
+      cursor: pointer;
+    }
+
+    /* =========================
+       AUTHOR EXTRA
+    ========================= */
+
+    #authorFields {
+      display: none;
+
+      margin-top: 4px;
+      padding: 17px;
+
+      border: 1px solid var(--border);
+      border-radius: 12px;
+
+      background: #fbf7ef;
+    }
+
+    #authorFields.show {
+      display: block;
+    }
+
+    .author-info-title {
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+      font-weight: bold;
+
+      margin-bottom: 5px;
+    }
+
+    .author-info-description {
+      color: var(--muted);
+
+      font-family: Arial, sans-serif;
+      font-size: 11px;
+      line-height: 1.5;
+
+      margin-bottom: 15px;
+    }
+
+    /* =========================
+       TERMS
+    ========================= */
+
+    .terms {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+
+      margin: 18px 0;
+    }
+
+    .terms input {
+      width: auto;
+      height: auto;
+      margin-top: 3px;
+
+      accent-color: var(--brown);
+    }
+
+    .terms label {
+      color: var(--muted);
+
+      font-family: Arial, sans-serif;
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    /* =========================
+       BUTTON
+    ========================= */
+
+    .submit-button {
+      width: 100%;
+      height: 52px;
+
+      border: none;
+      border-radius: 11px;
+
+      background: var(--brown-dark);
+      color: white;
+
+      cursor: pointer;
+
+      font-family: Arial, sans-serif;
+      font-size: 13px;
+      font-weight: bold;
+
+      transition: 0.2s ease;
+    }
+
+    .submit-button:hover {
+      background: var(--brown);
+      transform: translateY(-1px);
+    }
+
+    .submit-button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* =========================
+       MESSAGE
+    ========================= */
+
+    .message {
+      display: none;
+
+      padding: 12px 14px;
+
+      border-radius: 10px;
+
+      margin-bottom: 17px;
+
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .message.show {
+      display: block;
+    }
+
+    .message.error {
+      background: #f8e9e7;
+      color: var(--danger);
+      border: 1px solid #efd2ce;
+    }
+
+    .message.success {
+      background: #e9f3ec;
+      color: var(--success);
+      border: 1px solid #d2e6d8;
+    }
+
+    .message.info {
+      background: #f3eee8;
+      color: var(--brown);
+      border: 1px solid var(--border);
+    }
+
+    /* =========================
+       BOTTOM
+    ========================= */
+
+    .bottom-links {
+      text-align: center;
+
+      margin-top: 20px;
+      padding-top: 20px;
+
+      border-top: 1px solid var(--border);
+
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+
+      color: var(--muted);
+    }
+
+    .bottom-links a {
+      color: var(--brown);
+      font-weight: bold;
+    }
+
+    .back-home {
+      display: inline-block;
+      margin-top: 13px;
+
+      color: var(--brown-light) !important;
+      font-size: 11px;
+    }
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 900px) {
+
+      .page {
+        grid-template-columns: 1fr;
+      }
+
+      .welcome-panel {
+        display: none;
+      }
+
+      .form-panel {
+        padding: 35px 20px;
+      }
+
+      .mobile-brand {
+        display: flex;
+
+        justify-content: center;
+        align-items: center;
+
+        gap: 10px;
+
+        margin-bottom: 35px;
+      }
+
+      .mobile-brand .brand-mark {
+        width: 40px;
+        height: 40px;
+
+        border-radius: 10px;
+
+        background: var(--brown-dark);
+        color: white;
+      }
+
+      .mobile-brand .brand-name {
+        font-size: 21px;
+        font-weight: bold;
+      }
+    }
+
+    @media (max-width: 500px) {
+
+      .role-options {
+        grid-template-columns: 1fr;
+      }
+
+      .heading h2 {
+        font-size: 32px;
+      }
+
+      .form-panel {
+        padding: 25px 16px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<header>
-    <div class="logo">
-        Reader <span>Reach</span>
-    </div>
-</header>
+  <main class="page">
 
-<main>
+    <!-- =========================
+         WELCOME
+    ========================== -->
 
-<div class="card">
+    <section class="welcome-panel">
 
-    <h1>Join Reader Reach</h1>
+      <div class="brand">
 
-    <p class="intro">
-        Reader Reach connects authors and readers through thoughtful
-        discovery, book information, and protected reading experiences.
-        Choose how you would like to join.
-    </p>
+        <div class="brand-mark">
+          R
+        </div>
 
-    <div class="role-title">
-        <strong>Are you a reader or an author?</strong>
-    </div>
+        <div class="brand-name">
+          Reader Reach
+        </div>
 
-    <div class="roles">
+      </div>
 
-        <button type="button"
-                class="role"
+
+      <div class="welcome-content">
+
+        <div class="eyebrow">
+          Books • Authors • Readers
+        </div>
+
+        <h1>
+          Every Book Has Its Readers.
+        </h1>
+
+        <p>
+          Create your Reader Reach account and become part
+          of a platform built around books, authors, readers,
+          conversations and meaningful discovery.
+        </p>
+
+      </div>
+
+
+      <div class="bottom-note">
+
+        Reader accounts can discover and request access to
+        approved books. Author accounts go through an initial
+        access review before they can submit books.
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         SIGNUP
+    ========================== -->
+
+    <section class="form-panel">
+
+      <div class="form-box">
+
+        <div class="mobile-brand">
+
+          <div class="brand-mark">
+            R
+          </div>
+
+          <div class="brand-name">
+            Reader Reach
+          </div>
+
+        </div>
+
+
+        <div class="heading">
+
+          <div class="small-title">
+            Join Reader Reach
+          </div>
+
+          <h2>
+            Create your account
+          </h2>
+
+          <p>
+            Choose how you want to use Reader Reach.
+          </p>
+
+        </div>
+
+
+        <div
+          id="message"
+          class="message"
+        ></div>
+
+
+        <form id="signupForm">
+
+          <!-- =========================
+               ACCOUNT TYPE
+          ========================== -->
+
+          <div class="account-type-title">
+            I am joining as:
+          </div>
+
+          <div class="role-options">
+
+            <div class="role-option">
+
+              <input
+                type="radio"
                 id="readerRole"
-                onclick="chooseRole('reader')">
+                name="role"
+                value="reader"
+                checked
+              >
 
-            <strong>📖 I'm a Reader</strong>
+              <label
+                for="readerRole"
+                class="role-card"
+              >
 
-            <small>
-                Discover approved books and access reading experiences
-                available through Reader Reach.
-            </small>
+                <div class="role-icon">
+                  R
+                </div>
 
-        </button>
+                <strong>
+                  Reader
+                </strong>
 
-        <button type="button"
-                class="role"
+                <span>
+                  Discover books, request access,
+                  read and track your progress.
+                </span>
+
+              </label>
+
+            </div>
+
+
+            <div class="role-option">
+
+              <input
+                type="radio"
                 id="authorRole"
-                onclick="chooseRole('author')">
+                name="role"
+                value="author"
+              >
 
-            <strong>✍️ I'm an Author</strong>
+              <label
+                for="authorRole"
+                class="role-card"
+              >
 
-            <small>
-                Submit your book information and introduce your work
-                to readers through Reader Reach.
-            </small>
+                <div class="role-icon">
+                  A
+                </div>
 
-        </button>
+                <strong>
+                  Author
+                </strong>
 
-    </div>
+                <span>
+                  Share your books and connect
+                  with readers through Reader Reach.
+                </span>
 
+              </label>
 
-    <form id="joinForm">
+            </div>
 
-        <label for="email">Email Address</label>
-
-        <input
-            type="email"
-            id="email"
-            placeholder="you@example.com"
-            required
-        >
-
-        <label for="password">Create Password</label>
-
-        <input
-            type="password"
-            id="password"
-            placeholder="At least 6 characters"
-            minlength="6"
-            required
-        >
-
-        <button class="submit" type="submit">
-            Submit Access Request →
-        </button>
-
-    </form>
+          </div>
 
 
-    <div id="message" class="message"></div>
+          <!-- =========================
+               BASIC INFORMATION
+          ========================== -->
 
-    <div class="switch">
-        Already have an account?
-        <a href="#" onclick="showLogin(event)">Sign in</a>
-    </div>
+          <div class="form-group">
 
-    <a class="back" href="../">
-        ← Back to Reader Reach
-    </a>
+            <label for="fullName">
+              Full name
+            </label>
 
-</div>
+            <input
+              type="text"
+              id="fullName"
+              placeholder="Your full name"
+              autocomplete="name"
+              required
+            >
 
-</main>
-
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<script>
-
-const SUPABASE_URL =
-    "https://xeoxlgkfgukcxwwcndqt.supabase.co";
-
-const SUPABASE_KEY =
-    "sb_publishable_bMm3mNKrb0szy2Wm3rQWSw_ZVcdjRmV";
-
-const supabaseClient =
-    window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
-    );
-
-let selectedRole = "";
+          </div>
 
 
-/* CHOOSE ROLE */
+          <div class="form-group">
 
-function chooseRole(role){
+            <label for="email">
+              Email address
+            </label>
 
-    selectedRole = role;
+            <input
+              type="email"
+              id="email"
+              placeholder="you@example.com"
+              autocomplete="email"
+              required
+            >
 
-    document
-        .getElementById("readerRole")
-        .classList.toggle(
-            "selected",
-            role === "reader"
+          </div>
+
+
+          <div class="form-group">
+
+            <label for="password">
+              Password
+            </label>
+
+            <div class="input-wrap password-wrap">
+
+              <input
+                type="password"
+                id="password"
+                placeholder="Create a password"
+                autocomplete="new-password"
+                minlength="8"
+                required
+              >
+
+              <button
+                type="button"
+                class="show-password"
+                id="showPassword"
+              >
+                Show
+              </button>
+
+            </div>
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label for="confirmPassword">
+              Confirm password
+            </label>
+
+            <input
+              type="password"
+              id="confirmPassword"
+              placeholder="Enter your password again"
+              autocomplete="new-password"
+              minlength="8"
+              required
+            >
+
+          </div>
+
+
+          <!-- =========================
+               AUTHOR INFORMATION
+          ========================== -->
+
+          <div id="authorFields">
+
+            <div class="author-info-title">
+              About you as an author
+            </div>
+
+            <div class="author-info-description">
+              This information helps Reader Reach understand
+              your author profile. You will still need approval
+              before you can submit a book.
+            </div>
+
+
+            <div class="form-group">
+
+              <label for="aboutAuthor">
+                About you
+              </label>
+
+              <textarea
+                id="aboutAuthor"
+                placeholder="Tell readers a little about yourself as an author."
+              ></textarea>
+
+            </div>
+
+          </div>
+
+
+          <!-- =========================
+               TERMS
+          ========================== -->
+
+          <div class="terms">
+
+            <input
+              type="checkbox"
+              id="terms"
+              required
+            >
+
+            <label for="terms">
+              I understand that Reader Reach may review account
+              access and book submissions before granting access
+              to certain features.
+            </label>
+
+          </div>
+
+
+          <button
+            type="submit"
+            class="submit-button"
+            id="signupButton"
+          >
+            Create Account
+          </button>
+
+        </form>
+
+
+        <div class="bottom-links">
+
+          <div>
+            Already have an account?
+            <a href="login.html">
+              Sign in
+            </a>
+          </div>
+
+          <a
+            href="../index.html"
+            class="back-home"
+          >
+            ← Back to Reader Reach
+          </a>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <script>
+
+    /* ==========================================================
+       READER REACH SUPABASE CONNECTION
+
+       We will connect the real project values when the backend
+       connection is completed.
+
+       NEVER put a service_role key in this file.
+    ========================================================== */
+
+    const SUPABASE_URL = "YOUR_SUPABASE_URL";
+    const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
+
+
+    let supabaseClient = null;
+
+
+    if (
+      SUPABASE_URL !== "YOUR_SUPABASE_URL" &&
+      SUPABASE_ANON_KEY !== "YOUR_SUPABASE_ANON_KEY"
+    ) {
+
+      supabaseClient =
+        window.supabase.createClient(
+          SUPABASE_URL,
+          SUPABASE_ANON_KEY
         );
 
-    document
-        .getElementById("authorRole")
-        .classList.toggle(
-            "selected",
-            role === "author"
-        );
-
-    document
-        .getElementById("joinForm")
-        .style.display = "block";
-
-    document
-        .getElementById("message")
-        .style.display = "none";
-
-}
+    }
 
 
-/* SUBMIT */
+    /* ==========================================================
+       ELEMENTS
+    ========================================================== */
 
-document
-.getElementById("joinForm")
-.addEventListener("submit", async function(e){
+    const signupForm =
+      document.getElementById("signupForm");
 
-    e.preventDefault();
+    const readerRole =
+      document.getElementById("readerRole");
 
-    const email =
-        document.getElementById("email")
-        .value
-        .trim()
-        .toLowerCase();
+    const authorRole =
+      document.getElementById("authorRole");
 
-    const password =
-        document.getElementById("password")
-        .value;
+    const authorFields =
+      document.getElementById("authorFields");
+
+    const aboutAuthor =
+      document.getElementById("aboutAuthor");
+
+    const passwordInput =
+      document.getElementById("password");
+
+    const confirmPasswordInput =
+      document.getElementById("confirmPassword");
+
+    const showPassword =
+      document.getElementById("showPassword");
+
+    const signupButton =
+      document.getElementById("signupButton");
 
     const message =
-        document.getElementById("message");
-
-    if(!selectedRole){
-
-        showMessage(
-            "Please choose Reader or Author first.",
-            "error"
-        );
-
-        return;
-    }
+      document.getElementById("message");
 
 
-    message.className = "message";
-    message.style.display = "block";
-    message.textContent =
-        "Submitting your access request...";
+    /* ==========================================================
+       MESSAGE
+    ========================================================== */
 
+    function showMessage(
+      text,
+      type = "info"
+    ) {
 
-    /*
-       First create the access request.
-    */
+      message.textContent = text;
 
-    const {
-        data: request,
-        error: requestError
-    } = await supabaseClient
-        .from("access_requests")
-        .insert({
-            email: email,
-            role: selectedRole,
-            status: "pending"
-        })
-        .select()
-        .single();
-
-
-    if(requestError){
-
-        /*
-          If this email already has a pending request,
-          continue to account creation instead of creating
-          a duplicate request.
-        */
-
-        if(
-            requestError.code === "23505"
-        ){
-
-            showMessage(
-                "An access request may already exist for this email. You can continue by creating your account.",
-                "error"
-            );
-
-        }else{
-
-            showMessage(
-                "We could not submit your request: " +
-                requestError.message,
-                "error"
-            );
-
-            return;
-        }
+      message.className =
+        "message show " + type;
 
     }
 
 
-    /*
-       Create the Supabase account.
-    */
+    function hideMessage() {
 
-    const {
-        data,
-        error
-    } = await supabaseClient.auth.signUp({
-        email: email,
-        password: password
-    });
+      message.textContent = "";
 
-
-    if(error){
-
-        if(
-            error.message.toLowerCase()
-            .includes("already registered")
-        ){
-
-            showMessage(
-                "Your access request was received. This email already has an account. Please use Sign in after your request is approved.",
-                "success"
-            );
-
-        }else{
-
-            showMessage(
-                "Your request was submitted, but account creation returned: " +
-                error.message,
-                "error"
-            );
-
-        }
-
-        return;
-    }
-
-
-    /*
-       If Supabase returned a user, try to link the
-       profile to the request. This is allowed by the
-       profile update policy we created.
-    */
-
-    if(
-        data &&
-        data.user &&
-        request
-    ){
-
-        await supabaseClient
-            .from("profiles")
-            .update({
-                access_request_id: request.id
-            })
-            .eq("id", data.user.id);
+      message.className = "message";
 
     }
 
 
-    showMessage(
-        "Your access request has been submitted successfully. Reader Reach will review your request. If email confirmation is required, check your inbox and confirm your email.",
-        "success"
+    /* ==========================================================
+       ROLE SELECTION
+    ========================================================== */
+
+    function updateRoleView() {
+
+      if (authorRole.checked) {
+
+        authorFields.classList.add("show");
+
+        aboutAuthor.required = true;
+
+        signupButton.textContent =
+          "Request Author Access";
+
+      } else {
+
+        authorFields.classList.remove("show");
+
+        aboutAuthor.required = false;
+
+        signupButton.textContent =
+          "Create Reader Account";
+
+      }
+
+    }
+
+
+    readerRole.addEventListener(
+      "change",
+      updateRoleView
     );
 
 
-    document
-        .getElementById("joinForm")
-        .reset();
+    authorRole.addEventListener(
+      "change",
+      updateRoleView
+    );
 
-});
+
+    updateRoleView();
 
 
-/* LOGIN */
+    /* ==========================================================
+       SHOW PASSWORD
+    ========================================================== */
 
-function showLogin(event){
+    showPassword.addEventListener(
+      "click",
+      () => {
 
-    if(event){
+        const isPassword =
+          passwordInput.type === "password";
+
+        passwordInput.type =
+          isPassword
+            ? "text"
+            : "password";
+
+        confirmPasswordInput.type =
+          isPassword
+            ? "text"
+            : "password";
+
+        showPassword.textContent =
+          isPassword
+            ? "Hide"
+            : "Show";
+
+      }
+    );
+
+
+    /* ==========================================================
+       SIGN UP
+    ========================================================== */
+
+    signupForm.addEventListener(
+      "submit",
+      async (event) => {
+
         event.preventDefault();
-    }
 
-    window.location.href =
-        "../account/login.html";
-
-}
+        hideMessage();
 
 
-/* MESSAGE */
+        const fullName =
+          document
+            .getElementById("fullName")
+            .value
+            .trim();
 
-function showMessage(text,type){
 
-    const box =
-        document.getElementById("message");
+        const email =
+          document
+            .getElementById("email")
+            .value
+            .trim()
+            .toLowerCase();
 
-    box.className =
-        "message " + type;
 
-    box.style.display =
-        "block";
+        const password =
+          passwordInput.value;
 
-    box.textContent =
-        text;
 
-}
+        const confirmPassword =
+          confirmPasswordInput.value;
 
-</script>
+
+        const role =
+          authorRole.checked
+            ? "author"
+            : "reader";
+
+
+        const authorAbout =
+          aboutAuthor.value.trim();
+
+
+        /* ----------------------------------------------
+           VALIDATION
+        ---------------------------------------------- */
+
+        if (!fullName) {
+
+          showMessage(
+            "Please enter your full name.",
+            "error"
+          );
+
+          return;
+        }
+
+
+        if (!email) {
+
+          showMessage(
+            "Please enter your email address.",
+            "error"
+          );
+
+          return;
+        }
+
+
+        if (password.length < 8) {
+
+          showMessage(
+            "Your password must contain at least 8 characters.",
+            "error"
+          );
+
+          return;
+        }
+
+
+        if (password !== confirmPassword) {
+
+          showMessage(
+            "The passwords do not match.",
+            "error"
+          );
+
+          return;
+        }
+
+
+        if (
+          role === "author" &&
+          !authorAbout
+        ) {
+
+          showMessage(
+            "Please tell us a little about yourself as an author.",
+            "error"
+          );
+
+          return;
+        }
+
+
+        /* ----------------------------------------------
+           DATABASE CONNECTION CHECK
+        ---------------------------------------------- */
+
+        if (!supabaseClient) {
+
+          showMessage(
+            "The Reader Reach database connection has not been configured yet.",
+            "error"
+          );
+
+          return;
+        }
+
+
+        signupButton.disabled = true;
+
+        signupButton.textContent =
+          role === "author"
+            ? "Submitting Request..."
+            : "Creating Account...";
+
+
+        try {
+
+          /* --------------------------------------------
+             CREATE AUTH ACCOUNT
+          -------------------------------------------- */
+
+          const {
+            data,
+            error
+          } =
+            await supabaseClient.auth.signUp({
+
+              email,
+
+              password,
+
+              options: {
+
+                data: {
+
+                  full_name: fullName,
+
+                  role: role,
+
+                  about_author:
+                    role === "author"
+                      ? authorAbout
+                      : null
+
+                }
+
+              }
+
+            });
+
+
+          if (error) {
+            throw error;
+          }
+
+
+          if (!data || !data.user) {
+
+            throw new Error(
+              "Your account could not be created."
+            );
+
+          }
+
+
+          const user =
+            data.user;
+
+
+          /* --------------------------------------------
+             CREATE / UPDATE PROFILE
+
+             The final Supabase database will contain
+             the profiles table used by all dashboards.
+          -------------------------------------------- */
+
+          const profileStatus =
+            role === "author"
+              ? "pending"
+              : "approved";
+
+
+          const {
+            error: profileError
+          } =
+            await supabaseClient
+              .from("profiles")
+              .upsert({
+
+                id: user.id,
+
+                full_name: fullName,
+
+                email: email,
+
+                role: role,
+
+                access_status:
+                  profileStatus
+
+              });
+
+
+          if (profileError) {
+
+            console.error(
+              "Profile creation error:",
+              profileError
+            );
+
+            /*
+              We don't expose database internals
+              to the user.
+            */
+
+            throw new Error(
+              "Your account was created, but your Reader Reach profile could not be completed. Please contact Reader Reach."
+            );
+
+          }
+
+
+          /* --------------------------------------------
+             AUTHOR ACCESS REQUEST
+          -------------------------------------------- */
+
+          if (role === "author") {
+
+            const {
+              error: requestError
+            } =
+              await supabaseClient
+                .from("access_requests")
+                .insert({
+
+                  user_id: user.id,
+
+                  role: "author",
+
+                  status: "pending"
+
+                });
+
+
+            if (requestError) {
+
+              console.error(
+                "Author access request error:",
+                requestError
+              );
+
+              throw new Error(
+                "Your account was created, but the author access request could not be completed."
+              );
+
+            }
+
+          }
+
+
+          /* --------------------------------------------
+             EMAIL VERIFICATION
+
+             Supabase may require the user to verify
+             their email before signing in.
+          -------------------------------------------- */
+
+          if (!data.session) {
+
+            if (role === "author") {
+
+              showMessage(
+                "Your author account has been created. Please verify your email, then wait for Reader Reach to approve your author access. After approval, you can sign in normally.",
+                "success"
+              );
+
+            } else {
+
+              showMessage(
+                "Your reader account has been created. Please verify your email if verification is required, then sign in.",
+                "success"
+              );
+
+            }
+
+
+            signupForm.reset();
+
+            readerRole.checked = true;
+
+            updateRoleView();
+
+            return;
+          }
+
+
+          /* --------------------------------------------
+             ACCOUNT CREATED WITH ACTIVE SESSION
+          -------------------------------------------- */
+
+          if (role === "author") {
+
+            await supabaseClient.auth.signOut();
+
+
+            showMessage(
+              "Your author account has been created and is waiting for approval. You can sign in after your author access has been approved.",
+              "success"
+            );
+
+
+            signupForm.reset();
+
+            readerRole.checked = true;
+
+            updateRoleView();
+
+
+          } else {
+
+            window.location.href =
+              "login.html";
+
+          }
+
+
+        } catch (error) {
+
+          console.error(
+            "Reader Reach signup error:",
+            error
+          );
+
+
+          let errorMessage =
+            error.message ||
+            "We could not create your account. Please try again.";
+
+
+          if (
+            errorMessage
+              .toLowerCase()
+              .includes("already registered")
+          ) {
+
+            errorMessage =
+              "An account with this email already exists. Please sign in instead.";
+
+          }
+
+
+          showMessage(
+            errorMessage,
+            "error"
+          );
+
+
+        } finally {
+
+          signupButton.disabled = false;
+
+          updateRoleView();
+
+        }
+
+      }
+    );
+
+  </script>
 
 </body>
 </html>
