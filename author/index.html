@@ -3,355 +3,578 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Author Area | Reader Reach</title>
+  <title>Author Dashboard | Reader Reach</title>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../config.js"></script>
 
   <style>
     * {
       box-sizing: border-box;
-      margin: 0;
-      padding: 0;
     }
 
     body {
+      margin: 0;
       font-family: Georgia, "Times New Roman", serif;
       background: #fffdf8;
       color: #3d2b22;
-      line-height: 1.6;
     }
 
-    header {
-      background: #4b2d20;
+    button,
+    input,
+    textarea,
+    select {
+      font: inherit;
+    }
+
+    .topbar {
+      height: 72px;
+      background: #3d2b22;
       color: white;
-      padding: 20px 7%;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      gap: 20px;
+      justify-content: space-between;
+      padding: 0 32px;
       position: sticky;
       top: 0;
       z-index: 20;
     }
 
-    .logo {
+    .brand {
       font-size: 25px;
       font-weight: bold;
-      letter-spacing: .5px;
+      letter-spacing: .3px;
     }
 
-    .logo span {
-      color: #f2dfaa;
+    .brand span {
+      color: #e7d29a;
     }
 
-    .header-right {
+    .user-area {
       display: flex;
       align-items: center;
-      gap: 18px;
+      gap: 15px;
       font-family: Arial, sans-serif;
-    }
-
-    .author-label {
-      color: #f2dfaa;
       font-size: 14px;
     }
 
-    .logout-btn {
-      border: 1px solid rgba(255,255,255,.5);
+    .logout {
+      border: 1px solid rgba(255,255,255,.45);
       background: transparent;
       color: white;
-      padding: 9px 16px;
-      border-radius: 6px;
+      border-radius: 8px;
+      padding: 9px 14px;
       cursor: pointer;
+    }
+
+    .logout:hover {
+      background: rgba(255,255,255,.1);
+    }
+
+    .layout {
+      display: flex;
+      min-height: calc(100vh - 72px);
+    }
+
+    .sidebar {
+      width: 245px;
+      background: #f4ede2;
+      border-right: 1px solid #e2d7c8;
+      padding: 28px 16px;
+      flex-shrink: 0;
+    }
+
+    .sidebar-title {
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #8b7567;
+      padding: 0 12px 12px;
+    }
+
+    .nav-btn {
+      width: 100%;
+      text-align: left;
+      border: 0;
+      background: transparent;
+      color: #513b2f;
+      padding: 13px 12px;
+      border-radius: 9px;
+      margin-bottom: 5px;
+      cursor: pointer;
+      font-family: Arial, sans-serif;
       font-size: 14px;
     }
 
-    .logout-btn:hover {
-      background: white;
+    .nav-btn:hover,
+    .nav-btn.active {
+      background: #fffdf8;
+      color: #3d2b22;
+      font-weight: bold;
+    }
+
+    .main {
+      flex: 1;
+      padding: 38px;
+      max-width: 1250px;
+    }
+
+    .page {
+      display: none;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    .page-heading {
+      margin-bottom: 28px;
+    }
+
+    .page-heading h1 {
+      margin: 0 0 7px;
+      font-size: 34px;
       color: #4b2d20;
     }
 
-    .hero {
-      background:
-        linear-gradient(rgba(75,45,32,.94), rgba(75,45,32,.94));
-      color: white;
-      padding: 75px 7% 70px;
-    }
-
-    .hero-inner {
-      max-width: 1050px;
-      margin: auto;
-    }
-
-    .eyebrow {
-      color: #f2dfaa;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      font-family: Arial, sans-serif;
-      font-size: 13px;
-      font-weight: bold;
-      margin-bottom: 15px;
-    }
-
-    h1 {
-      font-size: clamp(38px, 6vw, 64px);
-      line-height: 1.08;
-      margin-bottom: 20px;
-    }
-
-    .hero p {
-      max-width: 720px;
-      color: #f8eee3;
-      font-size: 18px;
-    }
-
-    main {
-      max-width: 1050px;
-      margin: 0 auto;
-      padding: 55px 22px 90px;
-    }
-
-    .welcome-card {
-      background: #f7efdf;
-      border: 1px solid #eadbc1;
-      border-radius: 14px;
-      padding: 25px;
-      margin-bottom: 35px;
-    }
-
-    .welcome-card h2 {
-      margin-bottom: 8px;
-      font-size: 25px;
-    }
-
-    #accountEmail {
+    .page-heading p {
+      margin: 0;
       color: #725b4e;
       font-family: Arial, sans-serif;
-      font-size: 14px;
     }
 
-    .section-heading {
+    .welcome {
+      background: linear-gradient(135deg, #4b2d20, #71513e);
+      color: white;
+      padding: 30px;
+      border-radius: 16px;
       margin-bottom: 25px;
     }
 
-    .section-heading h2 {
-      font-size: 34px;
-      margin-bottom: 8px;
+    .welcome h2 {
+      margin: 0 0 8px;
+      font-size: 27px;
     }
 
-    .section-heading p {
-      color: #725b4e;
-      max-width: 720px;
+    .welcome p {
+      margin: 0;
+      color: #f5eee6;
+      font-family: Arial, sans-serif;
     }
 
-    .form-card {
+    .status-box {
+      margin-top: 18px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 13px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.13);
+      font-family: Arial, sans-serif;
+      font-size: 13px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-bottom: 28px;
+    }
+
+    .stat {
       background: white;
-      border: 1px solid #eadbc1;
+      border: 1px solid #e8ddd0;
       border-radius: 14px;
-      padding: 35px;
-      box-shadow: 0 12px 35px rgba(61,43,34,.07);
+      padding: 22px;
+      box-shadow: 0 4px 16px rgba(61,43,34,.05);
+    }
+
+    .stat-label {
+      color: #816c5e;
+      font-family: Arial, sans-serif;
+      font-size: 13px;
+      margin-bottom: 9px;
+    }
+
+    .stat-value {
+      font-size: 29px;
+      font-weight: bold;
+      color: #4b2d20;
+    }
+
+    .card {
+      background: white;
+      border: 1px solid #e8ddd0;
+      border-radius: 15px;
+      padding: 25px;
+      box-shadow: 0 4px 16px rgba(61,43,34,.04);
+      margin-bottom: 22px;
+    }
+
+    .card h2 {
+      margin: 0 0 7px;
+      color: #4b2d20;
+      font-size: 22px;
+    }
+
+    .card-subtitle {
+      color: #806b5e;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      margin-bottom: 22px;
     }
 
     .form-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 22px;
+      gap: 18px;
     }
 
-    .full {
+    .field {
+      margin-bottom: 17px;
+    }
+
+    .field.full {
       grid-column: 1 / -1;
     }
 
     label {
       display: block;
+      margin-bottom: 7px;
+      font-family: Arial, sans-serif;
+      font-size: 13px;
       font-weight: bold;
-      margin-bottom: 8px;
-      font-size: 15px;
-    }
-
-    .required {
-      color: #9a4b35;
+      color: #503a2e;
     }
 
     input,
     textarea,
     select {
       width: 100%;
-      border: 1px solid #d8c7ae;
-      border-radius: 8px;
-      padding: 13px 14px;
-      font-family: Arial, sans-serif;
-      font-size: 15px;
+      border: 1px solid #d9cbbd;
+      background: #fffdfa;
       color: #3d2b22;
-      background: #fffdf9;
+      border-radius: 9px;
+      padding: 12px 13px;
       outline: none;
     }
 
     input:focus,
     textarea:focus,
     select:focus {
-      border-color: #8b624d;
-      box-shadow: 0 0 0 3px rgba(139,98,77,.1);
+      border-color: #9b795f;
+      box-shadow: 0 0 0 3px rgba(155,121,95,.1);
     }
 
     textarea {
-      min-height: 130px;
+      min-height: 125px;
       resize: vertical;
     }
 
-    .help-text {
-      display: block;
-      margin-top: 7px;
-      color: #806b5e;
+    .hint {
+      margin-top: 6px;
       font-family: Arial, sans-serif;
+      color: #8b776b;
       font-size: 12px;
-    }
-
-    .submit-area {
-      margin-top: 30px;
-      padding-top: 25px;
-      border-top: 1px solid #eee2d2;
+      line-height: 1.5;
     }
 
     .submit-btn {
+      border: 0;
       background: #4b2d20;
       color: white;
-      border: none;
-      padding: 15px 27px;
-      border-radius: 7px;
-      font-size: 16px;
-      font-weight: bold;
+      border-radius: 9px;
+      padding: 13px 22px;
       cursor: pointer;
-      font-family: Georgia, "Times New Roman", serif;
+      font-family: Arial, sans-serif;
+      font-weight: bold;
     }
 
     .submit-btn:hover {
-      background: #65402e;
+      background: #634331;
     }
 
     .submit-btn:disabled {
       opacity: .6;
-      cursor: wait;
+      cursor: not-allowed;
     }
 
-    #message {
-      margin-top: 18px;
-      padding: 14px 16px;
-      border-radius: 8px;
+    .message {
       display: none;
+      padding: 13px 15px;
+      border-radius: 9px;
+      margin-bottom: 18px;
       font-family: Arial, sans-serif;
       font-size: 14px;
     }
 
-    #message.success {
+    .message.show {
       display: block;
-      background: #edf6ed;
-      border: 1px solid #bdd8bd;
-      color: #315b31;
     }
 
-    #message.error {
-      display: block;
-      background: #fff0ed;
-      border: 1px solid #e2b8ad;
-      color: #7a3022;
+    .message.success {
+      background: #edf7ee;
+      border: 1px solid #b9dcbc;
+      color: #315f35;
     }
 
-    .info-section {
-      margin-top: 50px;
+    .message.error {
+      background: #fff0ee;
+      border: 1px solid #e4b8b1;
+      color: #843c34;
+    }
+
+    .message.info {
+      background: #f3f0e8;
+      border: 1px solid #ddd1b8;
+      color: #66563d;
+    }
+
+    .book-list {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
+      gap: 15px;
     }
 
-    .info-card {
-      background: #f8f1e5;
-      border: 1px solid #eadbc1;
+    .book-item {
+      border: 1px solid #e6dace;
       border-radius: 12px;
-      padding: 23px;
-    }
-
-    .info-card strong {
-      display: block;
-      margin-bottom: 7px;
-      font-size: 17px;
-    }
-
-    .info-card p {
-      color: #725b4e;
-      font-family: Arial, sans-serif;
-      font-size: 13px;
-    }
-
-    footer {
-      background: #3d2b22;
-      color: #e9dccd;
-      text-align: center;
-      padding: 30px 20px;
-      font-family: Arial, sans-serif;
-      font-size: 13px;
-    }
-
-    footer a {
-      color: #f2dfaa;
-      text-decoration: none;
-    }
-
-    .loading-screen {
-      min-height: 100vh;
+      padding: 18px;
       display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 30px;
+      gap: 18px;
+      align-items: flex-start;
+    }
+
+    .cover {
+      width: 72px;
+      height: 94px;
+      border-radius: 6px;
+      background: #efe7db;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .book-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .book-info h3 {
+      margin: 0 0 5px;
+      font-size: 19px;
+      color: #4b2d20;
+    }
+
+    .book-info p {
+      margin: 4px 0;
+      font-family: Arial, sans-serif;
+      font-size: 13px;
+      color: #725f53;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 5px 9px;
+      border-radius: 999px;
+      font-family: Arial, sans-serif;
+      font-size: 11px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: .4px;
+      margin-top: 8px;
+    }
+
+    .badge.pending {
+      background: #f8edd3;
+      color: #806124;
+    }
+
+    .badge.approved {
+      background: #e6f3e7;
+      color: #35643b;
+    }
+
+    .badge.rejected,
+    .badge.denied {
+      background: #fae8e5;
+      color: #873d34;
+    }
+
+    .notification {
+      border: 1px solid #e6dace;
+      border-radius: 11px;
+      padding: 16px;
+      margin-bottom: 11px;
+    }
+
+    .notification.unread {
+      border-left: 4px solid #9b795f;
+      background: #fffaf2;
+    }
+
+    .notification h3 {
+      margin: 0 0 5px;
+      font-size: 16px;
+    }
+
+    .notification p {
+      margin: 0 0 6px;
+      color: #725f53;
+      font-family: Arial, sans-serif;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .notification small {
+      color: #9a8779;
       font-family: Arial, sans-serif;
     }
 
-    .loading-box {
-      max-width: 500px;
+    .discussion-form {
+      display: grid;
+      gap: 14px;
     }
 
-    .loading-box h2 {
-      font-family: Georgia, "Times New Roman", serif;
+    .discussion {
+      border-bottom: 1px solid #e9dfd5;
+      padding: 16px 0;
+    }
+
+    .discussion:last-child {
+      border-bottom: 0;
+    }
+
+    .discussion h3 {
+      margin: 0 0 6px;
+      color: #4b2d20;
+    }
+
+    .discussion p {
+      margin: 0 0 8px;
+      color: #725f53;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .discussion small {
+      color: #9b887a;
+      font-family: Arial, sans-serif;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 35px 15px;
+      color: #897568;
+      font-family: Arial, sans-serif;
+      border: 1px dashed #d8cbbb;
+      border-radius: 11px;
+    }
+
+    .locked {
+      text-align: center;
+      padding: 50px 25px;
+      background: #f7f0e7;
+      border-radius: 14px;
+      border: 1px solid #e2d4c4;
+    }
+
+    .locked-icon {
+      font-size: 38px;
       margin-bottom: 10px;
     }
 
-    @media (max-width: 760px) {
-      header {
-        padding: 17px 5%;
+    .locked h2 {
+      margin: 0 0 8px;
+      color: #4b2d20;
+    }
+
+    .locked p {
+      max-width: 550px;
+      margin: 0 auto 18px;
+      font-family: Arial, sans-serif;
+      color: #725f53;
+      line-height: 1.6;
+    }
+
+    .back-btn {
+      display: inline-block;
+      text-decoration: none;
+      background: #4b2d20;
+      color: white;
+      padding: 10px 17px;
+      border-radius: 8px;
+      font-family: Arial, sans-serif;
+      font-size: 13px;
+    }
+
+    .loading {
+      padding: 70px;
+      text-align: center;
+      font-family: Arial, sans-serif;
+      color: #725f53;
+    }
+
+    @media (max-width: 850px) {
+      .sidebar {
+        width: 190px;
       }
 
-      .header-right {
-        gap: 9px;
+      .main {
+        padding: 25px;
       }
 
-      .author-label {
-        display: none;
-      }
-
-      .hero {
-        padding: 55px 5%;
-      }
-
-      main {
-        padding: 40px 15px 70px;
-      }
-
-      .form-card {
-        padding: 22px;
+      .stats {
+        grid-template-columns: 1fr;
       }
 
       .form-grid {
         grid-template-columns: 1fr;
       }
 
-      .full {
+      .field.full {
         grid-column: auto;
       }
+    }
 
-      .info-section {
-        grid-template-columns: 1fr;
+    @media (max-width: 650px) {
+      .topbar {
+        padding: 0 16px;
+      }
+
+      .user-email {
+        display: none;
+      }
+
+      .layout {
+        display: block;
+      }
+
+      .sidebar {
+        width: 100%;
+        border-right: 0;
+        border-bottom: 1px solid #e2d7c8;
+        padding: 10px;
+        display: flex;
+        gap: 5px;
+        overflow-x: auto;
+      }
+
+      .sidebar-title {
+        display: none;
+      }
+
+      .nav-btn {
+        min-width: max-content;
+        margin: 0;
+      }
+
+      .main {
+        padding: 20px 14px;
+      }
+
+      .page-heading h1 {
+        font-size: 28px;
       }
     }
   </style>
@@ -359,523 +582,998 @@
 
 <body>
 
-  <div id="loadingScreen" class="loading-screen">
-    <div class="loading-box">
-      <h2>Opening your Author Area...</h2>
-      <p>Please wait.</p>
-    </div>
+<header class="topbar">
+  <div class="brand">Reader <span>Reach</span></div>
+
+  <div class="user-area">
+    <span class="user-email" id="userEmail">Loading...</span>
+    <button class="logout" id="logoutBtn">Sign Out</button>
   </div>
+</header>
 
-  <div id="app" style="display:none;">
+<div id="loadingScreen" class="loading">
+  Checking your author account...
+</div>
 
-    <header>
-      <div class="logo">
-        Reader <span>Reach</span>
+<div id="app" class="layout" style="display:none;">
+
+  <aside class="sidebar">
+    <div class="sidebar-title">Author Area</div>
+
+    <button class="nav-btn active" data-page="dashboard">
+      Dashboard
+    </button>
+
+    <button class="nav-btn" data-page="submit">
+      Submit a Book
+    </button>
+
+    <button class="nav-btn" data-page="books">
+      My Books
+    </button>
+
+    <button class="nav-btn" data-page="notifications">
+      Notifications
+    </button>
+
+    <button class="nav-btn" data-page="discussion">
+      Authors Discussion
+    </button>
+  </aside>
+
+  <main class="main">
+
+    <!-- DASHBOARD -->
+    <section class="page active" id="page-dashboard">
+
+      <div class="page-heading">
+        <h1>Author Dashboard</h1>
+        <p>Manage your Reader Reach author account and books.</p>
       </div>
 
-      <div class="header-right">
-        <span class="author-label">AUTHOR AREA</span>
-        <button class="logout-btn" onclick="logout()">Sign Out</button>
-      </div>
-    </header>
-
-    <section class="hero">
-      <div class="hero-inner">
-        <div class="eyebrow">Reader Reach • Authors</div>
-
-        <h1>Tell Us About Your Book.</h1>
-
+      <div class="welcome">
+        <h2>Welcome, <span id="welcomeName">Author</span></h2>
         <p>
-          This is where you introduce your book to Reader Reach.
-          Give us the information we need to understand your work,
-          your intended readers, and where readers can find your book.
+          Your author account is connected to Reader Reach.
+          Submit your book when your author access has been approved.
         </p>
+
+        <div class="status-box">
+          Account status:
+          <strong id="accountStatus">Checking...</strong>
+        </div>
       </div>
+
+      <div class="stats">
+        <div class="stat">
+          <div class="stat-label">My Books</div>
+          <div class="stat-value" id="bookCount">0</div>
+        </div>
+
+        <div class="stat">
+          <div class="stat-label">Approved Books</div>
+          <div class="stat-value" id="approvedBookCount">0</div>
+        </div>
+
+        <div class="stat">
+          <div class="stat-label">Notifications</div>
+          <div class="stat-value" id="notificationCount">0</div>
+        </div>
+      </div>
+
+      <div id="dashboardAccessArea"></div>
+
     </section>
 
-    <main>
+    <!-- SUBMIT -->
+    <section class="page" id="page-submit">
 
-      <div class="welcome-card">
-        <h2>Welcome, Author.</h2>
-        <div id="accountEmail">Checking your account...</div>
+      <div class="page-heading">
+        <h1>Submit Your Book</h1>
+        <p>Send your book information to Reader Reach for review.</p>
       </div>
 
-      <div class="section-heading">
-        <h2>Book Submission</h2>
+      <div id="submitLocked" class="locked" style="display:none;">
+        <div class="locked-icon">🔒</div>
+        <h2>Author Access Pending</h2>
         <p>
-          Complete the form below. Your submission will go to the Reader Reach
-          team for review before your book appears on the platform.
+          Your author account must be approved by the Reader Reach administrator
+          before you can submit a book.
         </p>
+        <button class="submit-btn" onclick="showPage('dashboard')">
+          Return to Dashboard
+        </button>
       </div>
 
-      <form id="bookForm" class="form-card">
+      <div id="submitCard" class="card" style="display:none;">
 
-        <div class="form-grid">
+        <h2>Tell Us About Your Book</h2>
+        <div class="card-subtitle">
+          Every new book submission is reviewed separately by Reader Reach.
+        </div>
+
+        <div id="submitMessage" class="message"></div>
+
+        <form id="bookForm">
+
+          <div class="form-grid">
+
+            <div class="field">
+              <label for="bookTitle">Book Title *</label>
+              <input
+                id="bookTitle"
+                type="text"
+                required
+                placeholder="Book Title"
+              >
+            </div>
+
+            <div class="field">
+              <label for="genre">Genre / Topic *</label>
+              <input
+                id="genre"
+                type="text"
+                required
+                placeholder="Genre or topic"
+              >
+            </div>
+
+            <div class="field full">
+              <label for="bookDescription">Book Description *</label>
+              <textarea
+                id="bookDescription"
+                required
+                placeholder="Tell readers what the book is about..."
+              ></textarea>
+            </div>
+
+            <div class="field full">
+              <label for="intendedReaders">
+                Who do you think this book is for? *
+              </label>
+              <textarea
+                id="intendedReaders"
+                required
+                placeholder="Describe the readers you believe would be interested in this book..."
+              ></textarea>
+            </div>
+
+            <div class="field full">
+              <label for="whereAvailable">
+                Where is your book currently available? *
+              </label>
+              <input
+                id="whereAvailable"
+                type="text"
+                required
+                placeholder="Website, bookstore, Amazon, etc."
+              >
+            </div>
+
+            <div class="field full">
+              <label for="bookCoverUrl">Book Image / Cover URL</label>
+              <input
+                id="bookCoverUrl"
+                type="url"
+                placeholder="https://..."
+              >
+              <div class="hint">
+                Add the public URL of your book cover image.
+              </div>
+            </div>
+
+            <div class="field full">
+              <label for="flipperGuideLink">
+                Flipper Guide Link *
+              </label>
+
+              <input
+                id="flipperGuideLink"
+                type="url"
+                placeholder="https://..."
+              >
+
+              <div class="hint">
+                A book cannot be approved until the required Flipper Guide
+                link has been provided.
+              </div>
+            </div>
+
+            <div class="field full">
+              <button class="submit-btn" id="submitBookBtn" type="submit">
+                Submit Book for Review
+              </button>
+            </div>
+
+          </div>
+
+        </form>
+      </div>
+
+    </section>
+
+    <!-- MY BOOKS -->
+    <section class="page" id="page-books">
+
+      <div class="page-heading">
+        <h1>My Books</h1>
+        <p>View the books you have submitted and their review status.</p>
+      </div>
+
+      <div class="card">
+        <div id="booksList" class="book-list">
+          <div class="empty">Loading your books...</div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- NOTIFICATIONS -->
+    <section class="page" id="page-notifications">
+
+      <div class="page-heading">
+        <h1>Notifications</h1>
+        <p>Updates about your account and book submissions.</p>
+      </div>
+
+      <div class="card">
+        <div id="notificationsList">
+          <div class="empty">Loading notifications...</div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- DISCUSSION -->
+    <section class="page" id="page-discussion">
+
+      <div class="page-heading">
+        <h1>Authors Discussion</h1>
+        <p>Share ideas and discussions with other authors.</p>
+      </div>
+
+      <div class="card">
+        <h2>Start a Discussion</h2>
+        <div class="card-subtitle">
+          Create a discussion for the author community.
+        </div>
+
+        <div id="discussionMessage" class="message"></div>
+
+        <form id="discussionForm" class="discussion-form">
 
           <div>
-            <label>
-              Author Name <span class="required">*</span>
-            </label>
+            <label for="discussionTitle">Discussion Title</label>
             <input
-              type="text"
-              id="authorName"
-              placeholder="Your name"
+              id="discussionTitle"
               required
+              placeholder="Discussion title"
             >
           </div>
 
           <div>
-            <label>
-              Email Address <span class="required">*</span>
-            </label>
-            <input
-              type="email"
-              id="email"
-              placeholder="Your email address"
-              required
-            >
-          </div>
-
-          <div class="full">
-            <label>
-              About the Author <span class="required">*</span>
-            </label>
+            <label for="discussionBody">Your Discussion</label>
             <textarea
-              id="aboutAuthor"
-              placeholder="Tell readers a little about yourself..."
+              id="discussionBody"
               required
+              placeholder="Write your discussion..."
             ></textarea>
           </div>
 
-          <div class="full">
-            <label>
-              Book Title <span class="required">*</span>
-            </label>
-            <input
-              type="text"
-              id="bookTitle"
-              placeholder="Your book title"
-              required
-            >
-          </div>
-
-          <div class="full">
-            <label>
-              Book Description <span class="required">*</span>
-            </label>
-            <textarea
-              id="bookDescription"
-              placeholder="Tell us about the book..."
-              required
-            ></textarea>
-          </div>
-
           <div>
-            <label>
-              Genre / Topic <span class="required">*</span>
-            </label>
-            <input
-              type="text"
-              id="genre"
-              placeholder="Example: Fiction, Romance, Business..."
-              required
-            >
+            <button class="submit-btn" type="submit">
+              Post Discussion
+            </button>
           </div>
 
-          <div>
-            <label>
-              Who Is the Book For? <span class="required">*</span>
-            </label>
-            <input
-              type="text"
-              id="intendedReaders"
-              placeholder="Who do you believe will enjoy this book?"
-              required
-            >
-          </div>
+        </form>
+      </div>
 
-          <div class="full">
-            <label>
-              Where Is the Book Currently Available? <span class="required">*</span>
-            </label>
-            <textarea
-              id="availability"
-              placeholder="Tell us where readers can currently get your book..."
-              required
-            ></textarea>
-          </div>
-
-          <div class="full">
-            <label>
-              Book Link <span class="required">*</span>
-            </label>
-            <input
-              type="url"
-              id="bookLink"
-              placeholder="https://..."
-              required
-            >
-
-            <span class="help-text">
-              Your book link is important. Readers will use this link
-              to find your book and learn more about it.
-            </span>
-          </div>
-
-          <div class="full">
-            <label>
-              Book Cover Image
-            </label>
-
-            <input
-              type="url"
-              id="bookCoverUrl"
-              placeholder="Paste your book cover image URL"
-            >
-
-            <span class="help-text">
-              For now, paste the direct URL of your book cover image.
-              We can add direct image uploading later.
-            </span>
-          </div>
-
-          <div class="full">
-            <label>
-              Flipper Guide Link
-            </label>
-
-            <input
-              type="url"
-              id="flipperGuideLink"
-              placeholder="https://..."
-            >
-
-            <span class="help-text">
-              If you have a Reader Reach Flipper Guide for this book,
-              add its link here. The guide will still require approval
-              before readers can access it.
-            </span>
-          </div>
-
+      <div class="card">
+        <h2>Recent Discussions</h2>
+        <div id="discussionList">
+          <div class="empty">Loading discussions...</div>
         </div>
+      </div>
 
-        <div class="submit-area">
-          <button
-            type="submit"
-            id="submitBtn"
-            class="submit-btn"
-          >
-            Submit My Book →
-          </button>
+    </section>
 
-          <div id="message"></div>
-        </div>
+  </main>
+</div>
 
-      </form>
+<script>
+  const CONFIG = window.READER_REACH_CONFIG;
 
-      <section class="info-section">
+  if (!CONFIG) {
+    document.getElementById("loadingScreen").innerHTML =
+      "Reader Reach configuration could not be loaded.";
+    throw new Error("config.js was not loaded.");
+  }
 
-        <div class="info-card">
-          <strong>01 — Submit</strong>
-          <p>
-            Give Reader Reach the information about your book and yourself.
-          </p>
-        </div>
+  const { createClient } = window.supabase;
 
-        <div class="info-card">
-          <strong>02 — Review</strong>
-          <p>
-            Your submission is reviewed before anything is published.
-          </p>
-        </div>
+  const supabase = createClient(
+    CONFIG.SUPABASE_URL,
+    CONFIG.SUPABASE_ANON_KEY
+  );
 
-        <div class="info-card">
-          <strong>03 — Reach Readers</strong>
-          <p>
-            Once approved, your book can become part of the Reader Reach
-            discovery experience.
-          </p>
-        </div>
+  let currentUser = null;
+  let currentProfile = null;
 
-      </section>
+  const $ = (id) => document.getElementById(id);
 
-    </main>
+  function escapeHtml(value) {
+    if (value === null || value === undefined) return "";
 
-    <footer>
-      <p>
-        Reader Reach • Every Book Has Its Readers.
-      </p>
+    return String(value)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+  }
 
-      <p style="margin-top:8px;">
-        <a href="mailto:mailreaderreach@gmail.com">
-          mailreaderreach@gmail.com
-        </a>
-      </p>
-    </footer>
+  function formatDate(value) {
+    if (!value) return "";
 
-  </div>
+    try {
+      return new Date(value).toLocaleString();
+    } catch {
+      return value;
+    }
+  }
 
-  <script>
+  function showMessage(id, text, type) {
+    const el = $(id);
 
-    const SUPABASE_URL =
-      "https://xeoxlgkfgukcxwwcndqt.supabase.co";
+    if (!el) return;
 
-    const SUPABASE_KEY =
-      "sb_publishable_bMm3mNKrb0szy2Wm3rQWSw_ZVcdjRmV";
+    el.className = "message show " + type;
+    el.textContent = text;
+  }
 
-    const supabaseClient =
-      supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
-      );
+  function showPage(pageName) {
+    document.querySelectorAll(".page").forEach(page => {
+      page.classList.remove("active");
+    });
 
-    let currentUser = null;
+    document.querySelectorAll(".nav-btn").forEach(button => {
+      button.classList.remove("active");
+    });
 
-    async function initializeAuthorArea() {
+    const page = $("page-" + pageName);
+    if (page) page.classList.add("active");
 
-      try {
+    const button = document.querySelector(
+      '.nav-btn[data-page="' + pageName + '"]'
+    );
 
-        const {
-          data: sessionData,
-          error: sessionError
-        } = await supabaseClient.auth.getSession();
+    if (button) button.classList.add("active");
 
-        if (sessionError) {
-          throw sessionError;
-        }
+    if (pageName === "books") loadBooks();
+    if (pageName === "notifications") loadNotifications();
+    if (pageName === "discussion") loadDiscussions();
+  }
 
-        const session = sessionData.session;
+  window.showPage = showPage;
 
-        if (!session) {
-          window.location.href = "../account/login.html";
-          return;
-        }
+  document.querySelectorAll(".nav-btn").forEach(button => {
+    button.addEventListener("click", () => {
+      showPage(button.dataset.page);
+    });
+  });
 
-        currentUser = session.user;
+  async function loadUser() {
+    const { data, error } = await supabase.auth.getUser();
 
-        const {
-          data: profile,
-          error: profileError
-        } = await supabaseClient
-          .from("profiles")
-          .select("email, role, access_status")
-          .eq("id", currentUser.id)
-          .single();
-
-        if (profileError) {
-          console.error(profileError);
-          showBlocked(
-            "We could not load your Reader Reach account."
-          );
-          return;
-        }
-
-        if (profile.role !== "author") {
-          await supabaseClient.auth.signOut();
-
-          showBlocked(
-            "This area is only available to approved authors."
-          );
-
-          return;
-        }
-
-        if (profile.access_status !== "approved") {
-
-          await supabaseClient.auth.signOut();
-
-          if (profile.access_status === "pending") {
-            showBlocked(
-              "Your author access is still waiting for approval."
-            );
-          } else {
-            showBlocked(
-              "Your author access has not been approved."
-            );
-          }
-
-          return;
-        }
-
-        document.getElementById("accountEmail").textContent =
-          profile.email || currentUser.email;
-
-        document.getElementById("loadingScreen").style.display =
-          "none";
-
-        document.getElementById("app").style.display =
-          "block";
-
-      } catch (error) {
-
-        console.error(error);
-
-        showBlocked(
-          "Something went wrong while opening your Author Area."
-        );
-      }
+    if (error || !data.user) {
+      window.location.href = "../account/login.html";
+      return false;
     }
 
+    currentUser = data.user;
 
-    function showBlocked(message) {
+    $("userEmail").textContent =
+      currentUser.email || "Author account";
 
-      document.getElementById("loadingScreen").innerHTML = `
-        <div class="loading-box">
-          <h2>Reader Reach</h2>
-          <p>${message}</p>
-          <br>
-          <a href="../"
-             style="
-               color:#4b2d20;
-               font-weight:bold;
-               text-decoration:none;
-             ">
-             Return to Reader Reach
-          </a>
+    const { data: profile, error: profileError } =
+      await supabase
+        .from("profiles")
+        .select("id, full_name, email, role, access_status")
+        .eq("id", currentUser.id)
+        .maybeSingle();
+
+    if (profileError) {
+      console.error(profileError);
+      showFatalError(
+        "We could not load your author profile. Please make sure the Reader Reach database has been connected."
+      );
+      return false;
+    }
+
+    if (!profile) {
+      showFatalError(
+        "Your account exists, but your Reader Reach profile has not been created yet."
+      );
+      return false;
+    }
+
+    if (profile.role !== "author") {
+      window.location.href = "../reader/index.html";
+      return false;
+    }
+
+    currentProfile = profile;
+
+    $("welcomeName").textContent =
+      profile.full_name || "Author";
+
+    updateAccessUI();
+
+    return true;
+  }
+
+  function updateAccessUI() {
+    const status = currentProfile.access_status || "pending";
+
+    $("accountStatus").textContent =
+      status.charAt(0).toUpperCase() + status.slice(1);
+
+    if (status === "approved") {
+      $("submitCard").style.display = "block";
+      $("submitLocked").style.display = "none";
+
+      $("dashboardAccessArea").innerHTML = `
+        <div class="card">
+          <h2>Your Author Access Is Approved</h2>
+          <div class="card-subtitle">
+            You can now submit books. Remember that each new book still
+            requires separate admin approval.
+          </div>
+          <button class="submit-btn" onclick="showPage('submit')">
+            Submit a Book
+          </button>
+        </div>
+      `;
+    } else if (status === "denied") {
+      $("submitCard").style.display = "none";
+      $("submitLocked").style.display = "block";
+
+      $("submitLocked").innerHTML = `
+        <div class="locked-icon">⚠️</div>
+        <h2>Author Access Was Not Approved</h2>
+        <p>
+          Your author account currently does not have permission to submit
+          books. Please check your notifications for updates.
+        </p>
+        <button class="submit-btn" onclick="showPage('notifications')">
+          View Notifications
+        </button>
+      `;
+
+      $("dashboardAccessArea").innerHTML = `
+        <div class="card">
+          <h2>Author Access</h2>
+          <div class="card-subtitle">
+            Your author access is currently denied.
+          </div>
+          <button class="submit-btn" onclick="showPage('notifications')">
+            View Notifications
+          </button>
+        </div>
+      `;
+    } else {
+      $("submitCard").style.display = "none";
+      $("submitLocked").style.display = "block";
+
+      $("dashboardAccessArea").innerHTML = `
+        <div class="card">
+          <h2>Author Access Pending</h2>
+          <div class="card-subtitle">
+            Your account is waiting for administrator approval.
+            You do not need to submit another access request.
+          </div>
+          <button class="submit-btn" onclick="showPage('notifications')">
+            Check Notifications
+          </button>
         </div>
       `;
     }
+  }
 
+  function showFatalError(message) {
+    $("loadingScreen").style.display = "block";
+    $("loadingScreen").innerHTML = `
+      <div style="
+        max-width:600px;
+        margin:0 auto;
+        padding:25px;
+        background:#fff;
+        border:1px solid #e5d7c9;
+        border-radius:12px;
+      ">
+        <strong>Reader Reach</strong>
+        <p style="line-height:1.6;">${escapeHtml(message)}</p>
+        <a class="back-btn" href="../account/login.html">
+          Return to Login
+        </a>
+      </div>
+    `;
 
-    document
-      .getElementById("bookForm")
-      .addEventListener("submit", async function(event) {
+    $("app").style.display = "none";
+  }
 
-        event.preventDefault();
+  async function loadBooks() {
+    if (!currentUser) return;
 
-        if (!currentUser) {
-          showMessage(
-            "Your session has expired. Please sign in again.",
-            "error"
-          );
-          return;
+    const list = $("booksList");
+
+    list.innerHTML =
+      '<div class="empty">Loading your books...</div>';
+
+    const { data, error } = await supabase
+      .from("book_submissions")
+      .select(`
+        id,
+        author_id,
+        author_name,
+        email,
+        about_author,
+        book_title,
+        book_description,
+        genre,
+        intended_readers,
+        book_cover_url,
+        flipper_guide_link,
+        status,
+        created_at,
+        updated_at
+      `)
+      .eq("author_id", currentUser.id)
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      console.error(error);
+
+      list.innerHTML = `
+        <div class="empty">
+          We could not load your books yet.
+        </div>
+      `;
+
+      return;
+    }
+
+    const books = data || [];
+
+    $("bookCount").textContent = books.length;
+
+    $("approvedBookCount").textContent =
+      books.filter(book => book.status === "approved").length;
+
+    if (!books.length) {
+      list.innerHTML = `
+        <div class="empty">
+          You have not submitted any books yet.
+        </div>
+      `;
+      return;
+    }
+
+    list.innerHTML = books.map(book => {
+
+      const status = book.status || "pending";
+
+      const cover = book.book_cover_url
+        ? `<img class="cover" src="${escapeHtml(book.book_cover_url)}" alt="Book cover">`
+        : `<div class="cover"></div>`;
+
+      return `
+        <div class="book-item">
+          ${cover}
+
+          <div class="book-info">
+            <h3>${escapeHtml(book.book_title || "Book Title")}</h3>
+
+            <p>
+              <strong>Genre:</strong>
+              ${escapeHtml(book.genre || "Not provided")}
+            </p>
+
+            <p>
+              Submitted:
+              ${escapeHtml(formatDate(book.created_at))}
+            </p>
+
+            <span class="badge ${escapeHtml(status)}">
+              ${escapeHtml(status)}
+            </span>
+
+            ${
+              book.flipper_guide_link
+              ? `
+                <p style="margin-top:10px;">
+                  <a
+                    href="${escapeHtml(book.flipper_guide_link)}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style="color:#684936;"
+                  >
+                    View Flipper Guide
+                  </a>
+                </p>
+              `
+              : `
+                <p style="margin-top:10px;">
+                  Flipper Guide link not provided.
+                </p>
+              `
+            }
+          </div>
+        </div>
+      `;
+    }).join("");
+  }
+
+  async function loadNotifications() {
+    if (!currentUser) return;
+
+    const list = $("notificationsList");
+
+    list.innerHTML =
+      '<div class="empty">Loading notifications...</div>';
+
+    const { data, error } = await supabase
+      .from("notifications")
+      .select(`
+        id,
+        title,
+        message,
+        type,
+        is_read,
+        created_at
+      `)
+      .eq("user_id", currentUser.id)
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      console.error(error);
+
+      list.innerHTML = `
+        <div class="empty">
+          We could not load notifications yet.
+        </div>
+      `;
+
+      return;
+    }
+
+    const notifications = data || [];
+
+    $("notificationCount").textContent =
+      notifications.filter(item => !item.is_read).length;
+
+    if (!notifications.length) {
+      list.innerHTML = `
+        <div class="empty">
+          You do not have any notifications yet.
+        </div>
+      `;
+      return;
+    }
+
+    list.innerHTML = notifications.map(item => `
+      <div class="notification ${item.is_read ? "" : "unread"}">
+
+        <h3>${escapeHtml(item.title || "Notification")}</h3>
+
+        <p>${escapeHtml(item.message || "")}</p>
+
+        <small>
+          ${escapeHtml(formatDate(item.created_at))}
+        </small>
+
+      </div>
+    `).join("");
+
+    const unread = notifications.filter(item => !item.is_read);
+
+    for (const item of unread) {
+      await supabase
+        .from("notifications")
+        .update({ is_read: true })
+        .eq("id", item.id)
+        .eq("user_id", currentUser.id);
+    }
+  }
+
+  $("bookForm").addEventListener("submit", async function(event) {
+    event.preventDefault();
+
+    if (!currentUser || !currentProfile) return;
+
+    if (currentProfile.access_status !== "approved") {
+      showMessage(
+        "submitMessage",
+        "Your author account has not been approved yet.",
+        "error"
+      );
+      return;
+    }
+
+    const bookTitle = $("bookTitle").value.trim();
+    const bookDescription = $("bookDescription").value.trim();
+    const genre = $("genre").value.trim();
+    const intendedReaders = $("intendedReaders").value.trim();
+    const whereAvailable = $("whereAvailable").value.trim();
+    const bookCoverUrl = $("bookCoverUrl").value.trim();
+    const flipperGuideLink = $("flipperGuideLink").value.trim();
+
+    if (
+      !bookTitle ||
+      !bookDescription ||
+      !genre ||
+      !intendedReaders ||
+      !whereAvailable ||
+      !flipperGuideLink
+    ) {
+      showMessage(
+        "submitMessage",
+        "Please complete all required fields, including the Flipper Guide link.",
+        "error"
+      );
+      return;
+    }
+
+    const button = $("submitBookBtn");
+
+    button.disabled = true;
+    button.textContent = "Submitting...";
+
+    showMessage(
+      "submitMessage",
+      "Submitting your book for review...",
+      "info"
+    );
+
+    /*
+      IMPORTANT:
+      This uses the existing book_submissions table.
+      whereAvailable is placed into the existing table only if the database
+      has that column. If the column has not yet been added, the submission
+      will tell us through the database error and we will fix the schema next.
+    */
+
+    const submission = {
+      author_id: currentUser.id,
+      author_name: currentProfile.full_name || "Author Name",
+      email: currentUser.email || currentProfile.email || "",
+      book_title: bookTitle,
+      book_description: bookDescription,
+      genre: genre,
+      intended_readers: intendedReaders,
+      book_cover_url: bookCoverUrl || null,
+      flipper_guide_link: flipperGuideLink,
+      status: "pending"
+    };
+
+    /*
+      Add where_available when supported by the final database schema.
+    */
+    submission.where_available = whereAvailable;
+
+    const { data, error } = await supabase
+      .from("book_submissions")
+      .insert(submission)
+      .select()
+      .single();
+
+    if (error) {
+      console.error(error);
+
+      showMessage(
+        "submitMessage",
+        "The book could not be submitted yet. Your database needs the final book-submission fields connected before this step can work.",
+        "error"
+      );
+
+      button.disabled = false;
+      button.textContent = "Submit Book for Review";
+
+      return;
+    }
+
+    await supabase
+      .from("activity_log")
+      .insert({
+        user_id: currentUser.id,
+        role: "author",
+        action: "book_submitted",
+        book_id: data?.id || null,
+        metadata: {
+          book_title: bookTitle
         }
-
-        const submitBtn =
-          document.getElementById("submitBtn");
-
-        submitBtn.disabled = true;
-        submitBtn.textContent = "Submitting...";
-
-        clearMessage();
-
-        const submission = {
-
-          author_id: currentUser.id,
-
-          author_name:
-            document.getElementById("authorName").value.trim(),
-
-          email:
-            document.getElementById("email").value.trim(),
-
-          about_author:
-            document.getElementById("aboutAuthor").value.trim(),
-
-          book_title:
-            document.getElementById("bookTitle").value.trim(),
-
-          book_description:
-            document.getElementById("bookDescription").value.trim(),
-
-          genre:
-            document.getElementById("genre").value.trim(),
-
-          intended_readers:
-            document.getElementById("intendedReaders").value.trim(),
-
-          availability:
-            document.getElementById("availability").value.trim(),
-
-          book_link:
-            document.getElementById("bookLink").value.trim(),
-
-          book_cover_url:
-            document.getElementById("bookCoverUrl").value.trim() || null,
-
-          flipper_guide_link:
-            document.getElementById("flipperGuideLink").value.trim() || null,
-
-          status: "pending"
-        };
-
-
-        const {
-          data,
-          error
-        } = await supabaseClient
-          .from("book_submissions")
-          .insert([submission])
-          .select()
-          .single();
-
-
-        if (error) {
-
-          console.error(error);
-
-          showMessage(
-            "We could not submit your book yet. Please check the information and try again.",
-            "error"
-          );
-
-          submitBtn.disabled = false;
-          submitBtn.textContent = "Submit My Book →";
-
-          return;
-        }
-
-
-        showMessage(
-          "Your book has been submitted successfully. Reader Reach will review it before it appears on the platform.",
-          "success"
-        );
-
-        document.getElementById("bookForm").reset();
-
-        document.getElementById("email").value =
-          currentUser.email || "";
-
-        submitBtn.disabled = false;
-        submitBtn.textContent = "Submit My Book →";
-
       });
 
+    showMessage(
+      "submitMessage",
+      "Your book has been submitted successfully and is now pending admin review.",
+      "success"
+    );
 
-    function showMessage(text, type) {
+    $("bookForm").reset();
 
-      const message =
-        document.getElementById("message");
+    await loadBooks();
 
-      message.textContent = text;
+    setTimeout(() => {
+      showPage("books");
+    }, 900);
 
-      message.className = type;
+    button.disabled = false;
+    button.textContent = "Submit Book for Review";
+  });
+
+  $("discussionForm").addEventListener("submit", async function(event) {
+    event.preventDefault();
+
+    if (!currentUser || !currentProfile) return;
+
+    if (currentProfile.access_status !== "approved") {
+      showMessage(
+        "discussionMessage",
+        "Author access must be approved before posting discussions.",
+        "error"
+      );
+      return;
     }
 
+    const title = $("discussionTitle").value.trim();
+    const body = $("discussionBody").value.trim();
 
-    function clearMessage() {
-
-      const message =
-        document.getElementById("message");
-
-      message.textContent = "";
-
-      message.className = "";
+    if (!title || !body) {
+      showMessage(
+        "discussionMessage",
+        "Please enter a discussion title and message.",
+        "error"
+      );
+      return;
     }
 
+    const { error } = await supabase
+      .from("discussions")
+      .insert({
+        author_id: currentUser.id,
+        title: title,
+        body: body,
+        status: "published"
+      });
 
-    async function logout() {
+    if (error) {
+      console.error(error);
 
-      await supabaseClient.auth.signOut();
+      showMessage(
+        "discussionMessage",
+        "The discussion could not be posted yet.",
+        "error"
+      );
 
-      window.location.href =
-        "../account/login.html";
+      return;
     }
 
+    await supabase
+      .from("activity_log")
+      .insert({
+        user_id: currentUser.id,
+        role: "author",
+        action: "discussion_created",
+        metadata: {
+          title: title
+        }
+      });
 
-    initializeAuthorArea();
+    $("discussionForm").reset();
 
-  </script>
+    showMessage(
+      "discussionMessage",
+      "Your discussion has been posted.",
+      "success"
+    );
+
+    loadDiscussions();
+  });
+
+  async function loadDiscussions() {
+    const list = $("discussionList");
+
+    list.innerHTML =
+      '<div class="empty">Loading discussions...</div>';
+
+    const { data, error } = await supabase
+      .from("discussions")
+      .select(`
+        id,
+        title,
+        body,
+        author_id,
+        created_at
+      `)
+      .eq("status", "published")
+      .order("created_at", { ascending: false })
+      .limit(30);
+
+    if (error) {
+      console.error(error);
+
+      list.innerHTML = `
+        <div class="empty">
+          Discussions will appear here once the discussion database is connected.
+        </div>
+      `;
+
+      return;
+    }
+
+    const discussions = data || [];
+
+    if (!discussions.length) {
+      list.innerHTML = `
+        <div class="empty">
+          No author discussions yet.
+        </div>
+      `;
+      return;
+    }
+
+    list.innerHTML = discussions.map(item => `
+      <div class="discussion">
+
+        <h3>${escapeHtml(item.title)}</h3>
+
+        <p>${escapeHtml(item.body)}</p>
+
+        <small>
+          ${escapeHtml(formatDate(item.created_at))}
+        </small>
+
+      </div>
+    `).join("");
+  }
+
+  $("logoutBtn").addEventListener("click", async () => {
+    await supabase.auth.signOut();
+    window.location.href = "../account/login.html";
+  });
+
+  async function start() {
+    try {
+      const ok = await loadUser();
+
+      if (!ok) return;
+
+      $("loadingScreen").style.display = "none";
+      $("app").style.display = "flex";
+
+      await loadBooks();
+      await loadNotifications();
+      await loadDiscussions();
+
+    } catch (error) {
+      console.error(error);
+
+      showFatalError(
+        "Something went wrong while loading your author dashboard."
+      );
+    }
+  }
+
+  supabase.auth.onAuthStateChange((event, session) => {
+    if (event === "SIGNED_OUT") {
+      window.location.href = "../account/login.html";
+    }
+  });
+
+  start();
+</script>
 
 </body>
 </html>
