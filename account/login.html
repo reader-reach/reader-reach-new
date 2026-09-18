@@ -3,548 +3,413 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>Sign In | Reader Reach</title>
 
-  <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../config.js"></script>
 
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
     :root {
       --brown-dark: #3d2b22;
-      --brown: #5a3b2e;
-      --brown-light: #8b6b5a;
+      --brown: #5a4032;
+      --brown-light: #725b4e;
       --butter: #ead9a6;
       --cream: #fffdf8;
       --white: #ffffff;
-      --border: #eadfd5;
-      --muted: #806f65;
-      --success: #3e7655;
-      --danger: #a44b45;
+      --border: #e8ded4;
+      --green: #47735b;
+      --red: #9a4c4c;
+      --shadow: 0 18px 50px rgba(61, 43, 34, 0.10);
+    }
+
+    * {
+      box-sizing: border-box;
     }
 
     body {
-      font-family: Georgia, "Times New Roman", serif;
-      background: var(--cream);
-      color: var(--brown-dark);
+      margin: 0;
       min-height: 100vh;
+      background:
+        radial-gradient(circle at top right, rgba(234,217,166,.35), transparent 35%),
+        var(--cream);
+      color: var(--brown-dark);
+      font-family: Georgia, "Times New Roman", serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 30px 20px;
     }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    button,
-    input {
-      font: inherit;
-    }
-
-    /* =========================
-       PAGE
-    ========================= */
 
     .page {
-      min-height: 100vh;
+      width: 100%;
+      max-width: 1050px;
       display: grid;
       grid-template-columns: 1fr 1fr;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
     }
 
-    /* =========================
-       LEFT SIDE
-    ========================= */
-
-    .welcome-panel {
-      position: relative;
-      min-height: 100vh;
-      padding: 55px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      overflow: hidden;
-
+    .brand-side {
       background:
         linear-gradient(
-          135deg,
-          rgba(61, 43, 34, 0.97),
-          rgba(91, 61, 46, 0.94)
+          145deg,
+          rgba(90,64,50,.97),
+          rgba(61,43,34,.98)
         );
       color: white;
+      padding: 65px 55px;
+      min-height: 650px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
     }
 
-    .welcome-panel::before {
+    .brand-side::before {
       content: "";
       position: absolute;
-      width: 500px;
-      height: 500px;
+      width: 330px;
+      height: 330px;
+      border: 1px solid rgba(234,217,166,.22);
       border-radius: 50%;
-      background: rgba(234, 217, 166, 0.10);
-      top: -180px;
-      right: -180px;
+      right: -130px;
+      top: -100px;
     }
 
-    .welcome-panel::after {
+    .brand-side::after {
       content: "";
       position: absolute;
-      width: 380px;
-      height: 380px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.05);
-      bottom: -180px;
-      left: -140px;
+      width: 260px;
+      height: 260px;
+      border: 1px solid rgba(234,217,166,.14);
+      transform: rotate(28deg);
+      left: -120px;
+      bottom: -100px;
     }
 
     .brand {
       position: relative;
       z-index: 2;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .brand-mark {
-      width: 44px;
-      height: 44px;
-      border: 1px solid rgba(255,255,255,0.5);
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 22px;
-      background: rgba(255,255,255,0.08);
-    }
-
-    .brand-name {
-      font-size: 24px;
+      font-size: 34px;
       font-weight: bold;
-      letter-spacing: 0.3px;
+      margin-bottom: 8px;
     }
 
-    .welcome-content {
+    .brand-subtitle {
       position: relative;
       z-index: 2;
-      max-width: 560px;
+      font-family: Arial, sans-serif;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--butter);
+      margin-bottom: 55px;
+    }
+
+    .brand-side h1 {
+      position: relative;
+      z-index: 2;
+      font-size: clamp(38px, 4vw, 58px);
+      line-height: 1.03;
+      margin: 0 0 20px;
+    }
+
+    .brand-side h1 span {
+      color: var(--butter);
+    }
+
+    .brand-side p {
+      position: relative;
+      z-index: 2;
+      max-width: 430px;
+      font-family: Arial, sans-serif;
+      color: rgba(255,255,255,.78);
+      line-height: 1.75;
+      font-size: 14px;
+      margin: 0;
+    }
+
+    .form-side {
+      padding: 55px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
 
     .eyebrow {
-      color: var(--butter);
-      text-transform: uppercase;
-      letter-spacing: 3px;
-      font-size: 12px;
-      margin-bottom: 22px;
-    }
-
-    .welcome-content h1 {
-      font-size: clamp(42px, 5vw, 72px);
-      line-height: 1.04;
-      margin-bottom: 25px;
-      font-weight: 500;
-    }
-
-    .welcome-content p {
-      color: rgba(255,255,255,0.78);
       font-family: Arial, sans-serif;
-      font-size: 16px;
-      line-height: 1.8;
-      max-width: 480px;
-    }
-
-    .welcome-points {
-      position: relative;
-      z-index: 2;
-      display: grid;
-      gap: 14px;
-      max-width: 470px;
-    }
-
-    .welcome-point {
-      display: flex;
-      align-items: center;
-      gap: 13px;
-      color: rgba(255,255,255,0.82);
-      font-family: Arial, sans-serif;
-      font-size: 14px;
-    }
-
-    .point-icon {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      background: rgba(234,217,166,0.15);
-      color: var(--butter);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-
-    /* =========================
-       RIGHT SIDE
-    ========================= */
-
-    .login-panel {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 45px;
-      background: var(--cream);
-    }
-
-    .login-box {
-      width: 100%;
-      max-width: 480px;
-    }
-
-    .mobile-brand {
-      display: none;
-    }
-
-    .login-heading {
-      margin-bottom: 35px;
-    }
-
-    .login-heading .small-title {
-      font-family: Arial, sans-serif;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      color: var(--brown-light);
       font-size: 11px;
-      font-weight: bold;
-      margin-bottom: 13px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--brown-light);
+      margin-bottom: 10px;
     }
 
-    .login-heading h2 {
-      font-size: 42px;
-      font-weight: 500;
-      line-height: 1.1;
-      margin-bottom: 12px;
+    .form-side h2 {
+      margin: 0 0 10px;
+      font-size: 35px;
     }
 
-    .login-heading p {
+    .form-intro {
+      color: var(--brown-light);
       font-family: Arial, sans-serif;
-      color: var(--muted);
       font-size: 14px;
-      line-height: 1.6;
+      line-height: 1.65;
+      margin: 0 0 30px;
     }
 
-    /* =========================
-       FORM
-    ========================= */
-
-    .form-group {
-      margin-bottom: 20px;
+    .field {
+      margin-bottom: 18px;
     }
 
-    .form-group label {
+    label {
       display: block;
       font-family: Arial, sans-serif;
       font-size: 13px;
-      font-weight: 700;
+      font-weight: bold;
       margin-bottom: 8px;
       color: var(--brown-dark);
     }
 
-    .input-wrap {
+    input {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      padding: 13px 14px;
+      background: #fffdfa;
+      color: var(--brown-dark);
+      outline: none;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      transition: .2s;
+    }
+
+    input:focus {
+      border-color: var(--brown);
+      box-shadow: 0 0 0 3px rgba(90,64,50,.08);
+    }
+
+    .password-row {
       position: relative;
     }
 
-    .input-wrap input {
-      width: 100%;
-      height: 54px;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 0 16px;
-      background: white;
-      color: var(--brown-dark);
-      outline: none;
-      transition: 0.2s ease;
-      font-family: Arial, sans-serif;
-      font-size: 14px;
-    }
-
-    .input-wrap input:focus {
-      border-color: var(--brown-light);
-      box-shadow: 0 0 0 4px rgba(139,107,90,0.08);
-    }
-
-    .password-wrap input {
-      padding-right: 80px;
+    .password-row input {
+      padding-right: 75px;
     }
 
     .show-password {
       position: absolute;
-      right: 12px;
+      right: 10px;
       top: 50%;
       transform: translateY(-50%);
-      border: none;
-      background: none;
+      border: 0;
+      background: transparent;
       color: var(--brown-light);
+      font-family: Arial, sans-serif;
+      font-size: 12px;
       cursor: pointer;
-      font-family: Arial, sans-serif;
-      font-size: 12px;
-      font-weight: bold;
-    }
-
-    .form-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin: 4px 0 24px;
-      gap: 15px;
-    }
-
-    .remember {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-family: Arial, sans-serif;
-      font-size: 12px;
-      color: var(--muted);
-    }
-
-    .remember input {
-      accent-color: var(--brown);
     }
 
     .forgot {
-      font-family: Arial, sans-serif;
-      font-size: 12px;
-      color: var(--brown);
-      font-weight: bold;
-      cursor: pointer;
-      border: none;
-      background: none;
+      text-align: right;
+      margin-top: -7px;
+      margin-bottom: 22px;
     }
 
-    .forgot:hover {
+    .forgot button {
+      border: 0;
+      background: transparent;
+      padding: 0;
+      color: var(--brown);
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .forgot button:hover {
       text-decoration: underline;
     }
 
-    .sign-in-button {
+    .submit-btn {
       width: 100%;
-      height: 55px;
-      border: none;
-      border-radius: 12px;
-      background: var(--brown-dark);
+      border: 1px solid var(--brown);
+      border-radius: 9px;
+      padding: 14px;
+      background: var(--brown);
       color: white;
-      cursor: pointer;
       font-family: Arial, sans-serif;
       font-size: 14px;
       font-weight: bold;
-      transition: 0.2s ease;
+      cursor: pointer;
+      transition: .2s;
     }
 
-    .sign-in-button:hover {
-      background: var(--brown);
-      transform: translateY(-1px);
+    .submit-btn:hover {
+      background: var(--brown-dark);
     }
 
-    .sign-in-button:disabled {
-      opacity: 0.6;
+    .submit-btn:disabled {
+      opacity: .6;
       cursor: not-allowed;
-      transform: none;
     }
-
-    /* =========================
-       MESSAGES
-    ========================= */
 
     .message {
       display: none;
-      margin-bottom: 20px;
-      padding: 13px 15px;
-      border-radius: 10px;
+      border-radius: 9px;
+      padding: 12px 14px;
+      margin-bottom: 18px;
       font-family: Arial, sans-serif;
       font-size: 13px;
-      line-height: 1.5;
-    }
-
-    .message.show {
-      display: block;
+      line-height: 1.55;
     }
 
     .message.error {
-      background: #f8e9e7;
-      color: var(--danger);
-      border: 1px solid #efd2ce;
+      display: block;
+      background: #f7e8e8;
+      color: var(--red);
+      border: 1px solid #ecd0d0;
     }
 
     .message.success {
-      background: #e9f3ec;
-      color: var(--success);
-      border: 1px solid #d2e6d8;
+      display: block;
+      background: #eaf3ed;
+      color: var(--green);
+      border: 1px solid #d0e5d7;
     }
 
-    .message.info {
-      background: #f3eee8;
-      color: var(--brown);
-      border: 1px solid var(--border);
-    }
-
-    /* =========================
-       FOOTER
-    ========================= */
-
-    .bottom-links {
-      margin-top: 30px;
-      padding-top: 24px;
+    .signup {
+      margin-top: 25px;
+      padding-top: 22px;
       border-top: 1px solid var(--border);
       text-align: center;
       font-family: Arial, sans-serif;
       font-size: 13px;
-      color: var(--muted);
+      color: var(--brown-light);
     }
 
-    .bottom-links a {
+    .signup a {
       color: var(--brown);
       font-weight: bold;
+      text-decoration: none;
     }
 
-    .bottom-links a:hover {
+    .signup a:hover {
       text-decoration: underline;
     }
 
     .back-home {
-      display: inline-block;
-      margin-top: 18px;
+      margin-top: 17px;
+      text-align: center;
+    }
+
+    .back-home a {
+      color: #8b776b;
       font-family: Arial, sans-serif;
       font-size: 12px;
-      color: var(--brown-light);
+      text-decoration: none;
     }
 
-    .back-home:hover {
-      color: var(--brown-dark);
+    .back-home a:hover {
+      text-decoration: underline;
     }
 
-    /* =========================
-       RESET MODAL
-    ========================= */
-
-    .modal-overlay {
+    .modal-backdrop {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(35, 24, 18, 0.58);
-      z-index: 1000;
+      background: rgba(35,25,20,.58);
+      z-index: 100;
       align-items: center;
       justify-content: center;
       padding: 20px;
     }
 
-    .modal-overlay.show {
-      display: flex;
-    }
-
     .modal {
       width: 100%;
-      max-width: 430px;
+      max-width: 480px;
       background: white;
       border-radius: 18px;
       padding: 30px;
-      box-shadow: 0 25px 80px rgba(0,0,0,0.18);
+      box-shadow: 0 25px 80px rgba(0,0,0,.22);
     }
 
     .modal h3 {
-      font-size: 28px;
-      font-weight: 500;
-      margin-bottom: 10px;
+      margin: 0 0 10px;
+      font-size: 26px;
     }
 
     .modal p {
+      color: var(--brown-light);
       font-family: Arial, sans-serif;
-      color: var(--muted);
-      font-size: 13px;
       line-height: 1.6;
+      font-size: 13px;
       margin-bottom: 22px;
     }
 
     .modal-actions {
       display: flex;
+      justify-content: flex-end;
       gap: 10px;
       margin-top: 20px;
     }
 
-    .modal-actions button {
-      flex: 1;
-      height: 48px;
-      border-radius: 10px;
+    .close-btn {
+      border: 0;
+      background: #f1ebe5;
+      color: var(--brown-dark);
+      padding: 10px 15px;
+      border-radius: 8px;
       cursor: pointer;
       font-family: Arial, sans-serif;
-      font-size: 13px;
-      font-weight: bold;
     }
 
-    .cancel-button {
-      border: 1px solid var(--border);
-      background: white;
-      color: var(--brown);
-    }
-
-    .reset-button {
-      border: none;
-      background: var(--brown-dark);
+    .reset-btn {
+      border: 1px solid var(--brown);
+      background: var(--brown);
       color: white;
+      padding: 10px 15px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: Arial, sans-serif;
     }
 
-    /* =========================
-       MOBILE
-    ========================= */
-
-    @media (max-width: 850px) {
+    @media (max-width: 800px) {
       .page {
         grid-template-columns: 1fr;
       }
 
-      .welcome-panel {
-        display: none;
+      .brand-side {
+        min-height: auto;
+        padding: 45px 30px;
       }
 
-      .login-panel {
-        min-height: 100vh;
-        padding: 30px 20px;
+      .brand-subtitle {
+        margin-bottom: 35px;
       }
 
-      .mobile-brand {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-        margin-bottom: 40px;
-      }
-
-      .mobile-brand .brand-mark {
-        background: var(--brown-dark);
-        color: white;
-        border: none;
-      }
-
-      .mobile-brand .brand-name {
-        font-size: 22px;
-      }
-
-      .login-heading h2 {
-        font-size: 36px;
+      .form-side {
+        padding: 40px 30px;
       }
     }
 
-    @media (max-width: 480px) {
-      .login-panel {
-        padding: 25px 18px;
+    @media (max-width: 500px) {
+      body {
+        padding: 0;
       }
 
-      .login-heading h2 {
-        font-size: 32px;
+      .page {
+        min-height: 100vh;
+        border-radius: 0;
+        border: 0;
       }
 
-      .form-row {
-        align-items: flex-start;
+      .brand-side,
+      .form-side {
+        padding: 35px 22px;
       }
     }
   </style>
@@ -554,185 +419,134 @@
 
   <main class="page">
 
-    <!-- =========================
-         LEFT WELCOME AREA
-    ========================== -->
-
-    <section class="welcome-panel">
+    <section class="brand-side">
 
       <div class="brand">
-        <div class="brand-mark">R</div>
-        <div class="brand-name">Reader Reach</div>
+        Reader Reach
       </div>
 
-      <div class="welcome-content">
-
-        <div class="eyebrow">
-          Books • Authors • Readers
-        </div>
-
-        <h1>
-          Welcome back to Reader Reach.
-        </h1>
-
-        <p>
-          Sign in to continue to your Reader Reach account,
-          manage your books, discover approved books, follow
-          your reading activity, and stay connected.
-        </p>
-
+      <div class="brand-subtitle">
+        Books • Authors • Readers
       </div>
 
-      <div class="welcome-points">
+      <h1>
+        Welcome<br>
+        <span>Back.</span>
+      </h1>
 
-        <div class="welcome-point">
-          <span class="point-icon">✓</span>
-          <span>Your account remains available after approval.</span>
-        </div>
-
-        <div class="welcome-point">
-          <span class="point-icon">✓</span>
-          <span>Authors can manage their book submissions.</span>
-        </div>
-
-        <div class="welcome-point">
-          <span class="point-icon">✓</span>
-          <span>Readers can access books approved specifically for them.</span>
-        </div>
-
-      </div>
+      <p>
+        Sign in to your Reader Reach account to discover books,
+        manage your reading experience, and access books that
+        have been approved for you.
+      </p>
 
     </section>
 
 
-    <!-- =========================
-         LOGIN AREA
-    ========================== -->
+    <section class="form-side">
 
-    <section class="login-panel">
+      <div class="eyebrow">
+        Reader Reach Account
+      </div>
 
-      <div class="login-box">
+      <h2>Sign In</h2>
 
-        <div class="mobile-brand">
-          <div class="brand-mark">R</div>
-          <div class="brand-name">Reader Reach</div>
+      <p class="form-intro">
+        Enter the email address and password connected to your
+        Reader Reach account.
+      </p>
+
+
+      <div id="message" class="message"></div>
+
+
+      <form id="loginForm">
+
+        <div class="field">
+
+          <label for="email">
+            Email Address
+          </label>
+
+          <input
+            id="email"
+            type="email"
+            autocomplete="email"
+            placeholder="you@example.com"
+            required
+          >
+
         </div>
 
-        <div class="login-heading">
 
-          <div class="small-title">
-            Member access
-          </div>
+        <div class="field">
 
-          <h2>
-            Sign in
-          </h2>
+          <label for="password">
+            Password
+          </label>
 
-          <p>
-            Enter your account details to continue.
-          </p>
+          <div class="password-row">
 
-        </div>
-
-
-        <div id="message" class="message"></div>
-
-
-        <form id="loginForm">
-
-          <div class="form-group">
-
-            <label for="email">
-              Email address
-            </label>
-
-            <div class="input-wrap">
-              <input
-                type="email"
-                id="email"
-                name="email"
-                placeholder="you@example.com"
-                autocomplete="email"
-                required
-              >
-            </div>
-
-          </div>
-
-
-          <div class="form-group">
-
-            <label for="password">
-              Password
-            </label>
-
-            <div class="input-wrap password-wrap">
-
-              <input
-                type="password"
-                id="password"
-                name="password"
-                placeholder="Enter your password"
-                autocomplete="current-password"
-                required
-              >
-
-              <button
-                type="button"
-                class="show-password"
-                id="showPassword"
-              >
-                Show
-              </button>
-
-            </div>
-
-          </div>
-
-
-          <div class="form-row">
-
-            <label class="remember">
-              <input type="checkbox" id="remember">
-              <span>Remember me</span>
-            </label>
+            <input
+              id="password"
+              type="password"
+              autocomplete="current-password"
+              placeholder="Enter your password"
+              required
+            >
 
             <button
               type="button"
-              class="forgot"
-              id="forgotPassword"
+              class="show-password"
+              id="showPassword"
             >
-              Forgot password?
+              Show
             </button>
 
           </div>
 
+        </div>
+
+
+        <div class="forgot">
 
           <button
-            type="submit"
-            class="sign-in-button"
-            id="signInButton"
+            type="button"
+            id="forgotPassword"
           >
-            Sign In
+            Forgot your password?
           </button>
 
-        </form>
-
-
-        <div class="bottom-links">
-
-          <div>
-            Don't have an account?
-            <a href="../index.html">
-              Create an account
-            </a>
-          </div>
-
-          <a class="back-home" href="../index.html">
-            ← Back to Reader Reach
-          </a>
-
         </div>
+
+
+        <button
+          type="submit"
+          class="submit-btn"
+          id="loginBtn"
+        >
+          Sign In
+        </button>
+
+      </form>
+
+
+      <div class="signup">
+
+        Don't have a Reader Reach account?
+
+        <a href="./index.html">
+          Create an account
+        </a>
+
+      </div>
+
+
+      <div class="back-home">
+
+        <a href="../index.html">
+          ← Back to Reader Reach
+        </a>
 
       </div>
 
@@ -741,56 +555,48 @@
   </main>
 
 
-  <!-- =========================
-       PASSWORD RESET MODAL
-  ========================== -->
+  <!-- PASSWORD RESET MODAL -->
 
-  <div class="modal-overlay" id="resetModal">
+  <div class="modal-backdrop" id="resetModal">
 
     <div class="modal">
 
-      <h3>
-        Reset your password
-      </h3>
+      <h3>Reset Your Password</h3>
 
       <p>
-        Enter your email address and we'll send you
-        a password reset link.
+        Enter your Reader Reach email address and we will send
+        you a password reset link.
       </p>
 
-      <div class="form-group">
+      <div id="resetMessage" class="message"></div>
+
+      <div class="field">
 
         <label for="resetEmail">
-          Email address
+          Email Address
         </label>
 
-        <div class="input-wrap">
-
-          <input
-            type="email"
-            id="resetEmail"
-            placeholder="you@example.com"
-          >
-
-        </div>
+        <input
+          id="resetEmail"
+          type="email"
+          placeholder="you@example.com"
+        >
 
       </div>
-
-      <div id="resetMessage" class="message"></div>
 
       <div class="modal-actions">
 
         <button
           type="button"
-          class="cancel-button"
-          id="cancelReset"
+          class="close-btn"
+          id="closeReset"
         >
           Cancel
         </button>
 
         <button
           type="button"
-          class="reset-button"
+          class="reset-btn"
           id="sendReset"
         >
           Send Reset Link
@@ -803,534 +609,354 @@
   </div>
 
 
-  <script>
+<script>
+  /*
+   * ==========================================================
+   * READER REACH — ACCOUNT LOGIN
+   * ==========================================================
+   *
+   * This page uses the shared ../config.js file.
+   * It does NOT contain a separate Supabase key.
+   * ==========================================================
+   */
 
-    /* ==========================================================
-       READER REACH
-       SUPABASE CONNECTION
-       ==========================================================
-
-       IMPORTANT:
-       Replace ONLY these two values with the public Supabase
-       project URL and public anon key.
-
-       NEVER put a Supabase service_role key here.
-    ========================================================== */
-
-    const SUPABASE_URL = "YOUR_SUPABASE_URL";
-    const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
+  let supabaseClient = null;
 
 
-    /* ==========================================================
-       SUPABASE CLIENT
-    ========================================================== */
+  // ----------------------------------------------------------
+  // HELPERS
+  // ----------------------------------------------------------
 
-    let supabaseClient = null;
+  function showMessage(text, type) {
+
+    const box = document.getElementById("message");
+
+    box.className = "message " + type;
+    box.textContent = text;
+    box.style.display = "block";
+  }
+
+
+  function clearMessage() {
+
+    const box = document.getElementById("message");
+
+    box.className = "message";
+    box.textContent = "";
+    box.style.display = "none";
+  }
+
+
+  function showResetMessage(text, type) {
+
+    const box = document.getElementById("resetMessage");
+
+    box.className = "message " + type;
+    box.textContent = text;
+    box.style.display = "block";
+  }
+
+
+  // ----------------------------------------------------------
+  // INITIALIZE SUPABASE
+  // ----------------------------------------------------------
+
+  function initializeSupabase() {
+
+    if (!window.READER_REACH_CONFIG) {
+
+      showMessage(
+        "The Reader Reach database connection has not been configured yet. Please make sure config.js is in the main repository folder.",
+        "error"
+      );
+
+      return false;
+    }
+
 
     if (
-      SUPABASE_URL !== "YOUR_SUPABASE_URL" &&
-      SUPABASE_ANON_KEY !== "YOUR_SUPABASE_ANON_KEY"
+      !window.READER_REACH_CONFIG.SUPABASE_URL ||
+      !window.READER_REACH_CONFIG.SUPABASE_ANON_KEY
     ) {
-      supabaseClient = window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_ANON_KEY
+
+      showMessage(
+        "The Reader Reach database connection is incomplete. Please check config.js.",
+        "error"
       );
+
+      return false;
     }
 
 
-    /* ==========================================================
-       ELEMENTS
-    ========================================================== */
+    if (!window.supabase) {
 
-    const loginForm = document.getElementById("loginForm");
-    const emailInput = document.getElementById("email");
-    const passwordInput = document.getElementById("password");
-    const signInButton = document.getElementById("signInButton");
-    const showPassword = document.getElementById("showPassword");
+      showMessage(
+        "The Reader Reach database service could not be loaded. Please refresh the page and try again.",
+        "error"
+      );
 
-    const message = document.getElementById("message");
-
-    const forgotPassword =
-      document.getElementById("forgotPassword");
-
-    const resetModal =
-      document.getElementById("resetModal");
-
-    const resetEmail =
-      document.getElementById("resetEmail");
-
-    const resetMessage =
-      document.getElementById("resetMessage");
-
-    const cancelReset =
-      document.getElementById("cancelReset");
-
-    const sendReset =
-      document.getElementById("sendReset");
-
-
-    /* ==========================================================
-       MESSAGE HELPERS
-    ========================================================== */
-
-    function showMessage(text, type = "info") {
-
-      message.textContent = text;
-
-      message.className = "message show " + type;
+      return false;
     }
 
 
-    function hideMessage() {
-
-      message.textContent = "";
-
-      message.className = "message";
-    }
-
-
-    function showResetMessage(text, type = "info") {
-
-      resetMessage.textContent = text;
-
-      resetMessage.className =
-        "message show " + type;
-    }
+    supabaseClient =
+      window.supabase.createClient(
+        window.READER_REACH_CONFIG.SUPABASE_URL,
+        window.READER_REACH_CONFIG.SUPABASE_ANON_KEY
+      );
 
 
-    /* ==========================================================
-       PASSWORD VISIBILITY
-    ========================================================== */
-
-    showPassword.addEventListener("click", () => {
-
-      if (passwordInput.type === "password") {
-
-        passwordInput.type = "text";
-
-        showPassword.textContent = "Hide";
-
-      } else {
-
-        passwordInput.type = "password";
-
-        showPassword.textContent = "Show";
-      }
-
-    });
+    return true;
+  }
 
 
-    /* ==========================================================
-       LOGIN
-    ========================================================== */
+  // ----------------------------------------------------------
+  // PAGE START
+  // ----------------------------------------------------------
 
-    loginForm.addEventListener("submit", async (event) => {
+  document.addEventListener(
+    "DOMContentLoaded",
+    async function() {
 
-      event.preventDefault();
-
-      hideMessage();
-
-      const email =
-        emailInput.value.trim().toLowerCase();
-
-      const password =
-        passwordInput.value;
-
-
-      if (!email || !password) {
-
-        showMessage(
-          "Please enter your email address and password.",
-          "error"
-        );
-
+      if (!initializeSupabase()) {
         return;
       }
 
 
-      if (!supabaseClient) {
+      await checkExistingSession();
 
-        showMessage(
-          "The Reader Reach database connection has not been configured yet.",
-          "error"
-        );
 
+      setupPasswordToggle();
+      setupLogin();
+      setupPasswordReset();
+
+    }
+  );
+
+
+  // ----------------------------------------------------------
+  // EXISTING SESSION
+  // ----------------------------------------------------------
+
+  async function checkExistingSession() {
+
+    try {
+
+      const {
+        data,
+        error
+      } = await supabaseClient.auth.getSession();
+
+
+      if (error) {
+        console.error(error);
         return;
       }
 
 
-      signInButton.disabled = true;
-
-      signInButton.textContent = "Signing in...";
-
-
-      try {
-
-        /* ----------------------------------------------
-           AUTHENTICATE
-        ---------------------------------------------- */
-
-        const { data, error } =
-          await supabaseClient.auth.signInWithPassword({
-            email,
-            password
-          });
+      const user =
+        data.session?.user;
 
 
-        if (error) {
-          throw error;
-        }
+      if (!user) {
+        return;
+      }
 
 
-        if (!data || !data.user) {
+      /*
+       * A user already signed in.
+       * Find their Reader Reach profile and route them
+       * to the correct area.
+       */
 
-          throw new Error(
-            "Your account could not be loaded."
-          );
-        }
+      await routeUser(user);
 
+    } catch (error) {
 
-        const user = data.user;
+      console.error(
+        "Session check error:",
+        error
+      );
 
-
-        /* ----------------------------------------------
-           CHECK ADMIN
-        ---------------------------------------------- */
-
-        const { data: adminRecord, error: adminError } =
-          await supabaseClient
-            .from("admin_users")
-            .select("user_id")
-            .eq("user_id", user.id)
-            .maybeSingle();
+    }
+  }
 
 
-        if (!adminError && adminRecord) {
+  // ----------------------------------------------------------
+  // LOGIN
+  // ----------------------------------------------------------
 
-          window.location.href = "../admin/index.html";
+  function setupLogin() {
 
-          return;
-        }
+    document
+      .getElementById("loginForm")
+      .addEventListener(
+        "submit",
+        handleLogin
+      );
 
-
-        /* ----------------------------------------------
-           LOAD PROFILE
-        ---------------------------------------------- */
-
-        const { data: profile, error: profileError } =
-          await supabaseClient
-            .from("profiles")
-            .select(
-              "id, full_name, email, role, access_status"
-            )
-            .eq("id", user.id)
-            .maybeSingle();
+  }
 
 
-        if (profileError) {
+  async function handleLogin(event) {
 
-          throw new Error(
-            "Your account profile could not be loaded."
-          );
-        }
+    event.preventDefault();
 
-
-        if (!profile) {
-
-          throw new Error(
-            "Your account has not been completely set up yet. Please contact Reader Reach."
-          );
-        }
+    clearMessage();
 
 
-        /* ----------------------------------------------
-           AUTHOR
-        ---------------------------------------------- */
-
-        if (profile.role === "author") {
-
-          if (profile.access_status === "pending") {
-
-            showMessage(
-              "Your author account is waiting for Reader Reach approval. You can return here and sign in after your access has been approved.",
-              "info"
-            );
-
-            await supabaseClient.auth.signOut();
-
-            return;
-          }
+    const email =
+      document
+        .getElementById("email")
+        .value
+        .trim()
+        .toLowerCase();
 
 
-          if (profile.access_status === "denied") {
-
-            showMessage(
-              "Your author access request was not approved. Please contact Reader Reach for more information.",
-              "error"
-            );
-
-            await supabaseClient.auth.signOut();
-
-            return;
-          }
+    const password =
+      document
+        .getElementById("password")
+        .value;
 
 
-          if (profile.access_status === "approved") {
-
-            window.location.href =
-              "../author/index.html";
-
-            return;
-          }
+    const button =
+      document.getElementById("loginBtn");
 
 
-          throw new Error(
-            "Your author account has an invalid access status."
-          );
-        }
+    button.disabled = true;
+    button.textContent = "Signing In...";
 
 
-        /* ----------------------------------------------
-           READER
-        ---------------------------------------------- */
+    try {
 
-        if (profile.role === "reader") {
-
-          window.location.href =
-            "../reader/index.html";
-
-          return;
-        }
+      const {
+        data,
+        error
+      } = await supabaseClient.auth.signInWithPassword({
+        email: email,
+        password: password
+      });
 
 
-        /* ----------------------------------------------
-           UNKNOWN ROLE
-        ---------------------------------------------- */
+      if (error) {
+        throw error;
+      }
 
-        await supabaseClient.auth.signOut();
+
+      if (!data.user) {
 
         throw new Error(
-          "Your account role could not be recognized. Please contact Reader Reach."
+          "Your account could not be loaded."
         );
-
-      } catch (error) {
-
-        console.error("Reader Reach login error:", error);
-
-        showMessage(
-          error.message ||
-          "We could not sign you in. Please check your details and try again.",
-          "error"
-        );
-
-      } finally {
-
-        signInButton.disabled = false;
-
-        signInButton.textContent = "Sign In";
-      }
-
-    });
-
-
-    /* ==========================================================
-       FORGOT PASSWORD
-    ========================================================== */
-
-    forgotPassword.addEventListener("click", () => {
-
-      resetEmail.value =
-        emailInput.value.trim();
-
-      resetMessage.className = "message";
-
-      resetMessage.textContent = "";
-
-      resetModal.classList.add("show");
-
-    });
-
-
-    cancelReset.addEventListener("click", () => {
-
-      resetModal.classList.remove("show");
-
-    });
-
-
-    resetModal.addEventListener("click", (event) => {
-
-      if (event.target === resetModal) {
-
-        resetModal.classList.remove("show");
 
       }
 
-    });
+
+      await routeUser(data.user);
 
 
-    sendReset.addEventListener("click", async () => {
+    } catch (error) {
 
-      const email =
-        resetEmail.value.trim().toLowerCase();
+      console.error(
+        "Login error:",
+        error
+      );
 
 
-      if (!email) {
+      showMessage(
+        error?.message ||
+        "We could not sign you in. Please check your email and password.",
+        "error"
+      );
 
-        showResetMessage(
-          "Please enter your email address.",
-          "error"
+
+      button.disabled = false;
+      button.textContent = "Sign In";
+    }
+  }
+
+
+  // ----------------------------------------------------------
+  // ROUTE USER
+  // ----------------------------------------------------------
+
+  async function routeUser(user) {
+
+    try {
+
+      const {
+        data: profile,
+        error: profileError
+      } = await supabaseClient
+        .from("profiles")
+        .select("*")
+        .eq("id", user.id)
+        .maybeSingle();
+
+
+      if (profileError) {
+        throw profileError;
+      }
+
+
+      if (!profile) {
+
+        throw new Error(
+          "Your account exists, but your Reader Reach profile could not be found."
         );
+
+      }
+
+
+      const role =
+        String(profile.role || "reader")
+          .toLowerCase();
+
+
+      /*
+       * ADMIN
+       */
+
+      const {
+        data: adminRecord,
+        error: adminError
+      } = await supabaseClient
+        .from("admin_users")
+        .select("user_id")
+        .eq("user_id", user.id)
+        .maybeSingle();
+
+
+      if (adminError) {
+        console.warn(
+          "Admin check:",
+          adminError.message
+        );
+      }
+
+
+      if (adminRecord) {
+
+        window.location.href =
+          "../admin/index.html";
 
         return;
       }
 
 
-      if (!supabaseClient) {
+      /*
+       * AUTHOR
+       */
 
-        showResetMessage(
-          "The Reader Reach database connection has not been configured yet.",
-          "error"
-        );
+      if (role === "author") {
 
-        return;
-      }
-
-
-      sendReset.disabled = true;
-
-      sendReset.textContent = "Sending...";
+        const status =
+          String(
+            profile.access_status || "pending"
+          ).toLowerCase();
 
 
-      try {
-
-        const redirectUrl =
-          window.location.origin +
-          window.location.pathname
-            .replace(
-              /\/account\/login\.html$/,
-              "/account/reset-password.html"
-            );
-
-
-        const { error } =
-          await supabaseClient.auth.resetPasswordForEmail(
-            email,
-            {
-              redirectTo: redirectUrl
-            }
-          );
-
-
-        if (error) {
-          throw error;
-        }
-
-
-        showResetMessage(
-          "If an account exists with that email, a password reset link has been sent.",
-          "success"
-        );
-
-
-      } catch (error) {
-
-        console.error(
-          "Password reset error:",
-          error
-        );
-
-        showResetMessage(
-          error.message ||
-          "We could not send the reset email.",
-          "error"
-        );
-
-      } finally {
-
-        sendReset.disabled = false;
-
-        sendReset.textContent =
-          "Send Reset Link";
-      }
-
-    });
-
-
-    /* ==========================================================
-       CHECK EXISTING SESSION
-    ========================================================== */
-
-    async function checkExistingSession() {
-
-      if (!supabaseClient) {
-        return;
-      }
-
-
-      try {
-
-        const {
-          data: {
-            session
-          }
-        } =
-          await supabaseClient.auth.getSession();
-
-
-        if (!session || !session.user) {
-          return;
-        }
-
-
-        const user =
-          session.user;
-
-
-        /* Check admin */
-
-        const {
-          data: adminRecord
-        } =
-          await supabaseClient
-            .from("admin_users")
-            .select("user_id")
-            .eq("user_id", user.id)
-            .maybeSingle();
-
-
-        if (adminRecord) {
-
-          window.location.href =
-            "../admin/index.html";
-
-          return;
-        }
-
-
-        /* Check profile */
-
-        const {
-          data: profile
-        } =
-          await supabaseClient
-            .from("profiles")
-            .select(
-              "id, role, access_status"
-            )
-            .eq("id", user.id)
-            .maybeSingle();
-
-
-        if (!profile) {
-          return;
-        }
-
-
-        if (
-          profile.role === "author" &&
-          profile.access_status === "approved"
-        ) {
+        if (status === "approved") {
 
           window.location.href =
             "../author/index.html";
@@ -1339,30 +965,261 @@
         }
 
 
-        if (profile.role === "reader") {
+        if (status === "denied") {
 
-          window.location.href =
-            "../reader/index.html";
+          await supabaseClient.auth.signOut();
+
+
+          showMessage(
+            "Your author account access has not been approved. Please wait for approval or contact Reader Reach.",
+            "error"
+          );
+
+
+          document.getElementById("loginBtn").disabled =
+            false;
+
+          document.getElementById("loginBtn").textContent =
+            "Sign In";
+
 
           return;
         }
 
 
-      } catch (error) {
+        await supabaseClient.auth.signOut();
 
-        console.error(
-          "Session check error:",
-          error
+
+        showMessage(
+          "Your author account is still awaiting approval. You will be able to enter the author area after approval.",
+          "error"
         );
 
+
+        document.getElementById("loginBtn").disabled =
+          false;
+
+        document.getElementById("loginBtn").textContent =
+          "Sign In";
+
+
+        return;
       }
 
+
+      /*
+       * READER
+       *
+       * Readers do not need separate admin approval
+       * every time they sign in.
+       */
+
+      window.location.href =
+        "../reader/index.html";
+
+    } catch (error) {
+
+      console.error(
+        "User routing error:",
+        error
+      );
+
+
+      showMessage(
+        error?.message ||
+        "We could not determine which Reader Reach area belongs to your account.",
+        "error"
+      );
+
+
+      document.getElementById("loginBtn").disabled =
+        false;
+
+      document.getElementById("loginBtn").textContent =
+        "Sign In";
+    }
+  }
+
+
+  // ----------------------------------------------------------
+  // PASSWORD VISIBILITY
+  // ----------------------------------------------------------
+
+  function setupPasswordToggle() {
+
+    const button =
+      document.getElementById("showPassword");
+
+    const input =
+      document.getElementById("password");
+
+
+    button.addEventListener(
+      "click",
+      function() {
+
+        if (input.type === "password") {
+
+          input.type = "text";
+          button.textContent = "Hide";
+
+        } else {
+
+          input.type = "password";
+          button.textContent = "Show";
+
+        }
+
+      }
+    );
+  }
+
+
+  // ----------------------------------------------------------
+  // PASSWORD RESET
+  // ----------------------------------------------------------
+
+  function setupPasswordReset() {
+
+    const forgot =
+      document.getElementById("forgotPassword");
+
+    const modal =
+      document.getElementById("resetModal");
+
+    const close =
+      document.getElementById("closeReset");
+
+    const send =
+      document.getElementById("sendReset");
+
+
+    forgot.addEventListener(
+      "click",
+      function() {
+
+        document.getElementById("resetEmail").value =
+          document.getElementById("email").value.trim();
+
+        document.getElementById("resetMessage").className =
+          "message";
+
+        document.getElementById("resetMessage").textContent =
+          "";
+
+        document.getElementById("resetMessage").style.display =
+          "none";
+
+        modal.style.display = "flex";
+
+      }
+    );
+
+
+    close.addEventListener(
+      "click",
+      function() {
+
+        modal.style.display = "none";
+
+      }
+    );
+
+
+    send.addEventListener(
+      "click",
+      sendPasswordReset
+    );
+
+
+    modal.addEventListener(
+      "click",
+      function(event) {
+
+        if (event.target === modal) {
+          modal.style.display = "none";
+        }
+
+      }
+    );
+  }
+
+
+  async function sendPasswordReset() {
+
+    const email =
+      document
+        .getElementById("resetEmail")
+        .value
+        .trim()
+        .toLowerCase();
+
+
+    if (!email) {
+
+      showResetMessage(
+        "Please enter your email address.",
+        "error"
+      );
+
+      return;
     }
 
 
-    checkExistingSession();
+    const button =
+      document.getElementById("sendReset");
 
-  </script>
+
+    button.disabled = true;
+    button.textContent = "Sending...";
+
+
+    try {
+
+      const {
+        error
+      } = await supabaseClient.auth.resetPasswordForEmail(
+        email,
+        {
+          redirectTo:
+            window.location.origin +
+            "/reader-reach-new/account/login.html"
+        }
+      );
+
+
+      if (error) {
+        throw error;
+      }
+
+
+      showResetMessage(
+        "If an account exists for this email, a password reset link has been sent.",
+        "success"
+      );
+
+
+      button.textContent = "Sent";
+
+
+    } catch (error) {
+
+      console.error(error);
+
+
+      showResetMessage(
+        error?.message ||
+        "We could not send the password reset email.",
+        "error"
+      );
+
+
+      button.disabled = false;
+      button.textContent = "Send Reset Link";
+    }
+  }
+
+</script>
 
 </body>
 </html>
