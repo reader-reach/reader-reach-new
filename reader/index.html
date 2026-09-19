@@ -7,6 +7,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="../config.js"></script>
+
   <style>
     :root {
       --brown-dark: #3d2b22;
@@ -399,6 +400,11 @@
       background: #f7f1e9;
     }
 
+    .primary-btn:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+    }
+
     .status {
       display: inline-flex;
       align-items: center;
@@ -584,6 +590,21 @@
       line-height: 1.6;
     }
 
+    .protected-reader {
+      background: #fbf8f1;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      white-space: pre-wrap;
+      line-height: 1.9;
+      font-family: Georgia, "Times New Roman", serif;
+      color: var(--brown-dark);
+      max-height: 58vh;
+      overflow-y: auto;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
     .modal-backdrop {
       display: none;
       position: fixed;
@@ -717,7 +738,7 @@
 
 <body>
 
-  <!-- LOADING SCREEN -->
+  <!-- LOADING -->
   <div class="loading-screen" id="loadingScreen">
     <div class="loading-box">
       <div class="spinner"></div>
@@ -732,6 +753,7 @@
   <div class="app" id="app">
 
     <header class="topbar">
+
       <a class="brand" href="../index.html">
         Reader Reach
         <span>Books • Authors • Readers</span>
@@ -739,8 +761,11 @@
 
       <div class="top-actions">
         <div class="welcome" id="welcomeText"></div>
-        <button class="logout-btn" id="logoutBtn">Sign Out</button>
+        <button class="logout-btn" id="logoutBtn">
+          Sign Out
+        </button>
       </div>
+
     </header>
 
 
@@ -748,7 +773,9 @@
 
       <aside class="sidebar">
 
-        <div class="sidebar-title">Reader Area</div>
+        <div class="sidebar-title">
+          Reader Area
+        </div>
 
         <button class="nav-btn active" data-page="dashboard">
           Dashboard
@@ -782,9 +809,13 @@
         <!-- DASHBOARD -->
         <section class="page active" id="page-dashboard">
 
-          <div class="eyebrow">Reader Dashboard</div>
+          <div class="eyebrow">
+            Reader Dashboard
+          </div>
 
-          <h1 id="dashboardHeading">Welcome.</h1>
+          <h1 id="dashboardHeading">
+            Welcome.
+          </h1>
 
           <p class="intro">
             Discover approved books, request access to the books you want
@@ -816,17 +847,27 @@
           </div>
 
           <div class="section-heading">
+
             <div>
               <h2>Available Books</h2>
-              <p>Approved books currently available through Reader Reach.</p>
+              <p>
+                Approved books currently available through Reader Reach.
+              </p>
             </div>
 
-            <button class="secondary-btn" onclick="showPage('books')">
+            <button
+              class="secondary-btn"
+              onclick="showPage('books')"
+            >
               View All
             </button>
+
           </div>
 
-          <div id="dashboardBooks" class="books-grid"></div>
+          <div
+            id="dashboardBooks"
+            class="books-grid"
+          ></div>
 
         </section>
 
@@ -834,16 +875,23 @@
         <!-- BOOKS -->
         <section class="page" id="page-books">
 
-          <div class="eyebrow">Discover</div>
+          <div class="eyebrow">
+            Discover
+          </div>
 
-          <h1>Authors' Books</h1>
+          <h1>
+            Authors' Books
+          </h1>
 
           <p class="intro">
             Browse books that have been approved for Reader Reach.
             Access to each protected book is handled separately.
           </p>
 
-          <div id="booksList" class="books-grid"></div>
+          <div
+            id="booksList"
+            class="books-grid"
+          ></div>
 
         </section>
 
@@ -851,28 +899,40 @@
         <!-- READING -->
         <section class="page" id="page-reading">
 
-          <div class="eyebrow">Your Reading</div>
+          <div class="eyebrow">
+            Your Reading
+          </div>
 
-          <h1>My Reading</h1>
+          <h1>
+            My Reading
+          </h1>
 
           <p class="intro">
             Keep track of books you have started and the books you have completed.
           </p>
 
           <div class="section-heading">
+
             <div>
               <h2>Currently Reading</h2>
               <p>Your saved reading progress.</p>
             </div>
+
           </div>
 
           <div id="currentlyReading"></div>
 
-          <div class="section-heading" style="margin-top:40px;">
+
+          <div
+            class="section-heading"
+            style="margin-top:40px;"
+          >
+
             <div>
               <h2>Completed</h2>
               <p>Books you have finished.</p>
             </div>
+
           </div>
 
           <div id="completedReading"></div>
@@ -883,9 +943,13 @@
         <!-- NOTIFICATIONS -->
         <section class="page" id="page-notifications">
 
-          <div class="eyebrow">Updates</div>
+          <div class="eyebrow">
+            Updates
+          </div>
 
-          <h1>Notifications</h1>
+          <h1>
+            Notifications
+          </h1>
 
           <p class="intro">
             Important updates about your Reader Reach account,
@@ -900,9 +964,13 @@
         <!-- ACTIVITY -->
         <section class="page" id="page-activity">
 
-          <div class="eyebrow">Account History</div>
+          <div class="eyebrow">
+            Account History
+          </div>
 
-          <h1>Activity</h1>
+          <h1>
+            Activity
+          </h1>
 
           <p class="intro">
             A record of activity associated with your Reader Reach account.
@@ -916,15 +984,22 @@
         <!-- ACCOUNT -->
         <section class="page" id="page-account">
 
-          <div class="eyebrow">Account</div>
+          <div class="eyebrow">
+            Account
+          </div>
 
-          <h1>My Account</h1>
+          <h1>
+            My Account
+          </h1>
 
           <p class="intro">
             Your Reader Reach account information.
           </p>
 
-          <div class="profile-card" id="profileCard"></div>
+          <div
+            class="profile-card"
+            id="profileCard"
+          ></div>
 
         </section>
 
@@ -933,12 +1008,17 @@
   </div>
 
 
-  <!-- BOOK ACCESS MODAL -->
-  <div class="modal-backdrop" id="accessModal">
+  <!-- ACCESS REQUEST MODAL -->
+  <div
+    class="modal-backdrop"
+    id="accessModal"
+  >
 
     <div class="modal">
 
-      <h2 id="modalBookTitle">Request Book Access</h2>
+      <h2 id="modalBookTitle">
+        Request Book Access
+      </h2>
 
       <p id="modalBookDescription"></p>
 
@@ -949,16 +1029,27 @@
         been approved.
       </div>
 
-      <div id="modalMessage" class="reader-message"></div>
+      <div
+        id="modalMessage"
+        class="reader-message"
+      ></div>
 
       <div class="modal-actions">
-        <button class="close-btn" onclick="closeAccessModal()">
+
+        <button
+          class="close-btn"
+          onclick="closeAccessModal()"
+        >
           Cancel
         </button>
 
-        <button class="primary-btn" id="confirmAccessBtn">
+        <button
+          class="primary-btn"
+          id="confirmAccessBtn"
+        >
           Request Access
         </button>
+
       </div>
 
     </div>
@@ -966,40 +1057,59 @@
 
 
 <script>
+
   /*
    * ==========================================================
    * READER REACH — READER DASHBOARD
    * ==========================================================
    *
-   * Uses ../config.js
-   * Database:
-   * - profiles
-   * - book_submissions
-   * - reader_book_access
-   * - reading_progress
-   * - notifications
-   * - activity_log
+   * SECURITY:
+   *
+   * This page NEVER selects flipper_guide_link.
+   *
+   * Protected book content comes from:
+   *
+   * public.book_protected_content
+   *
+   * Supabase RLS controls whether the current reader can
+   * receive the protected content.
+   *
+   * The reader must have:
+   *
+   * reader_book_access.status = "approved"
+   *
+   * for the specific book.
    *
    * ==========================================================
    */
 
+
   let supabaseClient = null;
+
   let currentUser = null;
   let currentProfile = null;
+
   let books = [];
   let accessRecords = [];
   let progressRecords = [];
   let notifications = [];
   let activities = [];
+
   let selectedBookId = null;
 
 
   // ----------------------------------------------------------
-  // BASIC HELPERS
+  // HELPERS
   // ----------------------------------------------------------
 
   function escapeHtml(value) {
-    if (value === null || value === undefined) return "";
+
+    if (
+      value === null ||
+      value === undefined
+    ) {
+      return "";
+    }
 
     return String(value)
       .replace(/&/g, "&amp;")
@@ -1011,44 +1121,64 @@
 
 
   function showLoadingError(message) {
-    const errorBox = document.getElementById("loadingError");
-    errorBox.innerHTML = escapeHtml(message);
+
+    const errorBox =
+      document.getElementById("loadingError");
+
+    errorBox.textContent =
+      message || "Something went wrong.";
+
     errorBox.style.display = "block";
   }
 
 
   function setLoadingText(message) {
-    document.getElementById("loadingText").textContent = message;
+
+    document.getElementById("loadingText")
+      .textContent = message;
   }
 
 
   function formatDate(dateValue) {
-    if (!dateValue) return "";
 
-    const date = new Date(dateValue);
-
-    if (Number.isNaN(date.getTime())) {
+    if (!dateValue) {
       return "";
     }
 
-    return date.toLocaleDateString(undefined, {
-      year: "numeric",
-      month: "short",
-      day: "numeric"
-    });
+    const date =
+      new Date(dateValue);
+
+    if (
+      Number.isNaN(date.getTime())
+    ) {
+      return "";
+    }
+
+    return date.toLocaleDateString(
+      undefined,
+      {
+        year: "numeric",
+        month: "short",
+        day: "numeric"
+      }
+    );
   }
 
 
   function getBookAccess(bookId) {
+
     return accessRecords.find(
-      record => record.book_id === bookId
+      record =>
+        record.book_id === bookId
     );
   }
 
 
   function getBookProgress(bookId) {
+
     return progressRecords.find(
-      record => record.book_id === bookId
+      record =>
+        record.book_id === bookId
     );
   }
 
@@ -1057,44 +1187,59 @@
   // START
   // ----------------------------------------------------------
 
-  document.addEventListener("DOMContentLoaded", init);
+  document.addEventListener(
+    "DOMContentLoaded",
+    init
+  );
 
 
   async function init() {
 
     try {
 
-      setLoadingText("Connecting to Reader Reach...");
+      setLoadingText(
+        "Connecting to Reader Reach..."
+      );
+
 
       if (!window.READER_REACH_CONFIG) {
+
         throw new Error(
           "Reader Reach configuration was not found. Please make sure config.js exists in the main repository folder."
         );
+
       }
+
 
       if (
         !window.READER_REACH_CONFIG.SUPABASE_URL ||
         !window.READER_REACH_CONFIG.SUPABASE_ANON_KEY
       ) {
+
         throw new Error(
           "Reader Reach Supabase configuration is incomplete."
         );
+
       }
 
 
-      supabaseClient = window.supabase.createClient(
-        window.READER_REACH_CONFIG.SUPABASE_URL,
-        window.READER_REACH_CONFIG.SUPABASE_ANON_KEY
+      supabaseClient =
+        window.supabase.createClient(
+          window.READER_REACH_CONFIG.SUPABASE_URL,
+          window.READER_REACH_CONFIG.SUPABASE_ANON_KEY
+        );
+
+
+      setLoadingText(
+        "Checking your reader account..."
       );
-
-
-      setLoadingText("Checking your reader account...");
 
 
       const {
         data: sessionData,
         error: sessionError
-      } = await supabaseClient.auth.getSession();
+      } =
+        await supabaseClient.auth.getSession();
 
 
       if (sessionError) {
@@ -1102,28 +1247,33 @@
       }
 
 
-      currentUser = sessionData.session?.user || null;
+      currentUser =
+        sessionData.session?.user || null;
 
 
       if (!currentUser) {
 
-        window.location.href = "../account/login.html";
+        window.location.href =
+          "../account/login.html";
 
         return;
       }
 
 
-      setLoadingText("Loading your account...");
+      setLoadingText(
+        "Loading your account..."
+      );
 
 
       const {
         data: profile,
         error: profileError
-      } = await supabaseClient
-        .from("profiles")
-        .select("*")
-        .eq("id", currentUser.id)
-        .maybeSingle();
+      } =
+        await supabaseClient
+          .from("profiles")
+          .select("*")
+          .eq("id", currentUser.id)
+          .maybeSingle();
 
 
       if (profileError) {
@@ -1143,16 +1293,21 @@
       currentProfile = profile;
 
 
-      // Make sure this is a reader.
-      if (currentProfile.role === "author") {
+      // Authors should use the author dashboard.
+      if (
+        currentProfile.role === "author"
+      ) {
 
-        window.location.href = "../author/index.html";
+        window.location.href =
+          "../author/index.html";
 
         return;
       }
 
 
-      setLoadingText("Loading your Reader Reach dashboard...");
+      setLoadingText(
+        "Loading your Reader Reach dashboard..."
+      );
 
 
       await loadAllData();
@@ -1162,8 +1317,14 @@
       setupLogout();
 
 
-      document.getElementById("loadingScreen").style.display = "none";
-      document.getElementById("app").style.display = "block";
+      document.getElementById(
+        "loadingScreen"
+      ).style.display = "none";
+
+
+      document.getElementById(
+        "app"
+      ).style.display = "block";
 
 
       renderEverything();
@@ -1171,20 +1332,28 @@
 
     } catch (error) {
 
-      console.error("Reader Reach initialization error:", error);
+      console.error(
+        "Reader Reach initialization error:",
+        error
+      );
 
-      setLoadingText("We couldn't load your reader account.");
+
+      setLoadingText(
+        "We couldn't load your reader account."
+      );
+
 
       showLoadingError(
         error?.message ||
         "Something went wrong while loading your account."
       );
+
     }
   }
 
 
   // ----------------------------------------------------------
-  // LOAD DATABASE DATA
+  // LOAD DATA
   // ----------------------------------------------------------
 
   async function loadAllData() {
@@ -1196,41 +1365,56 @@
       loadNotifications(),
       loadActivities()
     ]);
+
   }
 
+
+  /*
+   * IMPORTANT:
+   *
+   * There is intentionally NO flipper_guide_link here.
+   *
+   * This is reader-safe book information only.
+   */
 
   async function loadBooks() {
 
     const {
       data,
       error
-    } = await supabaseClient
-      .from("book_submissions")
-      .select(`
-        id,
-        author_id,
-        author_name,
-        book_title,
-        book_description,
-        genre,
-        intended_readers,
-        book_cover_url,
-        where_available,
-        flipper_guide_link,
-        status,
-        created_at,
-        updated_at
-      `)
-      .eq("status", "approved")
-      .order("created_at", {
-        ascending: false
-      });
+    } =
+      await supabaseClient
+        .from("book_submissions")
+        .select(`
+          id,
+          author_id,
+          author_name,
+          book_title,
+          book_description,
+          genre,
+          intended_readers,
+          book_cover_url,
+          where_available,
+          status,
+          created_at,
+          updated_at
+        `)
+        .eq("status", "approved")
+        .order(
+          "created_at",
+          {
+            ascending: false
+          }
+        );
 
 
     if (error) {
+
       throw new Error(
-        "Unable to load approved books: " + error.message
+        "Unable to load approved books: " +
+        error.message
       );
+
     }
 
 
@@ -1243,21 +1427,28 @@
     const {
       data,
       error
-    } = await supabaseClient
-      .from("reader_book_access")
-      .select("*")
-      .eq("reader_id", currentUser.id);
+    } =
+      await supabaseClient
+        .from("reader_book_access")
+        .select("*")
+        .eq(
+          "reader_id",
+          currentUser.id
+        );
 
 
     if (error) {
+
       throw new Error(
         "Unable to load your book access requests: " +
         error.message
       );
+
     }
 
 
-    accessRecords = data || [];
+    accessRecords =
+      data || [];
   }
 
 
@@ -1266,21 +1457,28 @@
     const {
       data,
       error
-    } = await supabaseClient
-      .from("reading_progress")
-      .select("*")
-      .eq("reader_id", currentUser.id);
+    } =
+      await supabaseClient
+        .from("reading_progress")
+        .select("*")
+        .eq(
+          "reader_id",
+          currentUser.id
+        );
 
 
     if (error) {
+
       throw new Error(
         "Unable to load your reading progress: " +
         error.message
       );
+
     }
 
 
-    progressRecords = data || [];
+    progressRecords =
+      data || [];
   }
 
 
@@ -1289,24 +1487,34 @@
     const {
       data,
       error
-    } = await supabaseClient
-      .from("notifications")
-      .select("*")
-      .eq("user_id", currentUser.id)
-      .order("created_at", {
-        ascending: false
-      });
+    } =
+      await supabaseClient
+        .from("notifications")
+        .select("*")
+        .eq(
+          "user_id",
+          currentUser.id
+        )
+        .order(
+          "created_at",
+          {
+            ascending: false
+          }
+        );
 
 
     if (error) {
+
       throw new Error(
         "Unable to load notifications: " +
         error.message
       );
+
     }
 
 
-    notifications = data || [];
+    notifications =
+      data || [];
   }
 
 
@@ -1315,25 +1523,35 @@
     const {
       data,
       error
-    } = await supabaseClient
-      .from("activity_log")
-      .select("*")
-      .eq("user_id", currentUser.id)
-      .order("created_at", {
-        ascending: false
-      })
-      .limit(100);
+    } =
+      await supabaseClient
+        .from("activity_log")
+        .select("*")
+        .eq(
+          "user_id",
+          currentUser.id
+        )
+        .order(
+          "created_at",
+          {
+            ascending: false
+          }
+        )
+        .limit(100);
 
 
     if (error) {
+
       throw new Error(
         "Unable to load activity: " +
         error.message
       );
+
     }
 
 
-    activities = data || [];
+    activities =
+      data || [];
   }
 
 
@@ -1343,49 +1561,71 @@
 
   function setupNavigation() {
 
-    document.querySelectorAll(".nav-btn").forEach(button => {
+    document
+      .querySelectorAll(".nav-btn")
+      .forEach(button => {
 
-      button.addEventListener("click", () => {
+        button.addEventListener(
+          "click",
+          () => {
 
-        showPage(button.dataset.page);
+            showPage(
+              button.dataset.page
+            );
+
+          }
+        );
 
       });
 
-    });
   }
 
 
   function showPage(pageName) {
 
-    document.querySelectorAll(".page").forEach(page => {
-      page.classList.remove("active");
-    });
+    document
+      .querySelectorAll(".page")
+      .forEach(page => {
+
+        page.classList.remove(
+          "active"
+        );
+
+      });
 
 
-    const target = document.getElementById(
-      "page-" + pageName
-    );
+    const target =
+      document.getElementById(
+        "page-" + pageName
+      );
 
 
     if (target) {
-      target.classList.add("active");
+
+      target.classList.add(
+        "active"
+      );
+
     }
 
 
-    document.querySelectorAll(".nav-btn").forEach(button => {
+    document
+      .querySelectorAll(".nav-btn")
+      .forEach(button => {
 
-      button.classList.toggle(
-        "active",
-        button.dataset.page === pageName
-      );
+        button.classList.toggle(
+          "active",
+          button.dataset.page === pageName
+        );
 
-    });
+      });
 
 
     window.scrollTo({
       top: 0,
       behavior: "smooth"
     });
+
   }
 
 
@@ -1397,7 +1637,11 @@
 
     document
       .getElementById("logoutBtn")
-      .addEventListener("click", logout);
+      .addEventListener(
+        "click",
+        logout
+      );
+
   }
 
 
@@ -1405,7 +1649,9 @@
 
     await supabaseClient.auth.signOut();
 
-    window.location.href = "../account/login.html";
+    window.location.href =
+      "../account/login.html";
+
   }
 
 
@@ -1421,71 +1667,93 @@
       "Reader";
 
 
-    document.getElementById("welcomeText").textContent =
+    document.getElementById(
+      "welcomeText"
+    ).textContent =
       "Welcome, " + name;
 
 
-    document.getElementById("dashboardHeading").textContent =
+    document.getElementById(
+      "dashboardHeading"
+    ).textContent =
       "Welcome, " + name + ".";
 
 
-    const unreadCount = notifications.filter(
-      notification => !notification.is_read
-    ).length;
+    const unreadCount =
+      notifications.filter(
+        notification =>
+          !notification.is_read
+      ).length;
 
 
-    const completedCount = progressRecords.filter(
-      progress => progress.progress_percent >= 100 ||
-                  progress.completed_at
-    ).length;
+    const completedCount =
+      progressRecords.filter(
+        progress =>
+          Number(
+            progress.progress_percent || 0
+          ) >= 100 ||
+          progress.completed_at
+      ).length;
 
 
-    const readingCount = progressRecords.filter(
-      progress =>
-        progress.progress_percent > 0 &&
-        progress.progress_percent < 100 &&
-        !progress.completed_at
-    ).length;
+    const readingCount =
+      progressRecords.filter(
+        progress =>
+          Number(
+            progress.progress_percent || 0
+          ) > 0 &&
+          Number(
+            progress.progress_percent || 0
+          ) < 100 &&
+          !progress.completed_at
+      ).length;
 
 
-    document.getElementById("statBooks").textContent =
+    document.getElementById(
+      "statBooks"
+    ).textContent =
       books.length;
 
 
-    document.getElementById("statReading").textContent =
+    document.getElementById(
+      "statReading"
+    ).textContent =
       readingCount;
 
 
-    document.getElementById("statCompleted").textContent =
+    document.getElementById(
+      "statCompleted"
+    ).textContent =
       completedCount;
 
 
-    document.getElementById("statNotifications").textContent =
+    document.getElementById(
+      "statNotifications"
+    ).textContent =
       unreadCount;
 
 
     renderBooks(
-      document.getElementById("dashboardBooks"),
+      document.getElementById(
+        "dashboardBooks"
+      ),
       books.slice(0, 3)
     );
 
 
     renderBooks(
-      document.getElementById("booksList"),
+      document.getElementById(
+        "booksList"
+      ),
       books
     );
 
 
     renderReading();
-
-
     renderNotifications();
-
-
     renderActivities();
-
-
     renderProfile();
+
   }
 
 
@@ -1493,12 +1761,18 @@
   // BOOKS
   // ----------------------------------------------------------
 
-  function renderBooks(container, bookList) {
+  function renderBooks(
+    container,
+    bookList
+  ) {
 
     if (!bookList.length) {
 
       container.innerHTML = `
-        <div class="empty" style="grid-column:1/-1;">
+        <div
+          class="empty"
+          style="grid-column:1/-1;"
+        >
           <strong>No approved books yet</strong>
           There are currently no approved books available to readers.
         </div>
@@ -1508,141 +1782,181 @@
     }
 
 
-    container.innerHTML = bookList.map(book => {
+    container.innerHTML =
+      bookList.map(book => {
 
-      const access = getBookAccess(book.id);
-
-      let actionHtml = "";
-
-
-      if (!access) {
-
-        actionHtml = `
-          <button
-            class="primary-btn"
-            onclick="openAccessModal('${book.id}')"
-          >
-            Request Access
-          </button>
-        `;
-
-      } else if (access.status === "pending") {
-
-        actionHtml = `
-          <span class="status pending">
-            Access Pending
-          </span>
-        `;
-
-      } else if (access.status === "denied") {
-
-        actionHtml = `
-          <button
-            class="secondary-btn"
-            onclick="openAccessModal('${book.id}')"
-          >
-            Request Again
-          </button>
-        `;
-
-      } else if (access.status === "approved") {
-
-        actionHtml = `
-          <button
-            class="primary-btn"
-            onclick="openBook('${book.id}')"
-          >
-            Open Book
-          </button>
-        `;
-      }
+        const access =
+          getBookAccess(book.id);
 
 
-      const statusHtml = access
-        ? `<span class="status ${escapeHtml(access.status)}">
-             ${escapeHtml(access.status)}
-           </span>`
-        : "";
+        let actionHtml = "";
 
 
-      const cover = book.book_cover_url
-        ? `
-          <img
-            src="${escapeHtml(book.book_cover_url)}"
-            alt="${escapeHtml(book.book_title || "Book cover")}"
-            loading="lazy"
-          >
-        `
-        : `
-          <div class="no-cover">
-            Book cover will appear here when provided by the author.
-          </div>
-        `;
+        if (!access) {
+
+          actionHtml = `
+            <button
+              class="primary-btn"
+              onclick="openAccessModal('${escapeHtml(book.id)}')"
+            >
+              Request Access
+            </button>
+          `;
+
+        }
+
+        else if (
+          access.status === "pending"
+        ) {
+
+          actionHtml = `
+            <span class="status pending">
+              Access Pending
+            </span>
+          `;
+
+        }
+
+        else if (
+          access.status === "denied"
+        ) {
+
+          actionHtml = `
+            <button
+              class="secondary-btn"
+              onclick="openAccessModal('${escapeHtml(book.id)}')"
+            >
+              Request Again
+            </button>
+          `;
+
+        }
+
+        else if (
+          access.status === "approved"
+        ) {
+
+          actionHtml = `
+            <button
+              class="primary-btn"
+              onclick="openBook('${escapeHtml(book.id)}')"
+            >
+              Open Book
+            </button>
+          `;
+
+        }
 
 
-      return `
-        <article class="book-card">
+        const statusHtml =
+          access
+            ? `
+              <span
+                class="status ${escapeHtml(access.status)}"
+              >
+                ${escapeHtml(access.status)}
+              </span>
+            `
+            : "";
 
-          <div class="book-cover">
-            ${cover}
-          </div>
 
-          <div class="book-body">
+        const cover =
+          book.book_cover_url
+            ? `
+              <img
+                src="${escapeHtml(book.book_cover_url)}"
+                alt="${escapeHtml(
+                  book.book_title ||
+                  "Book cover"
+                )}"
+                loading="lazy"
+              >
+            `
+            : `
+              <div class="no-cover">
+                Book cover will appear here when provided by the author.
+              </div>
+            `;
 
-            <h3 class="book-title">
-              ${escapeHtml(book.book_title || "Book Title")}
-            </h3>
 
-            <div class="book-author">
-              Author: ${escapeHtml(book.author_name || "Author Name")}
+        return `
+          <article class="book-card">
+
+            <div class="book-cover">
+              ${cover}
             </div>
 
-            ${
-              book.book_description
-                ? `
-                  <div class="book-description">
-                    ${escapeHtml(book.book_description)}
-                  </div>
-                `
-                : ""
-            }
+            <div class="book-body">
 
-            <div class="book-meta">
+              <h3 class="book-title">
+                ${escapeHtml(
+                  book.book_title ||
+                  "Book Title"
+                )}
+              </h3>
+
+              <div class="book-author">
+                Author:
+                ${escapeHtml(
+                  book.author_name ||
+                  "Author Name"
+                )}
+              </div>
 
               ${
-                book.genre
+                book.book_description
                   ? `
-                    <span class="tag">
-                      ${escapeHtml(book.genre)}
-                    </span>
+                    <div class="book-description">
+                      ${escapeHtml(
+                        book.book_description
+                      )}
+                    </div>
                   `
                   : ""
               }
 
-              ${
-                book.intended_readers
-                  ? `
-                    <span class="tag">
-                      For: ${escapeHtml(book.intended_readers)}
-                    </span>
-                  `
-                  : ""
-              }
+              <div class="book-meta">
 
-              ${statusHtml}
+                ${
+                  book.genre
+                    ? `
+                      <span class="tag">
+                        ${escapeHtml(
+                          book.genre
+                        )}
+                      </span>
+                    `
+                    : ""
+                }
+
+                ${
+                  book.intended_readers
+                    ? `
+                      <span class="tag">
+                        For:
+                        ${escapeHtml(
+                          book.intended_readers
+                        )}
+                      </span>
+                    `
+                    : ""
+                }
+
+                ${statusHtml}
+
+              </div>
+
+              <div class="book-actions">
+                ${actionHtml}
+              </div>
 
             </div>
 
-            <div class="book-actions">
-              ${actionHtml}
-            </div>
+          </article>
+        `;
 
-          </div>
+      }).join("");
 
-        </article>
-      `;
-
-    }).join("");
   }
 
 
@@ -1652,32 +1966,51 @@
 
   function openAccessModal(bookId) {
 
-    const book = books.find(
-      item => item.id === bookId
-    );
+    const book =
+      books.find(
+        item =>
+          item.id === bookId
+      );
 
 
-    if (!book) return;
+    if (!book) {
+      return;
+    }
 
 
-    selectedBookId = bookId;
+    selectedBookId =
+      bookId;
 
 
-    document.getElementById("modalBookTitle").textContent =
+    document.getElementById(
+      "modalBookTitle"
+    ).textContent =
       "Request Access: " +
-      (book.book_title || "Book Title");
+      (
+        book.book_title ||
+        "Book Title"
+      );
 
 
-    document.getElementById("modalBookDescription").textContent =
+    document.getElementById(
+      "modalBookDescription"
+    ).textContent =
       book.book_description ||
       "This book is available through Reader Reach.";
 
 
     const message =
-      document.getElementById("modalMessage");
+      document.getElementById(
+        "modalMessage"
+      );
 
-    message.className = "reader-message";
-    message.textContent = "";
+
+    message.className =
+      "reader-message";
+
+
+    message.textContent =
+      "";
 
 
     const existingAccess =
@@ -1685,7 +2018,9 @@
 
 
     const confirmButton =
-      document.getElementById("confirmAccessBtn");
+      document.getElementById(
+        "confirmAccessBtn"
+      );
 
 
     if (
@@ -1694,59 +2029,86 @@
     ) {
 
       confirmButton.disabled = true;
-      confirmButton.textContent = "Request Pending";
 
-    } else {
+      confirmButton.textContent =
+        "Request Pending";
+
+    }
+
+    else {
 
       confirmButton.disabled = false;
-      confirmButton.textContent = "Request Access";
+
+      confirmButton.textContent =
+        "Request Access";
 
     }
 
 
-    document.getElementById("accessModal").style.display =
+    document.getElementById(
+      "accessModal"
+    ).style.display =
       "flex";
 
 
     confirmButton.onclick =
       requestBookAccess;
+
   }
 
 
   function closeAccessModal() {
 
-    document.getElementById("accessModal").style.display =
+    document.getElementById(
+      "accessModal"
+    ).style.display =
       "none";
 
-    selectedBookId = null;
+
+    selectedBookId =
+      null;
+
   }
 
 
   async function requestBookAccess() {
 
-    if (!selectedBookId) return;
+    if (!selectedBookId) {
+      return;
+    }
 
 
     const button =
-      document.getElementById("confirmAccessBtn");
+      document.getElementById(
+        "confirmAccessBtn"
+      );
 
 
     const message =
-      document.getElementById("modalMessage");
+      document.getElementById(
+        "modalMessage"
+      );
 
 
     button.disabled = true;
-    button.textContent = "Sending Request...";
+
+    button.textContent =
+      "Sending Request...";
 
 
-    message.className = "reader-message";
-    message.textContent = "";
+    message.className =
+      "reader-message";
+
+    message.textContent =
+      "";
 
 
     try {
 
       const existing =
-        getBookAccess(selectedBookId);
+        getBookAccess(
+          selectedBookId
+        );
 
 
       if (
@@ -1761,18 +2123,31 @@
       }
 
 
+      /*
+       * We intentionally do not allow the reader to
+       * choose the reader_id or book_id from arbitrary
+       * database data. The authenticated user's ID and
+       * selected book ID are used here.
+       */
+
       const {
         data,
         error
-      } = await supabaseClient
-        .from("reader_book_access")
-        .insert({
-          reader_id: currentUser.id,
-          book_id: selectedBookId,
-          status: "pending"
-        })
-        .select()
-        .single();
+      } =
+        await supabaseClient
+          .from("reader_book_access")
+          .insert({
+            reader_id:
+              currentUser.id,
+
+            book_id:
+              selectedBookId,
+
+            status:
+              "pending"
+          })
+          .select()
+          .single();
 
 
       if (error) {
@@ -1780,80 +2155,139 @@
       }
 
 
-      accessRecords.push(data);
+      accessRecords.push(
+        data
+      );
 
 
-      // Log the activity.
-      await supabaseClient
-        .from("activity_log")
-        .insert({
-          user_id: currentUser.id,
-          role: "reader",
-          action: "Requested book access",
-          book_id: selectedBookId,
-          metadata: {
-            source: "reader_dashboard"
-          }
-        });
+      /*
+       * Record activity.
+       */
+
+      const {
+        data: activityData,
+        error: activityError
+      } =
+        await supabaseClient
+          .from("activity_log")
+          .insert({
+            user_id:
+              currentUser.id,
+
+            role:
+              "reader",
+
+            action:
+              "Requested book access",
+
+            book_id:
+              selectedBookId,
+
+            metadata: {
+              source:
+                "reader_dashboard"
+            }
+          })
+          .select()
+          .single();
 
 
-      activities.unshift({
-        user_id: currentUser.id,
-        role: "reader",
-        action: "Requested book access",
-        book_id: selectedBookId,
-        metadata: {
-          source: "reader_dashboard"
-        },
-        created_at: new Date().toISOString()
-      });
+      if (!activityError &&
+          activityData) {
+
+        activities.unshift(
+          activityData
+        );
+
+      }
 
 
       message.className =
         "reader-message success";
 
+
       message.textContent =
         "Your access request has been submitted. You will be notified when it is reviewed.";
 
 
-      button.textContent = "Request Sent";
+      button.textContent =
+        "Request Sent";
 
 
       renderEverything();
 
 
-      setTimeout(() => {
-        closeAccessModal();
-      }, 1600);
+      setTimeout(
+        () => {
+          closeAccessModal();
+        },
+        1600
+      );
 
 
     } catch (error) {
 
-      console.error(error);
+      console.error(
+        "Access request error:",
+        error
+      );
 
 
       message.className =
         "reader-message error";
 
-      message.textContent =
-        error?.message ||
-        "We could not submit your access request.";
+
+      /*
+       * Duplicate request errors can come from
+       * database constraints. Give the reader a
+       * simple understandable message.
+       */
+
+      if (
+        error?.code === "23505"
+      ) {
+
+        message.textContent =
+          "You already have an access request for this book.";
+
+      }
+
+      else {
+
+        message.textContent =
+          error?.message ||
+          "We could not submit your access request.";
+
+      }
 
 
       button.disabled = false;
-      button.textContent = "Request Access";
+
+      button.textContent =
+        "Request Access";
+
     }
+
   }
 
 
   // ----------------------------------------------------------
-  // OPEN BOOK
+  // OPEN PROTECTED BOOK
   // ----------------------------------------------------------
 
   async function openBook(bookId) {
 
+    /*
+     * FIRST CHECK:
+     *
+     * The UI will only show Open Book after approved
+     * access, but we check again here.
+     */
+
     const access =
-      getBookAccess(bookId);
+      getBookAccess(
+        bookId
+      );
 
 
     if (
@@ -1870,32 +2304,48 @@
 
 
     const book =
-      books.find(item => item.id === bookId);
+      books.find(
+        item =>
+          item.id === bookId
+      );
 
 
-    if (!book) return;
-
-
-    /*
-     * IMPORTANT:
-     *
-     * We do NOT use the Flipper Guide link directly here.
-     * The protected reading content will be controlled through
-     * the protected database table after the book is approved
-     * for this specific reader.
-     */
+    if (!book) {
+      return;
+    }
 
 
     try {
 
+      /*
+       * SECOND CHECK:
+       *
+       * We request ONLY the protected content belonging
+       * to this book.
+       *
+       * Supabase RLS on book_protected_content determines
+       * whether this authenticated reader is actually
+       * allowed to receive the row.
+       */
+
       const {
         data: protectedContent,
         error
-      } = await supabaseClient
-        .from("book_protected_content")
-        .select("*")
-        .eq("book_id", bookId)
-        .maybeSingle();
+      } =
+        await supabaseClient
+          .from("book_protected_content")
+          .select(`
+            id,
+            book_id,
+            protected_content,
+            created_at,
+            updated_at
+          `)
+          .eq(
+            "book_id",
+            bookId
+          )
+          .maybeSingle();
 
 
       if (error) {
@@ -1903,121 +2353,213 @@
       }
 
 
+      /*
+       * If RLS prevents the reader from receiving the
+       * protected row, protectedContent will not contain
+       * the book.
+       */
+
       if (!protectedContent) {
 
         alert(
-          "This book has been approved for you, but its protected reading content has not been added yet."
+          "This book does not currently have protected reading content available to your account."
         );
 
         return;
       }
 
 
-      // Record opening activity.
-      await supabaseClient
-        .from("activity_log")
-        .insert({
-          user_id: currentUser.id,
-          role: "reader",
-          action: "Opened book",
-          book_id: bookId,
-          metadata: {
-            source: "reader_dashboard"
-          }
-        });
+      /*
+       * Record that the reader successfully opened
+       * protected content.
+       */
+
+      const {
+        data: activityData,
+        error: activityError
+      } =
+        await supabaseClient
+          .from("activity_log")
+          .insert({
+            user_id:
+              currentUser.id,
+
+            role:
+              "reader",
+
+            action:
+              "Opened protected book",
+
+            book_id:
+              bookId,
+
+            metadata: {
+              source:
+                "reader_dashboard",
+              access_status:
+                "approved"
+            }
+          })
+          .select()
+          .single();
 
 
-      // If there is a protected URL, open it.
-      if (protectedContent.content_url) {
+      if (
+        !activityError &&
+        activityData
+      ) {
 
-        window.open(
-          protectedContent.content_url,
-          "_blank",
-          "noopener,noreferrer"
+        activities.unshift(
+          activityData
         );
 
-      } else if (protectedContent.content_text) {
+        renderActivities();
 
-        showProtectedBook(
-          book,
-          protectedContent
-        );
-
-      } else {
-
-        alert(
-          "This book has no reading content available yet."
-        );
       }
+
+
+      showProtectedBook(
+        book,
+        protectedContent
+      );
 
 
     } catch (error) {
 
-      console.error(error);
+      console.error(
+        "Protected book error:",
+        error
+      );
+
 
       alert(
         "The protected book could not be opened: " +
-        (error?.message || "Unknown error")
+        (
+          error?.message ||
+          "Unknown error"
+        )
       );
+
     }
+
   }
 
 
-  function showProtectedBook(book, content) {
+  // ----------------------------------------------------------
+  // PROTECTED BOOK READER
+  // ----------------------------------------------------------
 
-    const modal = document.createElement("div");
+  function showProtectedBook(
+    book,
+    content
+  ) {
 
-    modal.className = "modal-backdrop";
+    const modal =
+      document.createElement(
+        "div"
+      );
 
-    modal.style.display = "flex";
+
+    modal.className =
+      "modal-backdrop";
+
+
+    modal.style.display =
+      "flex";
+
+
+    const protectedText =
+      content.protected_content || "";
 
 
     modal.innerHTML = `
-      <div class="modal">
+
+      <div
+        class="modal"
+        style="max-width:850px;"
+      >
 
         <div class="eyebrow">
           Reader Reach • Protected Book
         </div>
 
         <h2>
-          ${escapeHtml(book.book_title || "Book Title")}
+          ${escapeHtml(
+            book.book_title ||
+            "Book Title"
+          )}
         </h2>
 
         <p>
-          Author: ${escapeHtml(book.author_name || "Author Name")}
+          Author:
+          ${escapeHtml(
+            book.author_name ||
+            "Author Name"
+          )}
         </p>
 
-        <div style="
-          white-space:pre-wrap;
-          line-height:1.9;
-          font-family:Georgia,serif;
-          color:#3d2b22;
-          margin-top:25px;
-          max-height:55vh;
-          overflow-y:auto;
-          user-select:none;
-        ">
-          ${escapeHtml(content.content_text)}
+        <div class="notice">
+          This reading content is protected and is available
+          only to your approved Reader Reach account.
+        </div>
+
+        <div class="protected-reader">
+          ${escapeHtml(
+            protectedText
+          )}
         </div>
 
         <div class="modal-actions">
+
           <button class="close-btn">
             Close Book
           </button>
+
         </div>
 
       </div>
+
     `;
 
 
-    document.body.appendChild(modal);
+    document.body.appendChild(
+      modal
+    );
 
 
-    modal
-      .querySelector(".close-btn")
-      .addEventListener("click", () => {
+    const closeButton =
+      modal.querySelector(
+        ".close-btn"
+      );
+
+
+    closeButton.addEventListener(
+      "click",
+      () => {
         modal.remove();
-      });
+      }
+    );
+
+
+    /*
+     * Close if the reader clicks the dark area.
+     */
+
+    modal.addEventListener(
+      "click",
+      event => {
+
+        if (
+          event.target === modal
+        ) {
+
+          modal.remove();
+
+        }
+
+      }
+    );
+
   }
 
 
@@ -2028,42 +2570,70 @@
   function renderReading() {
 
     const currentlyReading =
-      document.getElementById("currentlyReading");
+      document.getElementById(
+        "currentlyReading"
+      );
 
 
     const completedReading =
-      document.getElementById("completedReading");
+      document.getElementById(
+        "completedReading"
+      );
 
 
-    const reading = progressRecords
-      .filter(
-        progress =>
-          progress.progress_percent > 0 &&
-          progress.progress_percent < 100 &&
-          !progress.completed_at
-      )
-      .map(progress => ({
-        progress,
-        book: books.find(
-          book => book.id === progress.book_id
+    const reading =
+      progressRecords
+        .filter(
+          progress =>
+            Number(
+              progress.progress_percent || 0
+            ) > 0 &&
+            Number(
+              progress.progress_percent || 0
+            ) < 100 &&
+            !progress.completed_at
         )
-      }))
-      .filter(item => item.book);
-
-
-    const completed = progressRecords
-      .filter(
-        progress =>
-          progress.progress_percent >= 100 ||
-          progress.completed_at
-      )
-      .map(progress => ({
-        progress,
-        book: books.find(
-          book => book.id === progress.book_id
+        .map(
+          progress => ({
+            progress,
+            book:
+              books.find(
+                book =>
+                  book.id ===
+                  progress.book_id
+              )
+          })
         )
-      }))
-      .filter(item => item.book);
+        .filter(
+          item =>
+            item.book
+        );
+
+
+    const completed =
+      progressRecords
+        .filter(
+          progress =>
+            Number(
+              progress.progress_percent || 0
+            ) >= 100 ||
+            progress.completed_at
+        )
+        .map(
+          progress => ({
+            progress,
+            book:
+              books.find(
+                book =>
+                  book.id ===
+                  progress.book_id
+              )
+          })
+        )
+        .filter(
+          item =>
+            item.book
+        );
 
 
     if (!reading.length) {
@@ -2075,10 +2645,17 @@
         </div>
       `;
 
-    } else {
+    }
+
+    else {
 
       currentlyReading.innerHTML =
-        reading.map(renderProgressCard).join("");
+        reading
+          .map(
+            renderProgressCard
+          )
+          .join("");
+
     }
 
 
@@ -2091,44 +2668,62 @@
         </div>
       `;
 
-    } else {
+    }
+
+    else {
 
       completedReading.innerHTML =
-        completed.map(renderProgressCard).join("");
+        completed
+          .map(
+            renderProgressCard
+          )
+          .join("");
+
     }
+
   }
 
 
-  function renderProgressCard(item) {
+  function renderProgressCard(
+    item
+  ) {
 
     const percent =
       Math.max(
         0,
         Math.min(
           100,
-          Number(item.progress.progress_percent || 0)
+          Number(
+            item.progress.progress_percent ||
+            0
+          )
         )
       );
 
 
     return `
+
       <div class="progress-card">
 
         <div class="progress-top">
 
           <div>
+
             <div class="progress-title">
               ${escapeHtml(
-                item.book.book_title || "Book Title"
+                item.book.book_title ||
+                "Book Title"
               )}
             </div>
 
             <div class="progress-number">
               Author:
               ${escapeHtml(
-                item.book.author_name || "Author Name"
+                item.book.author_name ||
+                "Author Name"
               )}
             </div>
+
           </div>
 
           <div class="progress-number">
@@ -2138,14 +2733,18 @@
         </div>
 
         <div class="progress-track">
+
           <div
             class="progress-fill"
             style="width:${percent}%"
           ></div>
+
         </div>
 
       </div>
+
     `;
+
   }
 
 
@@ -2156,7 +2755,9 @@
   function renderNotifications() {
 
     const container =
-      document.getElementById("notificationsList");
+      document.getElementById(
+        "notificationsList"
+      );
 
 
     if (!notifications.length) {
@@ -2173,35 +2774,48 @@
 
 
     container.innerHTML =
-      notifications.map(notification => {
+      notifications
+        .map(
+          notification => {
 
-        return `
-          <div
-            class="notification-card ${
-              notification.is_read ? "" : "unread"
-            }"
-          >
+            return `
 
-            <div class="notification-title">
-              ${escapeHtml(
-                notification.title || "Notification"
-              )}
-            </div>
+              <div
+                class="notification-card ${
+                  notification.is_read
+                    ? ""
+                    : "unread"
+                }"
+              >
 
-            <div class="notification-message">
-              ${escapeHtml(
-                notification.message || ""
-              )}
-            </div>
+                <div class="notification-title">
+                  ${escapeHtml(
+                    notification.title ||
+                    "Notification"
+                  )}
+                </div>
 
-            <div class="notification-date">
-              ${formatDate(notification.created_at)}
-            </div>
+                <div class="notification-message">
+                  ${escapeHtml(
+                    notification.message ||
+                    ""
+                  )}
+                </div>
 
-          </div>
-        `;
+                <div class="notification-date">
+                  ${formatDate(
+                    notification.created_at
+                  )}
+                </div>
 
-      }).join("");
+              </div>
+
+            `;
+
+          }
+        )
+        .join("");
+
   }
 
 
@@ -2212,7 +2826,9 @@
   function renderActivities() {
 
     const container =
-      document.getElementById("activityList");
+      document.getElementById(
+        "activityList"
+      );
 
 
     if (!activities.length) {
@@ -2229,25 +2845,35 @@
 
 
     container.innerHTML =
-      activities.map(activity => {
+      activities
+        .map(
+          activity => {
 
-        return `
-          <div class="activity-card">
+            return `
 
-            <div class="activity-action">
-              ${escapeHtml(
-                activity.action || "Account activity"
-              )}
-            </div>
+              <div class="activity-card">
 
-            <div class="activity-date">
-              ${formatDate(activity.created_at)}
-            </div>
+                <div class="activity-action">
+                  ${escapeHtml(
+                    activity.action ||
+                    "Account activity"
+                  )}
+                </div>
 
-          </div>
-        `;
+                <div class="activity-date">
+                  ${formatDate(
+                    activity.created_at
+                  )}
+                </div>
 
-      }).join("");
+              </div>
+
+            `;
+
+          }
+        )
+        .join("");
+
   }
 
 
@@ -2258,7 +2884,9 @@
   function renderProfile() {
 
     const container =
-      document.getElementById("profileCard");
+      document.getElementById(
+        "profileCard"
+      );
 
 
     const name =
@@ -2272,11 +2900,6 @@
       "Not provided";
 
 
-    const role =
-      currentProfile.role ||
-      "reader";
-
-
     const status =
       currentProfile.access_status ||
       "approved";
@@ -2285,6 +2908,7 @@
     container.innerHTML = `
 
       <div class="profile-row">
+
         <div class="profile-label">
           Name
         </div>
@@ -2292,10 +2916,12 @@
         <div class="profile-value">
           ${escapeHtml(name)}
         </div>
+
       </div>
 
 
       <div class="profile-row">
+
         <div class="profile-label">
           Email
         </div>
@@ -2303,10 +2929,12 @@
         <div class="profile-value">
           ${escapeHtml(email)}
         </div>
+
       </div>
 
 
       <div class="profile-row">
+
         <div class="profile-label">
           Account type
         </div>
@@ -2314,10 +2942,12 @@
         <div class="profile-value">
           Reader
         </div>
+
       </div>
 
 
       <div class="profile-row">
+
         <div class="profile-label">
           Account status
         </div>
@@ -2333,32 +2963,47 @@
           </span>
 
         </div>
+
       </div>
 
 
       <div class="profile-row">
+
         <div class="profile-label">
           Member since
         </div>
 
         <div class="profile-value">
-          ${formatDate(currentProfile.created_at)}
+          ${formatDate(
+            currentProfile.created_at
+          )}
         </div>
+
       </div>
 
     `;
+
   }
 
 
   // ----------------------------------------------------------
-  // GLOBAL CLICK
+  // GLOBAL FUNCTIONS
   // ----------------------------------------------------------
 
-  window.showPage = showPage;
-  window.openAccessModal = openAccessModal;
-  window.closeAccessModal = closeAccessModal;
-  window.requestBookAccess = requestBookAccess;
-  window.openBook = openBook;
+  window.showPage =
+    showPage;
+
+  window.openAccessModal =
+    openAccessModal;
+
+  window.closeAccessModal =
+    closeAccessModal;
+
+  window.requestBookAccess =
+    requestBookAccess;
+
+  window.openBook =
+    openBook;
 
 </script>
 
